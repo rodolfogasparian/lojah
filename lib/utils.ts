@@ -1,11 +1,8 @@
-type ClassValue = string | number | null | undefined | false | ClassValue[];
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-/** Junta nomes de classes CSS, ignorando valores falsy. */
-export function cn(...classes: ClassValue[]): string {
-  return classes
-    .flat()
-    .filter((value): value is string | number => Boolean(value))
-    .join(" ");
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
 
 /** Converte um texto em slug (ex: "Loja da Maria" -> "loja-da-maria"). */
