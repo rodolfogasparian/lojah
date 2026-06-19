@@ -28,6 +28,14 @@ export async function requireCompanyId(): Promise<string> {
 }
 
 /**
+ * Em desenvolvimento, acessar "localhost:3000" direto (sem subdomínio) é
+ * tratado como se fosse esse tenant — evita precisar editar o arquivo hosts
+ * do Windows só para testar a vitrine pública localmente.
+ * Nunca tem efeito em produção (`NODE_ENV === "production"`).
+ */
+const DEV_FALLBACK_TENANT_SLUG = "atlantica";
+
+/**
  * Lê o host da requisição atual e extrai o slug da empresa pelo subdomínio.
  * Ex: "acme.lojah.app" -> "acme". Em desenvolvimento local, também aceita
  * "acme.localhost:3000" (navegadores resolvem *.localhost para 127.0.0.1
@@ -46,6 +54,10 @@ export async function getCompanySlugFromHost(): Promise<string | null> {
 
   if (hostname.endsWith(".localhost")) {
     return hostname.slice(0, -".localhost".length);
+  }
+
+  if (hostname === "localhost" && process.env.NODE_ENV !== "production") {
+    return DEV_FALLBACK_TENANT_SLUG;
   }
 
   return null;
