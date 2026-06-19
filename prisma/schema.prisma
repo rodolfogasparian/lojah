@@ -136,24 +136,28 @@ model ProductCategory {
   company  Company   @relation(fields: [company_id], references: [id])
   products Product[]
 
+  @@unique([company_id, name])
   @@map("product_categories")
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  company_id  String
-  category_id String?
-  name        String
-  description String?
-  price       Decimal? @db.Decimal(10, 2)
-  image_url   String?
-  active      Boolean  @default(true)
-  sort_order  Int      @default(0)
-  created_at  DateTime @default(now())
+  id               String   @id @default(uuid())
+  company_id       String
+  category_id      String?
+  code             String
+  name             String
+  description      String?
+  price_consultant Decimal? @db.Decimal(10, 2)
+  price_client     Decimal? @db.Decimal(10, 2)
+  image_url        String?
+  active           Boolean  @default(true)
+  sort_order       Int      @default(0)
+  created_at       DateTime @default(now())
 
   company  Company          @relation(fields: [company_id], references: [id])
   category ProductCategory? @relation(fields: [category_id], references: [id])
 
+  @@unique([company_id, code])
   @@map("products")
 }
 
