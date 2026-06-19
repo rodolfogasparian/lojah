@@ -45,13 +45,20 @@ async function main() {
   }
 
   // Vendedor: Rodolfo Gasparian (slug "mentoriar"), na empresa Atlântica
+  const sellerPasswordHash = await hash("senha123", 10);
+
   const sellerUser = await db.user.upsert({
     where: { email: "renda10online@gmail.com" },
-    update: { role: "SELLER", company_id: company.id },
+    update: {
+      role: "SELLER",
+      company_id: company.id,
+      password_hash: sellerPasswordHash,
+    },
     create: {
       email: "renda10online@gmail.com",
       role: "SELLER",
       company_id: company.id,
+      password_hash: sellerPasswordHash,
     },
   });
 
