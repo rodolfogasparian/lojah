@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Company {
+  id         String   @id @default(uuid())
+  slug       String   @unique
+  name       String
+  logo_url   String?
+  plan       Plan     @default(FREE)
+  active     Boolean  @default(true)
+  created_at DateTime @default(now())
+
+  users           User[]
+  seller_profiles SellerProfile[]
+  products        Product[]
+  categories      ProductCategory[]
+  panel_contents  PanelContent[]
+  coupon_packs    CouponPack[]
+
+  @@map("companies")
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String?
+  role          Role     @default(SELLER)
+  company_id    String?
+  created_at    DateTime @default(now())
+
+  company        Company?       @relation(fields: [company_id], references: [id])
+  seller_profile SellerProfile?
+  coupon_packs   CouponPack[]
+
+  @@map("users")
+}
+
+enum Role {
+  SUPERADMIN
+  COMPANY_ADMIN
+  SELLER
+}
+
+model SellerProfile {
+  id         String   @id @default(uuid())
+  user_id    String   @unique
+  company_id String
+  slug       String
+  name       String
+  photo_url  String?
+  whatsapp   String?
+  instagram  String?
+  city       String?
+  state      String?
+  bio        String?
+  active     Boolean  @default(true)
+  created_at DateTime @default(now())
+
+  user          User           @relation(fields: [user_id], references: [id])
+  company       Company        @relation(fields: [company_id], references: [id])
+  subscriptions Subscription[]
+  coupons_used  Coupon[]
+
+  @@unique([company_id, slug])
+  @@map("seller_profiles")
+}
+
+model Subscription {
+  id           String             @id @default(uuid())
+  seller_id    String
+  status       SubscriptionStatus @default(ACTIVE)
+  activated_at DateTime           @default(now())
+  expires_at   DateTime
+  coupon_id    String?            @unique
+  notes        String?
+
+  seller SellerProfile @relation(fields: [seller_id], references: [id])
+  coupon Coupon?       @relation(fields: [coupon_id], references: [id])
+
+  @@map("subscriptions")
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+model CouponPack {
+  id         String   @id @default(uuid())
+  buyer_id   String
+  company_id String
+  quantity   Int      @default(10)
+  notes      String?
+  created_at DateTime @default(now())
+
+  buyer   User      @relation(fields: [buyer_id], references: [id])
+  company Company   @relation(fields: [company_id], references: [id])
+  coupons Coupon[]
+
+  @@map("coupon_packs")
+}
+
+model Coupon {
+  id         String    @id @default(uuid())
+  pack_id    String
+  code       String    @unique
+  used_by    String?
+  used_at    DateTime?
+  expires_at DateTime?
+  created_at DateTime  @default(now())
+
+  pack         CouponPack     @relation(fields: [pack_id], references: [id])
+  seller       SellerProfile? @relation(fields: [used_by], references: [id])
+  subscription Subscription?
+
+  @@map("coupons")
+}
+
+model ProductCategory {
+  id         String  @id @default(uuid())
+  company_id String
+  name       String
+  sort_order Int     @default(0)
+
+  company  Company   @relation(fields: [company_id], references: [id])
+  products Product[]
+
+  @@map("product_categories")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  company_id  String
+  category_id String?
+  name        String
+  description String?
+  price       Decimal? @db.Decimal(10, 2)
+  image_url   String?
+  active      Boolean  @default(true)
+  sort_order  Int      @default(0)
+  created_at  DateTime @default(now())
+
+  company  Company          @relation(fields: [company_id], references: [id])
+  category ProductCategory? @relation(fields: [category_id], references: [id])
+
+  @@map("products")
+}
+
+model PanelContent {
+  id         String      @id @default(uuid())
+  company_id String
+  type       ContentType
+  title      String
+  content    String?
+  url        String?
+  sort_order Int         @default(0)
+  active     Boolean     @default(true)
+  created_at DateTime    @default(now())
+
+  company Company @relation(fields: [company_id], references: [id])
+
+  @@map("panel_contents")
+}
+
+enum ContentType {
+  TUTORIAL
+  VIDEO
+  PROTOCOL
+  SALES_PAGE
+  SUPPORT
+}
