@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
+import { AtSign, MapPin, MessageCircle } from "lucide-react";
 import { db } from "@/lib/db";
 import { getCompanyFromHost } from "@/lib/tenant";
 import { buttonVariants } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { SellerQrCode } from "@/components/catalog/seller-qr-code";
+import { ShareButton } from "@/components/catalog/share-button";
 import { cn } from "@/lib/utils";
 
 export default async function SellerPublicPage({
@@ -37,10 +39,10 @@ export default async function SellerPublicPage({
 
   const whatsappDigits = seller.whatsapp?.replace(/\D/g, "");
   const instagramHandle = seller.instagram?.replace(/^@/, "");
-  const location = [seller.city, seller.state].filter(Boolean).join(" - ");
+  const location = [seller.city, seller.state].filter(Boolean).join(", ");
 
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-16">
+    <div className="flex flex-1 items-center justify-center px-4 py-10 sm:py-16">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col items-center gap-3 text-center">
           <Avatar size="lg" className="size-24">
@@ -52,7 +54,12 @@ export default async function SellerPublicPage({
 
           <div className="flex flex-col items-center gap-1">
             <h1 className="text-xl font-semibold">{seller.name}</h1>
-            {location && <Badge variant="outline">{location}</Badge>}
+            {location && (
+              <Badge variant="outline" className="gap-1">
+                <MapPin className="size-3" />
+                {location}
+              </Badge>
+            )}
           </div>
         </CardHeader>
 
@@ -70,9 +77,12 @@ export default async function SellerPublicPage({
                   href={`https://wa.me/${whatsappDigits}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(buttonVariants(), "h-10")}
+                  className={cn(
+                    buttonVariants(),
+                    "h-10 bg-[#25D366] text-white hover:bg-[#1ebe57]"
+                  )}
                 >
-                  Falar no WhatsApp
+                  <MessageCircle /> Falar no WhatsApp
                 </a>
               )}
               {instagramHandle && (
@@ -82,11 +92,13 @@ export default async function SellerPublicPage({
                   rel="noopener noreferrer"
                   className={cn(buttonVariants({ variant: "outline" }), "h-10")}
                 >
-                  @{instagramHandle}
+                  <AtSign /> {instagramHandle}
                 </a>
               )}
             </div>
           )}
+
+          <ShareButton url={currentUrl} title={seller.name} />
 
           <div className="flex flex-col items-center gap-2 border-t pt-6">
             <SellerQrCode value={currentUrl} />
