@@ -1,6 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { compare, hash } from "bcryptjs";
 import { db } from "@/lib/db";
+
+const SALT_ROUNDS = 10;
+
+export function hashPassword(password: string): Promise<string> {
+  return hash(password, SALT_ROUNDS);
+}
 
 declare module "next-auth" {
   interface Session {
@@ -37,8 +44,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        // TODO: comparar `credentials.password` com `user.password_hash`
-        // usando uma lib de hash (ex: bcrypt) assim que ela for adicionada ao projeto.
+        const isValidPassword = await compare(
+          credentials.password as string,
+          user.password_hash
+        );
+
+        if (!isValidPassword) {
+          return null;
+        }
 
         return {
           id: user.id,
