@@ -13,7 +13,7 @@ type RegisterResponse =
   | { result: { data: { id: string; email: string } } }
   | { error: { message: string } };
 
-export function RegisterForm() {
+export function RegisterForm({ companyId }: { companyId: string }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +35,7 @@ export function RegisterForm() {
     const response = await fetch("/api/trpc/user.register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, companyId }),
     });
     const data = (await response.json()) as RegisterResponse;
 

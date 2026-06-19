@@ -9,9 +9,21 @@ export const userRouter = router({
       z.object({
         email: z.email(),
         password: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
+        companyId: z.string().min(1, "Empresa não identificada."),
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const company = await ctx.db.company.findUnique({
+        where: { id: input.companyId },
+      });
+
+      if (!company) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Empresa não encontrada. Acesse o link da sua empresa para se cadastrar.",
+        });
+      }
+
       const existing = await ctx.db.user.findUnique({
         where: { email: input.email },
       });
@@ -26,7 +38,7 @@ export const userRouter = router({
       const password_hash = await hashPassword(input.password);
 
       const user = await ctx.db.user.create({
-        data: { email: input.email, password_hash },
+        data: { email: input.email, password_hash, company_id: company.id },
       });
 
       return { id: user.id, email: user.email };
