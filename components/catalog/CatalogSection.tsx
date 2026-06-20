@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
+import { Search } from "lucide-react";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { CartBar } from "@/components/catalog/CartBar";
 import { CategoryFilter } from "@/components/catalog/CategoryFilter";
@@ -40,13 +41,21 @@ export function CatalogSection({
   }, [products]);
 
   const [activeCategory, setActiveCategory] = useState("all");
-  const filteredProducts = useMemo(
-    () =>
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredProducts = useMemo(() => {
+    let result =
       activeCategory === "all"
         ? products
-        : products.filter((product) => product.category?.id === activeCategory),
-    [products, activeCategory]
-  );
+        : products.filter((product) => product.category?.id === activeCategory);
+
+    const query = searchQuery.trim().toLowerCase();
+    if (query) {
+      result = result.filter((product) => product.name.toLowerCase().includes(query));
+    }
+
+    return result;
+  }, [products, activeCategory, searchQuery]);
 
   const { cart, add, remove, count, total, sendWhatsAppOrder } = useCart(products);
 
@@ -76,7 +85,25 @@ export function CatalogSection({
 
   return (
     <div className="w-full max-w-3xl pb-20">
+      <div className="relative">
+        <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Buscar produto..."
+          className="h-10 w-full rounded-full border border-border bg-white pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+        />
+      </div>
+
       <CategoryFilter categories={categories} active={activeCategory} onChange={setActiveCategory} />
+
+      {filteredProducts.length === 0 && (
+        <p className="py-10 text-center text-sm text-muted-foreground">
+          Nenhum produto encontrado.
+        </p>
+      )}
+
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {filteredProducts.map((product) => (
           <ProductCard

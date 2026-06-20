@@ -41,7 +41,7 @@ export function SellerTabs({
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold">{sellerName}</p>
               <p className="truncate text-xs text-muted-foreground">
-                Consultora {companyName}
+                Consultor(a) {companyName}
               </p>
             </div>
           </div>
