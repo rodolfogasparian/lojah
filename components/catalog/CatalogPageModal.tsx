@@ -1,16 +1,19 @@
 "use client";
 import Image from "next/image";
-import { ChevronLeft, ShoppingCart } from "lucide-react";
+import { ChevronLeft, ShoppingCart, Send } from "lucide-react";
 
 type Props = {
   isOpen: boolean;
   pageUrl: string | null;
   productName: string;
+  qty: number;
   onClose: () => void;
-  onAddToCart: () => void;
+  onAdd: () => void;
+  onRemove: () => void;
+  onSendOrder: () => void;
 };
 
-export function CatalogPageModal({ isOpen, pageUrl, productName, onClose, onAddToCart }: Props) {
+export function CatalogPageModal({ isOpen, pageUrl, productName, qty, onClose, onAdd, onRemove, onSendOrder }: Props) {
   if (!isOpen || !pageUrl) return null;
 
   return (
@@ -19,14 +22,12 @@ export function CatalogPageModal({ isOpen, pageUrl, productName, onClose, onAddT
       <div className="flex items-center justify-between px-4 py-3 bg-black/80 backdrop-blur-sm">
         <button
           onClick={onClose}
-          className="flex items-center gap-2 text-white text-sm font-semibold"
+          className="flex items-center gap-2 text-white text-sm font-semibold hover:text-gray-300 transition-colors"
         >
           <ChevronLeft className="size-5" />
           Voltar ao catálogo
         </button>
-        <span className="text-white text-xs text-muted-foreground truncate max-w-[140px]">
-          {productName}
-        </span>
+        <span className="text-white/70 text-xs truncate max-w-[160px]">{productName}</span>
       </div>
 
       {/* Imagem fullscreen */}
@@ -41,14 +42,51 @@ export function CatalogPageModal({ isOpen, pageUrl, productName, onClose, onAddT
         />
       </div>
 
-      {/* Botão flutuante carrinho */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center px-4">
+      {/* Botões flutuantes na base */}
+      <div className="bg-black/80 backdrop-blur-sm px-4 py-4 flex flex-col gap-2">
+        {/* Controle de quantidade + enviar pedido */}
+        <div className="flex gap-2">
+          {qty > 0 ? (
+            <div className="flex-1 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-between px-3">
+              <button
+                onClick={onRemove}
+                className="size-8 rounded-lg bg-white/10 hover:bg-white/20 transition-colors grid place-items-center font-bold text-lg"
+              >
+                −
+              </button>
+              <span className="text-sm font-bold">{qty} no pedido</span>
+              <button
+                onClick={onAdd}
+                className="size-8 rounded-lg bg-white/10 hover:bg-white/20 transition-colors grid place-items-center font-bold text-lg"
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onAdd}
+              className="flex-1 h-11 rounded-xl bg-primary text-primary-foreground text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+            >
+              <ShoppingCart className="size-4" />
+              Adicionar ao pedido
+            </button>
+          )}
+
+          <button
+            onClick={onSendOrder}
+            className="h-11 px-4 rounded-xl bg-[#25D366] text-white text-sm font-bold flex items-center justify-center gap-2 hover:bg-[#1ebe57] transition-colors"
+          >
+            <Send className="size-4" />
+            Enviar pedido
+          </button>
+        </div>
+
+        {/* Voltar */}
         <button
-          onClick={() => { onAddToCart(); onClose(); }}
-          className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full shadow-lg text-sm font-bold"
+          onClick={onClose}
+          className="w-full h-10 rounded-xl border border-white/20 text-white/70 text-sm font-medium hover:bg-white/10 transition-colors"
         >
-          <ShoppingCart className="size-4" />
-          Adicionar ao carrinho
+          ← Voltar ao catálogo
         </button>
       </div>
     </div>

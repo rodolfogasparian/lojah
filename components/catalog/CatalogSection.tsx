@@ -149,6 +149,7 @@ export function CatalogSection({
             signupButtonText={signupButtonText}
             signupButtonUrl={signupButtonUrl}
             onShare={handleShare}
+            onSendOrder={() => sendWhatsAppOrder(whatsappPhone)}
           />
         ))}
       </div>
