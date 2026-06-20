@@ -7,7 +7,7 @@ type Props = { count: number; total: number; onCheckout: () => void };
 export function CartBar({ count, total, onCheckout }: Props) {
   if (count <= 0) return null;
   return (
-    <div className="fixed bottom-3 inset-x-0 z-40 px-3">
+    <div className="fixed bottom-3 inset-x-0 z-50 px-3">
       <div className="mx-auto max-w-3xl">
         <div className="bg-primary text-primary-foreground rounded-2xl pl-4 pr-2 py-2 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
