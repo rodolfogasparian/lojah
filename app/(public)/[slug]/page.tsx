@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { SellerQrCode } from "@/components/catalog/seller-qr-code";
 import { ShareButton } from "@/components/catalog/share-button";
+import { CatalogSection } from "@/components/catalog/CatalogSection";
 import { cn } from "@/lib/utils";
 
 export default async function SellerPublicPage({
@@ -30,6 +31,23 @@ export default async function SellerPublicPage({
     notFound();
   }
 
+  const products = await db.product.findMany({
+    where: { company_id: company.id, active: true },
+    include: { category: true },
+    orderBy: { sort_order: "asc" },
+  });
+
+  const catalogProducts = products.map((product) => ({
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    price_client: product.price_client !== null ? Number(product.price_client) : null,
+    image_url: product.catalog_image_url ?? product.image_url,
+    category: product.category
+      ? { id: product.category.id, name: product.category.name }
+      : null,
+  }));
+
   const headersList = await headers();
   const host = headersList.get("host") ?? "";
   const protocol = host.startsWith("localhost") || host.includes(".localhost")
@@ -42,7 +60,7 @@ export default async function SellerPublicPage({
   const location = [seller.city, seller.state].filter(Boolean).join(", ");
 
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-10 sm:py-16">
+    <div className="flex flex-1 flex-col items-center gap-10 px-4 py-10 sm:py-16">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col items-center gap-3 text-center">
           <Avatar size="lg" className="size-24">
@@ -108,6 +126,15 @@ export default async function SellerPublicPage({
           </div>
         </CardContent>
       </Card>
+
+      <CatalogSection
+        products={catalogProducts}
+        whatsappPhone={whatsappDigits ?? ""}
+        signupButtonText={seller.signup_button_text ?? "Fazer cadastro"}
+        signupButtonUrl={seller.signup_button_url ?? "https://cadastro.atlanticanatural.com.br/codigos"}
+        sellerName={seller.name}
+        pageUrl={currentUrl}
+      />
     </div>
   );
 }
