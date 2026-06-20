@@ -63,6 +63,8 @@ model SellerProfile {
   city       String?
   state      String?
   bio        String?
+  signup_button_text String? @default("Fazer cadastro")
+  signup_button_url  String? @default("https://cadastro.atlanticanatural.com.br/codigos")
   active     Boolean  @default(true)
   created_at DateTime @default(now())
 
@@ -150,6 +152,7 @@ model Product {
   price_consultant Decimal? @db.Decimal(10, 2)
   price_client     Decimal? @db.Decimal(10, 2)
   image_url        String?
+  catalog_image_url String?
   active           Boolean  @default(true)
   sort_order       Int      @default(0)
   created_at       DateTime @default(now())
