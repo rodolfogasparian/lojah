@@ -1,7 +1,9 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import { Eye, MessageCircle, Minus, Plus, Share2, ShoppingCart } from "lucide-react";
 import { brl } from "@/lib/format";
+import { CatalogPageModal } from "./CatalogPageModal";
 
 type Props = {
   product: {
@@ -11,6 +13,7 @@ type Props = {
     category: { name: string } | null;
     price_client: number | null;
     image_url: string | null;
+    catalogPageUrl?: string | null;
   };
   qty: number;
   onAdd: (id: string) => void;
@@ -31,6 +34,7 @@ export function ProductCard({
   signupButtonUrl,
   onShare,
 }: Props) {
+  const [modalOpen, setModalOpen] = useState(false);
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(`Olá! Quero o ${product.name}.`)}`;
 
   return (
@@ -43,9 +47,15 @@ export function ProductCard({
             {product.name.slice(0, 2).toUpperCase()}
           </div>
         )}
-        <button type="button" className="absolute bottom-2 right-2 bg-white/95 px-2 py-1 rounded-md border border-border text-[10px] font-semibold text-muted-foreground flex items-center gap-1">
-          <Eye className="size-3" /> catálogo
-        </button>
+        {product.catalogPageUrl && (
+          <button
+            type="button"
+            onClick={() => setModalOpen(true)}
+            className="absolute bottom-2 right-2 bg-white/95 px-2 py-1 rounded-md border border-border text-[10px] font-semibold text-muted-foreground flex items-center gap-1 hover:bg-white transition-colors"
+          >
+            <Eye className="size-3" /> catálogo
+          </button>
+        )}
       </div>
 
       <div className="p-3 flex flex-col flex-1">
@@ -89,6 +99,14 @@ export function ProductCard({
           </a>
         </div>
       </div>
+
+      <CatalogPageModal
+        isOpen={modalOpen}
+        pageUrl={product.catalogPageUrl ?? null}
+        productName={product.name}
+        onClose={() => setModalOpen(false)}
+        onAddToCart={() => onAdd(product.id)}
+      />
     </article>
   );
 }

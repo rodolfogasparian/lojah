@@ -12,6 +12,9 @@ import { CatalogSection } from "@/components/catalog/CatalogSection";
 import { SellerTabs } from "@/components/seller/SellerTabs";
 import { cn } from "@/lib/utils";
 
+const SUPABASE_CATALOG_URL =
+  "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/catalog-pages";
+
 export default async function SellerPublicPage({
   params,
 }: {
@@ -43,6 +46,11 @@ export default async function SellerPublicPage({
     description: product.description,
     price_client: product.price_client !== null ? Number(product.price_client) : null,
     image_url: product.catalog_image_url ?? product.image_url,
+    catalogPageUrl: product.catalog_page_file
+      ? `${SUPABASE_CATALOG_URL}/${product.catalog_page_file}`
+      : product.catalog_page
+        ? `${SUPABASE_CATALOG_URL}/${product.catalog_page}.jpg`
+        : null,
     category: product.category
       ? { id: product.category.id, name: product.category.name }
       : null,

@@ -18,6 +18,7 @@ type CatalogProduct = {
   description: string | null;
   price_client: number | null;
   image_url: string | null;
+  catalogPageUrl: string | null;
   category: { id: string; name: string } | null;
 };
 
