@@ -122,7 +122,7 @@ export function CatalogSection({
               key={label}
               type="button"
               onClick={() => setActiveCategory(category.id)}
-              className="px-3 py-1 rounded-full border border-primary text-primary bg-white text-xs font-medium"
+              className="px-3 py-1 rounded-full border border-primary text-primary bg-white text-xs font-medium transition-colors hover:bg-primary hover:text-white cursor-pointer"
             >
               {label}
             </button>
