@@ -60,6 +60,11 @@ model SellerProfile {
   photo_url  String?
   whatsapp   String?
   instagram  String?
+  youtube    String?
+  tiktok     String?
+  facebook   String?
+  other_link String?
+  other_link_label String?
   city       String?
   state      String?
   bio        String?

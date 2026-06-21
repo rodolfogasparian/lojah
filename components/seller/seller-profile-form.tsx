@@ -15,6 +15,11 @@ type SellerProfile = {
   photo_url: string | null;
   whatsapp: string | null;
   instagram: string | null;
+  youtube: string | null;
+  tiktok: string | null;
+  facebook: string | null;
+  other_link: string | null;
+  other_link_label: string | null;
   city: string | null;
   state: string | null;
   bio: string | null;
@@ -25,6 +30,14 @@ type SellerProfile = {
 type UpsertResponse =
   | { result: { data: SellerProfile } }
   | { error: { message: string } };
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-border pb-1">
+      {children}
+    </h2>
+  );
+}
 
 export function SellerProfileForm({
   initialProfile,
@@ -39,6 +52,13 @@ export function SellerProfileForm({
   const [photoUrl, setPhotoUrl] = useState(initialProfile?.photo_url ?? "");
   const [whatsapp, setWhatsapp] = useState(initialProfile?.whatsapp ?? "");
   const [instagram, setInstagram] = useState(initialProfile?.instagram ?? "");
+  const [youtube, setYoutube] = useState(initialProfile?.youtube ?? "");
+  const [tiktok, setTiktok] = useState(initialProfile?.tiktok ?? "");
+  const [facebook, setFacebook] = useState(initialProfile?.facebook ?? "");
+  const [otherLink, setOtherLink] = useState(initialProfile?.other_link ?? "");
+  const [otherLinkLabel, setOtherLinkLabel] = useState(
+    initialProfile?.other_link_label ?? ""
+  );
   const [city, setCity] = useState(initialProfile?.city ?? "");
   const [state, setState] = useState(initialProfile?.state ?? "");
   const [bio, setBio] = useState(initialProfile?.bio ?? "");
@@ -67,6 +87,11 @@ export function SellerProfileForm({
         photo_url: photoUrl,
         whatsapp,
         instagram,
+        youtube,
+        tiktok,
+        facebook,
+        other_link: otherLink,
+        other_link_label: otherLinkLabel,
         city,
         state,
         bio,
@@ -91,7 +116,7 @@ export function SellerProfileForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <PhotoUpload
         currentPhotoUrl={photoUrl || null}
         sellerName={name}
@@ -112,109 +137,179 @@ export function SellerProfileForm({
         </Alert>
       )}
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="name">Nome</Label>
-        <Input
-          id="name"
-          required
-          className="bg-gray-50"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
-      </div>
+      <div className="flex flex-col gap-4">
+        <SectionLabel>Dados pessoais</SectionLabel>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="slug">Link personalizado</Label>
-        <Input
-          id="slug"
-          required
-          placeholder="seu-nome"
-          className="bg-gray-50"
-          value={slug}
-          onChange={(event) => setSlug(event.target.value)}
-        />
-        <p className="text-xs text-muted-foreground">
-          Sua página: {publicBaseUrl}/{slug || "seu-nome"}
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="whatsapp">WhatsApp</Label>
-        <Input
-          id="whatsapp"
-          placeholder="(11) 91234-5678"
-          className="bg-gray-50"
-          value={whatsapp}
-          onChange={(event) => setWhatsapp(event.target.value)}
-        />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="instagram">Instagram</Label>
-        <Input
-          id="instagram"
-          placeholder="@seu_usuario"
-          className="bg-gray-50"
-          value={instagram}
-          onChange={(event) => setInstagram(event.target.value)}
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="city">Cidade</Label>
+          <Label htmlFor="name">Nome</Label>
           <Input
-            id="city"
+            id="name"
+            required
             className="bg-gray-50"
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
+            value={name}
+            onChange={(event) => setName(event.target.value)}
           />
         </div>
+
         <div className="flex flex-col gap-2">
-          <Label htmlFor="state">Estado</Label>
+          <Label htmlFor="slug">Link personalizado</Label>
           <Input
-            id="state"
-            placeholder="SP"
-            maxLength={2}
+            id="slug"
+            required
+            placeholder="seu-nome"
             className="bg-gray-50"
-            value={state}
-            onChange={(event) => setState(event.target.value.toUpperCase())}
+            value={slug}
+            onChange={(event) => setSlug(event.target.value)}
+          />
+          <p className="text-xs text-muted-foreground">
+            Sua página: {publicBaseUrl}/{slug || "seu-nome"}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="whatsapp">WhatsApp</Label>
+            <Input
+              id="whatsapp"
+              placeholder="(11) 91234-5678"
+              className="bg-gray-50"
+              value={whatsapp}
+              onChange={(event) => setWhatsapp(event.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="instagram">Instagram</Label>
+            <Input
+              id="instagram"
+              placeholder="@seu_usuario"
+              className="bg-gray-50"
+              value={instagram}
+              onChange={(event) => setInstagram(event.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="city">Cidade</Label>
+            <Input
+              id="city"
+              className="bg-gray-50"
+              value={city}
+              onChange={(event) => setCity(event.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="state">Estado</Label>
+            <Input
+              id="state"
+              placeholder="SP"
+              maxLength={2}
+              className="bg-gray-50"
+              value={state}
+              onChange={(event) => setState(event.target.value.toUpperCase())}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="bio">Sobre você</Label>
+          <Textarea
+            id="bio"
+            rows={4}
+            maxLength={500}
+            className="bg-gray-50"
+            value={bio}
+            onChange={(event) => setBio(event.target.value)}
           />
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="bio">Sobre você</Label>
-        <Textarea
-          id="bio"
-          rows={4}
-          maxLength={500}
-          className="bg-gray-50"
-          value={bio}
-          onChange={(event) => setBio(event.target.value)}
-        />
+      <div className="flex flex-col gap-4">
+        <SectionLabel>Redes sociais — preencha apenas o que usar</SectionLabel>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="youtube">YouTube</Label>
+            <Input
+              id="youtube"
+              placeholder="@seu_canal"
+              className="bg-gray-50"
+              value={youtube}
+              onChange={(event) => setYoutube(event.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="tiktok">TikTok</Label>
+            <Input
+              id="tiktok"
+              placeholder="@seu_usuario"
+              className="bg-gray-50"
+              value={tiktok}
+              onChange={(event) => setTiktok(event.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="facebook">Facebook</Label>
+          <Input
+            id="facebook"
+            placeholder="facebook.com/seu_usuario"
+            className="bg-gray-50"
+            value={facebook}
+            onChange={(event) => setFacebook(event.target.value)}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="other_link_label">Texto do link personalizado</Label>
+            <Input
+              id="other_link_label"
+              placeholder="ex: Site, Linktree..."
+              className="bg-gray-50"
+              value={otherLinkLabel}
+              onChange={(event) => setOtherLinkLabel(event.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="other_link">URL do link personalizado</Label>
+            <Input
+              id="other_link"
+              placeholder="https://..."
+              className="bg-gray-50"
+              value={otherLink}
+              onChange={(event) => setOtherLink(event.target.value)}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="signup_button_text">Texto do botão de cadastro</Label>
-        <Input
-          id="signup_button_text"
-          placeholder="Fazer cadastro"
-          className="bg-gray-50"
-          value={signupButtonText}
-          onChange={(event) => setSignupButtonText(event.target.value)}
-        />
-      </div>
+      <div className="flex flex-col gap-4">
+        <SectionLabel>Configuração do catálogo</SectionLabel>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="signup_button_url">Link do botão de cadastro</Label>
-        <Input
-          id="signup_button_url"
-          placeholder="https://..."
-          className="bg-gray-50"
-          value={signupButtonUrl}
-          onChange={(event) => setSignupButtonUrl(event.target.value)}
-        />
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="signup_button_text">Texto do botão do catálogo</Label>
+          <Input
+            id="signup_button_text"
+            placeholder="ex: Fazer cadastro"
+            className="bg-gray-50"
+            value={signupButtonText}
+            onChange={(event) => setSignupButtonText(event.target.value)}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="signup_button_url">Link do botão do catálogo</Label>
+          <Input
+            id="signup_button_url"
+            placeholder="Sugestão: inserir o link de cadastro Atlântica"
+            className="bg-gray-50"
+            value={signupButtonUrl}
+            onChange={(event) => setSignupButtonUrl(event.target.value)}
+          />
+        </div>
       </div>
 
       <Button type="submit" disabled={isLoading} className="mt-2 h-10">
