@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { PhotoUpload } from "./PhotoUpload";
 
 type SellerProfile = {
   name: string;
@@ -91,6 +92,12 @@ export function SellerProfileForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <PhotoUpload
+        currentPhotoUrl={photoUrl || null}
+        sellerName={name}
+        onUploadSuccess={(url) => setPhotoUrl(url)}
+      />
+
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
@@ -110,7 +117,7 @@ export function SellerProfileForm({
         <Input
           id="name"
           required
-          className="bg-white"
+          className="bg-gray-50"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
@@ -122,7 +129,7 @@ export function SellerProfileForm({
           id="slug"
           required
           placeholder="seu-nome"
-          className="bg-white"
+          className="bg-gray-50"
           value={slug}
           onChange={(event) => setSlug(event.target.value)}
         />
@@ -132,22 +139,11 @@ export function SellerProfileForm({
       </div>
 
       <div className="flex flex-col gap-2">
-        <Label htmlFor="photo_url">Foto (link da imagem)</Label>
-        <Input
-          id="photo_url"
-          placeholder="https://..."
-          className="bg-white"
-          value={photoUrl}
-          onChange={(event) => setPhotoUrl(event.target.value)}
-        />
-      </div>
-
-      <div className="flex flex-col gap-2">
         <Label htmlFor="whatsapp">WhatsApp</Label>
         <Input
           id="whatsapp"
           placeholder="(11) 91234-5678"
-          className="bg-white"
+          className="bg-gray-50"
           value={whatsapp}
           onChange={(event) => setWhatsapp(event.target.value)}
         />
@@ -158,7 +154,7 @@ export function SellerProfileForm({
         <Input
           id="instagram"
           placeholder="@seu_usuario"
-          className="bg-white"
+          className="bg-gray-50"
           value={instagram}
           onChange={(event) => setInstagram(event.target.value)}
         />
@@ -169,7 +165,7 @@ export function SellerProfileForm({
           <Label htmlFor="city">Cidade</Label>
           <Input
             id="city"
-            className="bg-white"
+            className="bg-gray-50"
             value={city}
             onChange={(event) => setCity(event.target.value)}
           />
@@ -180,7 +176,7 @@ export function SellerProfileForm({
             id="state"
             placeholder="SP"
             maxLength={2}
-            className="bg-white"
+            className="bg-gray-50"
             value={state}
             onChange={(event) => setState(event.target.value.toUpperCase())}
           />
@@ -193,7 +189,7 @@ export function SellerProfileForm({
           id="bio"
           rows={4}
           maxLength={500}
-          className="bg-white"
+          className="bg-gray-50"
           value={bio}
           onChange={(event) => setBio(event.target.value)}
         />
@@ -204,7 +200,7 @@ export function SellerProfileForm({
         <Input
           id="signup_button_text"
           placeholder="Fazer cadastro"
-          className="bg-white"
+          className="bg-gray-50"
           value={signupButtonText}
           onChange={(event) => setSignupButtonText(event.target.value)}
         />
@@ -215,7 +211,7 @@ export function SellerProfileForm({
         <Input
           id="signup_button_url"
           placeholder="https://..."
-          className="bg-white"
+          className="bg-gray-50"
           value={signupButtonUrl}
           onChange={(event) => setSignupButtonUrl(event.target.value)}
         />
