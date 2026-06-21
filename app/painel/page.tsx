@@ -75,9 +75,9 @@ export default async function PainelPage() {
               className={`flex items-center justify-between gap-3 p-3 rounded-xl border ${bg} ${border}`}
             >
               <div className="flex flex-col min-w-0">
-                <span className={`text-xs font-bold ${color}`}>{label}</span>
-                <span className="text-[11px] text-muted-foreground">{description}</span>
-                <span className="text-[10px] text-muted-foreground truncate mt-0.5 opacity-70">{url}</span>
+                <span className={`text-sm font-bold ${color}`}>{label}</span>
+                <span className="text-xs text-muted-foreground">{description}</span>
+                <span className="text-[11px] text-gray-500 truncate mt-0.5 font-mono">{url}</span>
               </div>
               <div className="flex items-center gap-1 shrink-0">
                 <CopyButton text={url} />

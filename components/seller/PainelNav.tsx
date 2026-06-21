@@ -2,7 +2,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { User, CreditCard, Ticket, BookOpen, ExternalLink } from "lucide-react";
+import { User, CreditCard, Ticket, BookOpen, ExternalLink, Link2 } from "lucide-react";
 
 type Props = {
   sellerName: string;
@@ -13,7 +13,8 @@ type Props = {
 };
 
 const NAV = [
-  { href: "/painel/perfil",  label: "Meu Perfil",     icon: User },
+  { href: "/painel",         label: "Seus Links",      icon: Link2 },
+  { href: "/painel/perfil",  label: "Meu Perfil",      icon: User },
   { href: "/painel/cartao",  label: "Cartão Virtual",  icon: CreditCard },
   { href: "/painel/cupons",  label: "Cupons",          icon: Ticket },
   { href: "/painel/materiais", label: "Materiais",     icon: BookOpen },
