@@ -17,6 +17,8 @@ type SellerProfile = {
   city: string | null;
   state: string | null;
   bio: string | null;
+  signup_button_text: string | null;
+  signup_button_url: string | null;
 };
 
 type UpsertResponse =
@@ -39,6 +41,12 @@ export function SellerProfileForm({
   const [city, setCity] = useState(initialProfile?.city ?? "");
   const [state, setState] = useState(initialProfile?.state ?? "");
   const [bio, setBio] = useState(initialProfile?.bio ?? "");
+  const [signupButtonText, setSignupButtonText] = useState(
+    initialProfile?.signup_button_text ?? ""
+  );
+  const [signupButtonUrl, setSignupButtonUrl] = useState(
+    initialProfile?.signup_button_url ?? ""
+  );
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,6 +69,8 @@ export function SellerProfileForm({
         city,
         state,
         bio,
+        signup_button_text: signupButtonText,
+        signup_button_url: signupButtonUrl,
       }),
     });
     const data = (await response.json()) as UpsertResponse;
@@ -178,6 +188,26 @@ export function SellerProfileForm({
           maxLength={500}
           value={bio}
           onChange={(event) => setBio(event.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="signup_button_text">Texto do botão de cadastro</Label>
+        <Input
+          id="signup_button_text"
+          placeholder="Fazer cadastro"
+          value={signupButtonText}
+          onChange={(event) => setSignupButtonText(event.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="signup_button_url">Link do botão de cadastro</Label>
+        <Input
+          id="signup_button_url"
+          placeholder="https://..."
+          value={signupButtonUrl}
+          onChange={(event) => setSignupButtonUrl(event.target.value)}
         />
       </div>
 

@@ -12,6 +12,8 @@ const profileInput = z.object({
   city: z.string().trim().optional(),
   state: z.string().trim().optional(),
   bio: z.string().trim().max(500, "A bio pode ter no máximo 500 caracteres.").optional(),
+  signup_button_text: z.string().trim().optional(),
+  signup_button_url: z.string().trim().optional(),
 });
 
 export const sellerRouter = router({
@@ -62,6 +64,8 @@ export const sellerRouter = router({
         city: input.city || null,
         state: input.state || null,
         bio: input.bio || null,
+        signup_button_text: input.signup_button_text || null,
+        signup_button_url: input.signup_button_url || null,
       };
 
       return ctx.db.sellerProfile.upsert({
