@@ -13,6 +13,13 @@ export default async function PainelLayout({ children }: { children: React.React
     include: { company: true },
   });
 
+  if (profile?.status === "PENDING") {
+    redirect("/aguardando");
+  }
+  if (profile?.status === "SUSPENDED") {
+    redirect("/conta-suspensa");
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <PainelNav

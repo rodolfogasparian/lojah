@@ -71,6 +71,7 @@ model SellerProfile {
   signup_button_text String? @default("Fazer cadastro")
   signup_button_url  String? @default("https://cadastro.atlanticanatural.com.br/codigos")
   active     Boolean  @default(true)
+  status     SellerStatus @default(PENDING)
   created_at DateTime @default(now())
 
   user          User           @relation(fields: [user_id], references: [id])
@@ -80,6 +81,12 @@ model SellerProfile {
 
   @@unique([company_id, slug])
   @@map("seller_profiles")
+}
+
+enum SellerStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
 }
 
 model Subscription {

@@ -60,7 +60,7 @@ export function RegisterForm({ companyId }: { companyId: string }) {
       return;
     }
 
-    router.push("/");
+    router.push("/painel/perfil");
     router.refresh();
   }
 
