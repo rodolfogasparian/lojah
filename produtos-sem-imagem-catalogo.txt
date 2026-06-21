@@ -1,0 +1,93 @@
+PRODUTOS SEM IMAGEM NO CATÁLOGO — LOJAH.APP
+Atlântica Natural — Gerado em 21/06/2026
+Total: 71 produtos
+============================================
+
+CABELOS (10 produtos)
+---------------------
+1.  Condicionador Nutritivo
+2.  Condicionador Ouro 250ml
+3.  Condicionador Reconstrutor
+4.  Kit Shampoo + Condicionador Ozonizado
+5.  Máscara Hidratante
+6.  Máscara Ouro 250g
+7.  Shampoo 4 em 1
+8.  Shampoo Nutritivo
+9.  Shampoo Ouro 250ml
+10. Shampoo Reconstrutor
+
+COSMÉTICOS OZONIZADOS (3 produtos)
+-----------------------------------
+11. Depilskin Creme Depilatório
+12. Gel Extra Forte Massagem
+13. Hidratante Corporal Ozonizado 200ml
+
+EMAGRECIMENTO (1 produto)
+--------------------------
+14. Green Caps Vit C
+
+LINHA ACADEMIA (2 produtos)
+----------------------------
+15. ATL Natural Pré Treino Ponche de Frutas
+16. Glutamina em Pó
+
+LINHA CASA OZÔNIO (6 produtos)
+--------------------------------
+17. Amaciante Ultra Concentrado
+18. Home Spray Bamboo Ultra Concentrado
+19. Lava-Louças Ultra Concentrado
+20. Lava-Roupas Ultra Concentrado
+21. Limpador Multiuso Ultra Concentrado
+22. Odorizador Número 2
+
+ÓLEOS ESSENCIAIS (1 produto)
+------------------------------
+23. Óleo Essencial Menta Piperita
+
+SUPLEMENTOS E NUTRACÊUTICOS (1 produto)
+-----------------------------------------
+24. ATL Vision 30ml
+
+VITAMINAS (3 produtos)
+------------------------
+25. Cranberry Cápsulas
+26. Magnésio Bisglicinato
+27. Vitamina C Ácido Ascórbico Cáps
+
+PERFUMES BORTOLETTO 15ml — SEM CLASSIFICAÇÃO (21 produtos)
+------------------------------------------------------------
+28. Fragrância Al-Asad 15ml
+29. Fragrância Athenna 15ml
+30. Fragrância Bali 15ml
+31. Fragrância Black Privat 15ml
+32. Fragrância Euphorica 15ml
+33. Fragrância F. Lavina 15ml
+34. Fragrância For You 15ml
+35. Fragrância Good Woman 15ml
+36. Fragrância Imortal 15ml
+37. Fragrância Imortal Black 15ml
+38. Fragrância J Alphaa 15ml
+39. Fragrância Love Me 15ml
+40. Fragrância Loved 15ml
+41. Fragrância Match 15ml
+42. Fragrância Phakar Black 15ml
+43. Fragrância Phakar Rose 15ml
+44. Fragrância Royale 15ml
+45. Fragrância 521 Sexy's 15ml
+46. Fragrância 521 Vip Rose 15ml
+47. Fragrância Yaha 15ml
+48. Fragrância Club For Men 15ml
+
+PERFUMES BORTOLETTO 100ml — SEM CLASSIFICAÇÃO (3 produtos)
+------------------------------------------------------------
+49. Fragrância Al-Asad 100ml
+50. Fragrância Amore Mio 100ml
+51. Fragrância Imunic Vitamina C Gotas (verificar nome exato no banco)
+
+============================================
+INSTRUÇÕES:
+- Para cada produto, forneça uma imagem JPG
+- Nomeie o arquivo igual ao nome do produto (ex: condicionador-nutritivo.jpg)
+- Faça upload no bucket "catalog-pages" do Supabase
+- Informe ao desenvolvedor para vincular no banco
+============================================
