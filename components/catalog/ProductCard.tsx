@@ -23,6 +23,7 @@ type Props = {
   signupButtonUrl: string;
   onShare?: (id: string) => void;
   onSendOrder?: () => void;
+  isConsultor?: boolean;
 };
 
 export function ProductCard({
@@ -35,6 +36,7 @@ export function ProductCard({
   signupButtonUrl,
   onShare,
   onSendOrder,
+  isConsultor,
 }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(`Olá! Quero o ${product.name}.`)}`;
@@ -42,6 +44,11 @@ export function ProductCard({
   return (
     <article className="flex flex-col bg-card rounded-2xl border border-border overflow-hidden">
       <div className="relative aspect-square bg-white">
+        {isConsultor && (
+          <span className="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
+            50% OFF
+          </span>
+        )}
         {product.image_url ? (
           <Image src={product.image_url} alt={product.name} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-contain p-3" />
         ) : (
@@ -72,7 +79,9 @@ export function ProductCard({
         )}
 
         <div className="mt-auto">
-          <span className="block text-[9px] font-bold text-muted-foreground tracking-wider uppercase">Preço cliente</span>
+          <span className="block text-[9px] font-bold text-muted-foreground tracking-wider uppercase">
+            {isConsultor ? "Preço consultor" : "Preço cliente"}
+          </span>
           <span className="text-lg font-bold text-foreground">{product.price_client !== null ? brl(product.price_client) : "—"}</span>
 
           <div className="flex gap-1.5 mt-2.5">

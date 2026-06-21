@@ -29,6 +29,7 @@ type Props = {
   signupButtonUrl: string;
   sellerName: string;
   pageUrl: string;
+  isConsultor?: boolean;
 };
 
 export function CatalogSection({
@@ -38,6 +39,7 @@ export function CatalogSection({
   signupButtonUrl,
   sellerName,
   pageUrl,
+  isConsultor,
 }: Props) {
   const categories = useMemo(() => {
     const seen = new Map<string, string>();
@@ -150,6 +152,7 @@ export function CatalogSection({
             signupButtonUrl={signupButtonUrl}
             onShare={handleShare}
             onSendOrder={() => sendWhatsAppOrder(whatsappPhone)}
+            isConsultor={isConsultor}
           />
         ))}
       </div>
