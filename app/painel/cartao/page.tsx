@@ -19,6 +19,7 @@ export default async function CartaoPage() {
   const companySlug = profile.company?.slug ?? "";
   const sellerSlug = profile.slug;
 
+  const urlCartao = `https://${companySlug}.lojah.app/${sellerSlug}/cartao`;
   const urlCliente = `https://${companySlug}.lojah.app/${sellerSlug}`;
   const urlConsultor = `https://${companySlug}.lojah.app/${sellerSlug}/c`;
   const urlRevenda = `https://${companySlug}.lojah.app/${sellerSlug}/r`;
@@ -39,6 +40,7 @@ export default async function CartaoPage() {
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {[
+            { label: "Cartão Virtual", url: urlCartao, color: "text-purple-600" },
             { label: "Catálogo Preço Cliente", url: urlCliente, color: "text-green-600" },
             { label: "Catálogo Preço Consultor", url: urlConsultor, color: "text-blue-600" },
             { label: "Página de Revenda", url: urlRevenda, color: "text-orange-600" },

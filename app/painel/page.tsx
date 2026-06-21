@@ -40,7 +40,7 @@ export default async function PainelPage() {
     {
       label: "Cartão Virtual",
       description: "Seu cartão de visitas digital",
-      url: `https://${companySlug}.lojah.app/${sellerSlug}#cartao`,
+      url: `https://${companySlug}.lojah.app/${sellerSlug}/cartao`,
       color: "text-purple-700",
       bg: "bg-purple-50",
       border: "border-purple-200",
