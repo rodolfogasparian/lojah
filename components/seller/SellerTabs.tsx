@@ -19,6 +19,7 @@ export function SellerTabs({
   vitrine,
   cartaoVirtual,
   compartilhar,
+  defaultTab = "vitrine",
 }: {
   sellerName: string;
   sellerPhotoUrl: string | null;
@@ -26,8 +27,9 @@ export function SellerTabs({
   vitrine: ReactNode;
   cartaoVirtual: ReactNode;
   compartilhar: ReactNode;
+  defaultTab?: TabId;
 }) {
-  const [activeTab, setActiveTab] = useState<TabId>("vitrine");
+  const [activeTab, setActiveTab] = useState<TabId>(defaultTab);
 
   return (
     <div className="flex w-full flex-1 flex-col items-center">
