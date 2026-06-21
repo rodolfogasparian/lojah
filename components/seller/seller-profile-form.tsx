@@ -110,6 +110,7 @@ export function SellerProfileForm({
         <Input
           id="name"
           required
+          className="bg-white"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
@@ -121,6 +122,7 @@ export function SellerProfileForm({
           id="slug"
           required
           placeholder="seu-nome"
+          className="bg-white"
           value={slug}
           onChange={(event) => setSlug(event.target.value)}
         />
@@ -134,6 +136,7 @@ export function SellerProfileForm({
         <Input
           id="photo_url"
           placeholder="https://..."
+          className="bg-white"
           value={photoUrl}
           onChange={(event) => setPhotoUrl(event.target.value)}
         />
@@ -144,6 +147,7 @@ export function SellerProfileForm({
         <Input
           id="whatsapp"
           placeholder="(11) 91234-5678"
+          className="bg-white"
           value={whatsapp}
           onChange={(event) => setWhatsapp(event.target.value)}
         />
@@ -154,6 +158,7 @@ export function SellerProfileForm({
         <Input
           id="instagram"
           placeholder="@seu_usuario"
+          className="bg-white"
           value={instagram}
           onChange={(event) => setInstagram(event.target.value)}
         />
@@ -164,6 +169,7 @@ export function SellerProfileForm({
           <Label htmlFor="city">Cidade</Label>
           <Input
             id="city"
+            className="bg-white"
             value={city}
             onChange={(event) => setCity(event.target.value)}
           />
@@ -174,6 +180,7 @@ export function SellerProfileForm({
             id="state"
             placeholder="SP"
             maxLength={2}
+            className="bg-white"
             value={state}
             onChange={(event) => setState(event.target.value.toUpperCase())}
           />
@@ -186,6 +193,7 @@ export function SellerProfileForm({
           id="bio"
           rows={4}
           maxLength={500}
+          className="bg-white"
           value={bio}
           onChange={(event) => setBio(event.target.value)}
         />
@@ -196,6 +204,7 @@ export function SellerProfileForm({
         <Input
           id="signup_button_text"
           placeholder="Fazer cadastro"
+          className="bg-white"
           value={signupButtonText}
           onChange={(event) => setSignupButtonText(event.target.value)}
         />
@@ -206,6 +215,7 @@ export function SellerProfileForm({
         <Input
           id="signup_button_url"
           placeholder="https://..."
+          className="bg-white"
           value={signupButtonUrl}
           onChange={(event) => setSignupButtonUrl(event.target.value)}
         />
