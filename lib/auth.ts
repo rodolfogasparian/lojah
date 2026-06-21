@@ -63,6 +63,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      if (url.includes("/painel") || url === baseUrl) {
+        return url.includes("/painel") ? url : `${baseUrl}/painel`;
+      }
+      return url.startsWith(baseUrl) ? url : `${baseUrl}/painel`;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
