@@ -48,7 +48,7 @@ export default function AguardandoPage() {
         <img
           src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-preto.jpg"
           alt="Atlântica Natural"
-          className="w-24 h-24 object-contain mx-auto"
+          className="w-16 h-16 object-contain mx-auto rounded-xl"
         />
 
         <Card>
