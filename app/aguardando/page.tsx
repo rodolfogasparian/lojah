@@ -38,9 +38,18 @@ export default function AguardandoPage() {
     setTimeout(() => router.push("/painel"), 2000);
   }
 
+  const whatsappMessage = encodeURIComponent(
+    "Olá! Quero adquirir minha assinatura na Atlântica Natural por R$ 67/ano"
+  );
+
   return (
     <div className="flex flex-1 items-center justify-center px-4 py-16">
       <div className="w-full max-w-md flex flex-col gap-4">
+        <img
+          src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-preto.jpg"
+          alt="Atlântica Natural"
+          className="w-24 h-24 object-contain mx-auto"
+        />
 
         <Card>
           <CardHeader>
@@ -101,7 +110,7 @@ export default function AguardandoPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <CreditCard className="size-5 text-blue-500" />
-              <CardTitle className="text-base">Quero adquirir minha assinatura</CardTitle>
+              <CardTitle className="text-base">Compre sua assinatura por apenas R$ 67/ano!</CardTitle>
             </div>
             <CardDescription>
               Clique abaixo para acessar o link de pagamento e ativar sua conta.
@@ -109,12 +118,13 @@ export default function AguardandoPage() {
           </CardHeader>
           <CardContent>
             <a
-              href="https://wa.me/554599999999?text=Quero+ativar+minha+conta+na+plataforma"
+              href={`https://wa.me/5545999463907?text=${whatsappMessage}`}
               target="_blank"
               rel="noreferrer"
+              className="w-full"
             >
-              <Button variant="outline" className="w-full">
-                Falar com o administrador
+              <Button className="w-full bg-[#25D366] text-white hover:bg-[#1ebe57]">
+                💬 Comprar no WhatsApp — R$ 67/ano
               </Button>
             </a>
           </CardContent>

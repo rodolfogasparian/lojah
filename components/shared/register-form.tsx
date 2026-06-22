@@ -13,8 +13,16 @@ type RegisterResponse =
   | { result: { data: { id: string; email: string } } }
   | { error: { message: string } };
 
-export function RegisterForm({ companyId }: { companyId: string }) {
+export function RegisterForm({
+  companyId,
+  companySlug,
+}: {
+  companyId: string;
+  companySlug: string;
+}) {
   const router = useRouter();
+  const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -35,7 +43,7 @@ export function RegisterForm({ companyId }: { companyId: string }) {
     const response = await fetch("/api/trpc/user.register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, companyId }),
+      body: JSON.stringify({ name, slug, email, password, companyId }),
     });
     const data = (await response.json()) as RegisterResponse;
 
@@ -60,7 +68,7 @@ export function RegisterForm({ companyId }: { companyId: string }) {
       return;
     }
 
-    router.push("/painel/perfil");
+    router.push("/aguardando");
     router.refresh();
   }
 
@@ -71,6 +79,31 @@ export function RegisterForm({ companyId }: { companyId: string }) {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="name">Nome completo</Label>
+        <Input
+          id="name"
+          autoComplete="name"
+          required
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="slug">Seu link personalizado</Label>
+        <Input
+          id="slug"
+          placeholder="ex: maria-silva"
+          required
+          value={slug}
+          onChange={(event) => setSlug(event.target.value)}
+        />
+        <p className="text-xs text-muted-foreground">
+          Sua loja: {companySlug}.lojah.app/{slug || "seu-link"}
+        </p>
+      </div>
 
       <div className="flex flex-col gap-2">
         <Label htmlFor="email">Email</Label>
