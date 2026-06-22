@@ -5,12 +5,16 @@ import { randomBytes } from "crypto";
 
 function generateCouponCode(prefix: string): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let code = "";
-  const bytes = randomBytes(4);
-  for (const byte of bytes) {
-    code += chars[byte % chars.length];
+  let block1 = "";
+  let block2 = "";
+  const bytes = randomBytes(8);
+  for (let i = 0; i < 4; i++) {
+    block1 += chars[bytes[i] % chars.length];
   }
-  return `${prefix}-${code}`;
+  for (let i = 4; i < 8; i++) {
+    block2 += chars[bytes[i] % chars.length];
+  }
+  return `${prefix}-${block1}-${block2}`;
 }
 
 export async function POST(req: NextRequest) {
