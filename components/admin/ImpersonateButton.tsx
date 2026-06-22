@@ -15,9 +15,8 @@ export function ImpersonateButton({ sellerId }: { sellerId: string }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sellerId }),
     });
-    const data = await res.json();
     if (res.ok) {
-      router.push(`/painel?impersonate=${data.token}`);
+      router.push("/painel");
     }
     setLoading(false);
   }

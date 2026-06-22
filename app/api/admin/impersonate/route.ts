@@ -27,5 +27,13 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({ token });
+  const res = NextResponse.json({ token });
+  res.cookies.set("impersonation_token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    expires: expiresAt,
+  });
+  return res;
 }

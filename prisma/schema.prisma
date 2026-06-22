@@ -80,6 +80,7 @@ model SellerProfile {
   subscriptions Subscription[]
   coupons_used  Coupon[]
   support_tickets SupportTicket[]
+  impersonation_tokens ImpersonationToken[]
 
   @@unique([company_id, slug])
   @@map("seller_profiles")
@@ -141,6 +142,8 @@ model ImpersonationToken {
   used       Boolean  @default(false)
   expires_at DateTime
   created_at DateTime @default(now())
+
+  seller SellerProfile @relation(fields: [seller_id], references: [id])
 
   @@map("impersonation_tokens")
 }
