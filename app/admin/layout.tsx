@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { LogoutButton } from "@/components/shared/logout-button";
 
 export default async function AdminLayout({
   children,
@@ -31,6 +32,7 @@ export default async function AdminLayout({
       <AdminNav
         adminEmail={session.user.email}
         companyName={company?.name ?? "Lojah Admin"}
+        logoutButton={<LogoutButton />}
       />
       <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
     </div>

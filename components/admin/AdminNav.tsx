@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { Users, Ticket, LayoutDashboard, Tag } from "lucide-react";
-import { LogoutButton } from "@/components/shared/logout-button";
 
 type Props = {
   adminEmail: string;
   companyName: string;
+  logoutButton: ReactNode;
 };
 
 const NAV = [
@@ -16,7 +17,7 @@ const NAV = [
   { href: "/admin/suporte", label: "Suporte", icon: Ticket, exact: false },
 ];
 
-export function AdminNav({ adminEmail, companyName }: Props) {
+export function AdminNav({ adminEmail, companyName, logoutButton }: Props) {
   const pathname = usePathname();
 
   return (
@@ -30,7 +31,7 @@ export function AdminNav({ adminEmail, companyName }: Props) {
         </div>
         <div className="flex items-center gap-3">
           <span className="text-xs text-muted-foreground hidden sm:block">{adminEmail}</span>
-          <LogoutButton />
+          {logoutButton}
         </div>
       </div>
 
