@@ -21,6 +21,7 @@ model Company {
   categories      ProductCategory[]
   panel_contents  PanelContent[]
   coupon_packs    CouponPack[]
+  support_tickets SupportTicket[]
 
   @@map("companies")
 }
@@ -78,6 +79,7 @@ model SellerProfile {
   company       Company        @relation(fields: [company_id], references: [id])
   subscriptions Subscription[]
   coupons_used  Coupon[]
+  support_tickets SupportTicket[]
 
   @@unique([company_id, slug])
   @@map("seller_profiles")
@@ -116,6 +118,7 @@ model CouponPack {
   company_id String
   quantity   Int      @default(10)
   notes      String?
+  type       PackType @default(ANNUAL)
   created_at DateTime @default(now())
 
   buyer   User      @relation(fields: [buyer_id], references: [id])
@@ -123,6 +126,43 @@ model CouponPack {
   coupons Coupon[]
 
   @@map("coupon_packs")
+}
+
+enum PackType {
+  ANNUAL
+  PROMOTIONAL
+}
+
+model ImpersonationToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  admin_id   String
+  seller_id  String
+  used       Boolean  @default(false)
+  expires_at DateTime
+  created_at DateTime @default(now())
+
+  @@map("impersonation_tokens")
+}
+
+model SupportTicket {
+  id         String       @id @default(uuid())
+  company_id String
+  seller_id  String
+  subject    String
+  message    String
+  status     TicketStatus @default(OPEN)
+  created_at DateTime     @default(now())
+
+  company Company       @relation(fields: [company_id], references: [id])
+  seller  SellerProfile @relation(fields: [seller_id], references: [id])
+
+  @@map("support_tickets")
+}
+
+enum TicketStatus {
+  OPEN
+  RESOLVED
 }
 
 model Coupon {
