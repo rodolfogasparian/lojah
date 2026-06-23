@@ -34,7 +34,14 @@ export function LoginForm() {
       return;
     }
 
-    router.push("/");
+    const session = await fetch("/api/auth/session").then(r => r.json());
+    const role = session?.user?.role;
+
+    if (role === "COMPANY_ADMIN" || role === "SUPERADMIN") {
+      router.push("/admin");
+    } else {
+      router.push("/painel");
+    }
     router.refresh();
   }
 
