@@ -12,6 +12,49 @@ import { SellerCardBody } from "@/components/seller/SellerCardBody";
 const SUPABASE_CATALOG_URL =
   "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/catalog-pages";
 
+const SUPABASE_STORAGE_URL =
+  "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public";
+
+const DEFAULT_IMAGE = `${SUPABASE_STORAGE_URL}/products/logo-atlantica-fundo-preto.jpg`;
+const DEFAULT_BIO = "Sou Consultor da Atlântica Natural e estou aqui para te ajudar!";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const company = await getCompanyFromHost();
+  if (!company) return {};
+
+  const seller = await db.sellerProfile.findUnique({
+    where: { company_id_slug: { company_id: company.id, slug } },
+    select: { name: true, bio: true, photo_url: true },
+  });
+  if (!seller) return {};
+
+  const title = `Catálogo Atlântica Natural | ${seller.name}`;
+  const description = seller.bio?.trim() || DEFAULT_BIO;
+  const image = seller.photo_url || DEFAULT_IMAGE;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: image, width: 800, height: 800, alt: seller.name }],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
 export default async function SellerPublicPage({
   params,
 }: {
