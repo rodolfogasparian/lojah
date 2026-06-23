@@ -81,6 +81,7 @@ model SellerProfile {
   coupons_used  Coupon[]
   support_tickets SupportTicket[]
   impersonation_tokens ImpersonationToken[]
+  coupon_packs_received CouponPack[] @relation("CouponPackSeller")
 
   @@unique([company_id, slug])
   @@map("seller_profiles")
@@ -121,10 +122,13 @@ model CouponPack {
   notes      String?
   type       PackType @default(ANNUAL)
   created_at DateTime @default(now())
+  assigned_to String?
+  assigned_at DateTime?
 
   buyer   User      @relation(fields: [buyer_id], references: [id])
   company Company   @relation(fields: [company_id], references: [id])
   coupons Coupon[]
+  seller SellerProfile? @relation("CouponPackSeller", fields: [assigned_to], references: [id])
 
   @@map("coupon_packs")
 }
@@ -251,4 +255,5 @@ enum ContentType {
   PROTOCOL
   SALES_PAGE
   SUPPORT
+  FAQ
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { AssignCouponModal } from "@/components/admin/AssignCouponModal";
 
 export default async function CuponsPage() {
   const session = await auth();
@@ -19,6 +20,7 @@ export default async function CuponsPage() {
         },
         orderBy: { created_at: "asc" },
       },
+      seller: { select: { name: true, slug: true } },
     },
     orderBy: { created_at: "desc" },
   });
@@ -44,21 +46,41 @@ export default async function CuponsPage() {
           const usados = pack.coupons.filter(c => c.used_by).length;
           const disponiveis = pack.coupons.filter(c => !c.used_by).length;
           const isPromocional = pack.type === "PROMOTIONAL";
+          const atribuido = !!pack.assigned_to;
 
           return (
             <div key={pack.id} className="bg-white rounded-xl border border-border overflow-hidden">
-              <div className="px-4 py-3 bg-gray-50 border-b flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="px-4 py-3 bg-gray-50 border-b flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${isPromocional ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>
                     {isPromocional ? "Promocional 30 dias" : "Anual 1 ano"}
                   </span>
                   <span className="text-sm text-muted-foreground">
                     {pack.coupons.length} cupons — {disponiveis} disponíveis / {usados} usados
                   </span>
+                  {atribuido ? (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+                      👤 {pack.seller?.name} (@{pack.seller?.slug})
+                      {pack.assigned_at && ` · ${new Date(pack.assigned_at).toLocaleDateString("pt-BR")}`}
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">
+                      Não atribuído
+                    </span>
+                  )}
                 </div>
-                <span className="text-xs text-muted-foreground">
-                  {new Date(pack.created_at).toLocaleDateString("pt-BR")}
-                </span>
+                <div className="flex items-center gap-2">
+                  {!atribuido && (
+                    <AssignCouponModal
+                      packId={pack.id}
+                      packType={pack.type}
+                      quantity={pack.coupons.length}
+                    />
+                  )}
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(pack.created_at).toLocaleDateString("pt-BR")}
+                  </span>
+                </div>
               </div>
 
               <div className="divide-y divide-border">
