@@ -53,6 +53,28 @@ export default async function PainelLayout({ children }: { children: React.React
     redirect("/conta-suspensa");
   }
 
+  if (profile && profile.status === "ACTIVE") {
+    const activeSubscription = await db.subscription.findFirst({
+      where: {
+        seller_id: profile.id,
+        status: "ACTIVE",
+        expires_at: { gt: new Date() },
+      },
+    });
+
+    if (!activeSubscription) {
+      await db.sellerProfile.update({
+        where: { id: profile.id },
+        data: { status: "SUSPENDED", active: false },
+      });
+      await db.subscription.updateMany({
+        where: { seller_id: profile.id, status: "ACTIVE" },
+        data: { status: "EXPIRED" },
+      });
+      redirect("/conta-suspensa");
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <PainelNav

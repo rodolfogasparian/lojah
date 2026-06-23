@@ -16,6 +16,22 @@ export default async function PainelPage() {
 
   if (!profile) redirect("/painel/perfil");
 
+  const subscription = await db.subscription.findFirst({
+    where: {
+      seller: { user_id: session.user.id },
+      status: "ACTIVE",
+      expires_at: { gt: new Date() },
+    },
+    orderBy: { expires_at: "desc" },
+  });
+
+  const diasRestantes = subscription
+    ? Math.ceil(
+        (new Date(subscription.expires_at).getTime() - Date.now()) /
+          (1000 * 60 * 60 * 24)
+      )
+    : null;
+
   const companySlug = profile.company?.slug ?? "";
   const sellerSlug = profile.slug;
   const base = `https://${companySlug}.lojah.app/${sellerSlug}`;
@@ -94,6 +110,43 @@ export default async function PainelPage() {
           ))}
         </CardContent>
       </Card>
+
+      {diasRestantes !== null && (
+        <div className={`rounded-xl p-4 flex items-center gap-3 ${
+          diasRestantes <= 30
+            ? "bg-red-50 border border-red-200"
+            : diasRestantes <= 90
+            ? "bg-amber-50 border border-amber-200"
+            : "bg-green-50 border border-green-200"
+        }`}>
+          <div className={`text-2xl font-bold ${
+            diasRestantes <= 30 ? "text-red-600" : diasRestantes <= 90 ? "text-amber-600" : "text-green-600"
+          }`}>
+            {diasRestantes}
+          </div>
+          <div>
+            <p className="text-sm font-semibold">
+              {diasRestantes <= 30 ? "⚠️ Assinatura expirando em breve!" : "✅ Assinatura ativa"}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {diasRestantes === 1 ? "Último dia" : `${diasRestantes} dias restantes`}
+              {subscription && ` — expira em ${new Date(subscription.expires_at).toLocaleDateString("pt-BR")}`}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {diasRestantes === null && (
+        <div className="rounded-xl p-4 flex items-center gap-3 bg-amber-50 border border-amber-200">
+          <div className="text-2xl">⚠️</div>
+          <div>
+            <p className="text-sm font-semibold text-amber-700">Sem assinatura ativa</p>
+            <p className="text-xs text-muted-foreground">
+              Ative sua conta com um cupom ou adquira uma assinatura.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
