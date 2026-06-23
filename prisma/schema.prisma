@@ -154,6 +154,8 @@ model SupportTicket {
   seller_id  String
   subject    String
   message    String
+  reference  String       @unique
+  category   TicketCategory @default(TECHNICAL)
   status     TicketStatus @default(OPEN)
   created_at DateTime     @default(now())
 
@@ -166,6 +168,12 @@ model SupportTicket {
 enum TicketStatus {
   OPEN
   RESOLVED
+}
+
+enum TicketCategory {
+  FINANCIAL
+  TECHNICAL
+  FAQ
 }
 
 model Coupon {

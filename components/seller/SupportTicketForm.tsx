@@ -11,11 +11,13 @@ type Props = { sellerId: string; companyId: string };
 
 export function SupportTicketForm({ sellerId, companyId }: Props) {
   const router = useRouter();
+  const [category, setCategory] = useState<"FINANCIAL" | "TECHNICAL" | "FAQ">("TECHNICAL");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [reference, setReference] = useState<string | null>(null);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -25,7 +27,7 @@ export function SupportTicketForm({ sellerId, companyId }: Props) {
     const res = await fetch("/api/suporte", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ subject, message, sellerId, companyId }),
+      body: JSON.stringify({ subject, message, sellerId, companyId, category }),
     });
 
     const data = await res.json();
@@ -37,6 +39,7 @@ export function SupportTicketForm({ sellerId, companyId }: Props) {
     }
 
     setSuccess(true);
+    setReference(data.reference);
     setSubject("");
     setMessage("");
     router.refresh();
@@ -45,7 +48,39 @@ export function SupportTicketForm({ sellerId, companyId }: Props) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
-      {success && <Alert><AlertDescription>✅ Chamado enviado! Entraremos em contato em breve.</AlertDescription></Alert>}
+      {success && (
+        <Alert>
+          <AlertDescription>
+            ✅ Chamado enviado! Protocolo: <strong>{reference}</strong>
+            <br />
+            <span className="text-xs">Entraremos em contato em breve.</span>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="flex flex-col gap-2">
+        <Label>Categoria</Label>
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { value: "TECHNICAL", label: "🔧 Técnico" },
+            { value: "FINANCIAL", label: "💰 Financeiro" },
+            { value: "FAQ", label: "❓ Dúvidas" },
+          ].map(({ value, label }) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setCategory(value as typeof category)}
+              className={`p-2 rounded-lg border text-xs font-semibold transition-colors ${
+                category === value
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border hover:bg-gray-50"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="flex flex-col gap-2">
         <Label>Assunto</Label>

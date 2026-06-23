@@ -20,6 +20,12 @@ export default async function SuporteVendedorPage() {
     orderBy: { created_at: "desc" },
   });
 
+  const categoryLabel: Record<string, string> = {
+    FINANCIAL: "💰 Financeiro",
+    TECHNICAL: "🔧 Técnico",
+    FAQ: "❓ Dúvidas",
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -53,6 +59,11 @@ export default async function SuporteVendedorPage() {
               <p className="text-[10px] text-muted-foreground mt-1">
                 {new Date(ticket.created_at).toLocaleDateString("pt-BR")}
               </p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-[10px] font-mono text-muted-foreground">{ticket.reference}</span>
+                <span className="text-[10px] text-muted-foreground">·</span>
+                <span className="text-[10px] text-muted-foreground">{categoryLabel[ticket.category]}</span>
+              </div>
             </div>
           ))}
         </div>

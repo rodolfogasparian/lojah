@@ -32,16 +32,25 @@ export async function POST(req: NextRequest) {
   });
 
   if (!profile) {
-    return NextResponse.json({ error: "Perfil de vendedor não encontrado" }, { status: 404 });
+    return NextResponse.json(
+      { error: "Perfil de vendedor não encontrado. Certifique-se de estar logado como vendedor, não como administrador." },
+      { status: 404 }
+    );
   }
 
   if (coupon.pack.company_id !== profile.company_id) {
     return NextResponse.json({ error: "Este cupom não é válido para a sua empresa" }, { status: 400 });
   }
 
+  const packType = coupon.pack.type;
   const now = new Date();
   const expiresAt = new Date(now);
-  expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+
+  if (packType === "PROMOTIONAL") {
+    expiresAt.setDate(expiresAt.getDate() + 30); // 30 dias
+  } else {
+    expiresAt.setFullYear(expiresAt.getFullYear() + 1); // 1 ano
+  }
 
   await db.$transaction(async (tx) => {
     await tx.coupon.update({
