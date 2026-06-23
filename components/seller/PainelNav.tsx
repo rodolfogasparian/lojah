@@ -2,7 +2,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { User, CreditCard, Ticket, HeadphonesIcon, HelpCircle, ExternalLink, Link2 } from "lucide-react";
+import { User, CreditCard, Ticket, HeadphonesIcon, HelpCircle, BookOpen, ExternalLink, Link2 } from "lucide-react";
 
 type Props = {
   sellerName: string;
@@ -19,6 +19,7 @@ const NAV = [
   { href: "/painel/cupons",  label: "Cupons",          icon: Ticket },
   { href: "/painel/suporte", label: "Suporte",         icon: HeadphonesIcon },
   { href: "/painel/faq",     label: "FAQ",             icon: HelpCircle },
+  { href: "/painel/materiais", label: "Materiais",     icon: BookOpen },
 ];
 
 export function PainelNav({ sellerName, sellerSlug, companySlug, photoUrl, logoutButton }: Props) {
