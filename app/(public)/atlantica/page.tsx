@@ -141,7 +141,7 @@ export default function AtlanticaSalesPage() {
         <div className="grid md:grid-cols-2 gap-4">
 
           {/* Individual */}
-          <div style={{ background: "#fffde7" }} className="rounded-xl p-6">
+          <div style={{ background: "#fef08a", border: "2px solid #2d5a27" }} className="rounded-xl p-6">
             <p className="text-xs text-gray-500 mb-4">Catálogo individual</p>
             <p className="text-xs text-gray-400 line-through mb-0.5">de R$ 197</p>
             <p style={{ color: "#2d5a27" }} className="text-xs font-medium mb-1">por apenas</p>
