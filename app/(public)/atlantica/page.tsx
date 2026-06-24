@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const WHATSAPP_ADMIN = "45999463907";
-const CATALOGO_MODELO = "https://atlantica.lojah.app/mentoriar";
+const CATALOGO_MODELO = "https://atlantica.lojah.app/br";
 const CADASTRO_URL = "https://atlantica.lojah.app/cadastro";
 
 export const metadata = {
@@ -51,9 +51,12 @@ export default function AtlanticaSalesPage() {
                 </a>
               </div>
             </div>
-            <div style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(45,90,39,0.2)" }} className="rounded-xl h-56 flex items-center justify-center flex-col gap-2">
-              <span className="text-5xl">📱</span>
-              <span style={{ color: "#3d7a32" }} className="text-xs">Mockup do catálogo aqui</span>
+            <div className="rounded-xl overflow-hidden">
+              <img
+                src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/catalogo-2.jpg"
+                alt="Catálogo Atlântica Natural"
+                className="w-full h-full object-cover rounded-xl"
+              />
             </div>
           </div>
         </div>
@@ -101,7 +104,7 @@ export default function AtlanticaSalesPage() {
             ["👥", "Página de revenda", "Recrute novos consultores"],
             ["📱", "Funciona no celular", "100% responsivo e rápido"],
           ].map(([icon, title, desc]) => (
-            <div key={title} style={{ border: "0.5px solid #c8e89a" }} className="bg-white rounded-xl p-4">
+            <div key={title} style={{ background: "#f5f0e8" }} className="rounded-xl p-4">
               <div style={{ background: "#e8f7c8" }} className="w-9 h-9 rounded-lg flex items-center justify-center mb-3 text-lg">{icon}</div>
               <p className="text-sm font-medium mb-1">{title}</p>
               <p className="text-xs text-gray-500">{desc}</p>
@@ -117,13 +120,12 @@ export default function AtlanticaSalesPage() {
           <h2 style={{ color: "#1e3d1a" }} className="text-2xl font-medium mb-6">Simples assim</h2>
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              ["1", "📝", "Cadastre-se", "Crie sua conta em menos de 2 minutos"],
-              ["2", "✏️", "Personalize", "Adicione foto, bio e seus dados de contato"],
-              ["3", "📤", "Compartilhe", "Envie seu link no WhatsApp e venda mais"],
-            ].map(([n, icon, title, desc]) => (
-              <div key={n} style={{ background: "rgba(255,255,255,0.55)", border: "1px solid rgba(45,90,39,0.15)" }} className="rounded-xl p-5 text-center">
+              ["1", "Cadastre-se", "Crie sua conta em menos de 2 minutos"],
+              ["2", "Personalize", "Adicione foto, bio e seus dados de contato"],
+              ["3", "Compartilhe", "Envie seu link no WhatsApp e venda mais"],
+            ].map(([n, title, desc]) => (
+              <div key={n} style={{ background: "#f5f0e8" }} className="rounded-xl p-5 text-center">
                 <div style={{ background: "#2d5a27", color: "#cfee9a" }} className="w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-3 text-sm font-medium">{n}</div>
-                <div className="text-2xl mb-2">{icon}</div>
                 <p style={{ color: "#1e3d1a" }} className="text-sm font-medium mb-1">{title}</p>
                 <p style={{ color: "#3d7a32" }} className="text-xs">{desc}</p>
               </div>
@@ -139,7 +141,7 @@ export default function AtlanticaSalesPage() {
         <div className="grid md:grid-cols-2 gap-4">
 
           {/* Individual */}
-          <div style={{ border: "0.5px solid #c8e89a" }} className="bg-white rounded-xl p-6">
+          <div style={{ background: "#f5f0e8" }} className="rounded-xl p-6">
             <p className="text-xs text-gray-500 mb-4">Catálogo individual</p>
             <p className="text-xs text-gray-400 line-through mb-0.5">de R$ 197</p>
             <p style={{ color: "#2d5a27" }} className="text-xs font-medium mb-1">por apenas</p>
@@ -148,7 +150,7 @@ export default function AtlanticaSalesPage() {
               <span className="text-sm text-gray-500">/ano</span>
             </div>
             <Link href={CADASTRO_URL}>
-              <button style={{ color: "#2d5a27", border: "1.5px solid #2d5a27" }} className="w-full py-3 rounded-lg text-sm font-medium bg-transparent">
+              <button style={{ background: "#f5f0e8", color: "#2d5a27", border: "1.5px solid #2d5a27" }} className="w-full py-3 rounded-lg text-sm font-medium">
                 Quero meu catálogo
               </button>
             </Link>
