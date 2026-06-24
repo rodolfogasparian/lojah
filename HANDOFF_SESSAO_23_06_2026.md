@@ -1,14 +1,13 @@
 # Lojah.app — Handoff Sessão 23/06/2026
 
 > **Data:** 23 de Junho de 2026
-> **Status:** Módulo 4 ✅ completo | Módulo 6 🔄 em andamento
+> **Status:** Módulos 1-4 ✅ completos | Módulo 6 🔄 em andamento | Catálogo 100% completo ✅
 
 ---
 
 ## Resumo da sessão
 
-Sessão de implementação: fechamento completo do Módulo 4 (cupons do vendedor,
-FAQ, materiais/tutoriais) e início do Módulo 6 (Open Graph, redirect por role).
+Sessão completa cobrindo: fechamento do Módulo 4 (cupons, FAQ, materiais), início e avanço do Módulo 6 (Open Graph, redirect, favicon, polimento visual), e conclusão total do catálogo (273 descrições + 273 imagens de catálogo).
 
 ---
 
@@ -21,11 +20,11 @@ FAQ, materiais/tutoriais) e início do Módulo 6 (Open Graph, redirect por role)
 | Módulo 3 — Painel Vendedor | ✅ Completo | Perfil, cartão, upload foto, /c, /r, /cartao |
 | Módulo 4 — Painel Admin | ✅ Completo | Ver detalhes abaixo |
 | Módulo 5 — Superadmin | ⏳ Pendente | Após lançamento Atlântica |
-| Módulo 6 — Polimento | 🔄 67% | Open Graph ✅, Redirect ✅, Mobile 🔜 |
+| Módulo 6 — Polimento | 🔄 Em andamento | Open Graph ✅, Redirect ✅, Favicon ✅, Mobile 🔜 |
 
 ---
 
-## 2. Módulo 4 — O que foi implementado nesta sessão
+## 2. Módulo 4 — Fechamento completo
 
 ### Migration aplicada
 - `20260623101601_add_coupon_pack_assignment_and_faq`
@@ -39,17 +38,17 @@ FAQ, materiais/tutoriais) e início do Módulo 6 (Open Graph, redirect por role)
 - `components/admin/AssignCouponModal.tsx` — modal de atribuição
 - `app/admin/cupons/page.tsx` — badge de atribuição + botão "Atribuir"
 - `app/painel/cupons/page.tsx` — UI real com resumo + lista + copiar
-- `components/seller/CouponPurchaseModal.tsx` — compra via PIX
+- `components/seller/CouponPurchaseModal.tsx` — compra via PIX com QR Code
 
-**Fluxo de compra de cupons (MVP):**
-- Vendedor escolhe pack (1 anual R$67 ou 10 anuais R$370)
-- Exibe chave PIX: `whapspro@gmail.com`
-- Vendedor paga e clica "Já paguei"
-- Abre WhatsApp admin (`45999463907`) com mensagem formatada
+**Fluxo de compra (MVP PIX):**
+- 1 cupom anual: R$ 67 (de R$ 197)
+- 10 cupons anuais: R$ 370 (de R$ 1.970)
+- PIX: `whapspro@gmail.com`
+- Após pagamento → WhatsApp admin `45999463907` com mensagem formatada
 - Admin atribui cupons manualmente no painel
 
 ### Entrega B — FAQ
-- `app/api/admin/faq/route.ts` + `app/api/admin/faq/[id]/route.ts`
+- `app/api/admin/faq/route.ts` + `[id]/route.ts`
 - `components/admin/FaqForm.tsx` — CRUD inline com sort_order
 - `app/admin/faq/page.tsx` — página admin
 - `components/seller/FaqAccordion.tsx` — accordion somente leitura
@@ -57,7 +56,7 @@ FAQ, materiais/tutoriais) e início do Módulo 6 (Open Graph, redirect por role)
 - Links adicionados em `AdminNav.tsx` e `PainelNav.tsx`
 
 ### Entrega C — Materiais/Tutoriais
-- `app/api/admin/materiais/route.ts` + `app/api/admin/materiais/[id]/route.ts`
+- `app/api/admin/materiais/route.ts` + `[id]/route.ts`
 - `components/admin/MaterialForm.tsx` — CRUD com tipo Tutorial/Vídeo + URL + sort_order
 - `app/admin/materiais/page.tsx` — página admin
 - `components/seller/MaterialCard.tsx` — cards com botão "Acessar"
@@ -67,48 +66,63 @@ FAQ, materiais/tutoriais) e início do Módulo 6 (Open Graph, redirect por role)
 
 ---
 
-## 3. Módulo 6 — O que foi implementado nesta sessão
+## 3. Módulo 6 — Polimento (em andamento)
 
 ### Open Graph ✅
 - `generateMetadata` adicionado em `app/(public)/[slug]/page.tsx`
 - Título: "Catálogo Atlântica Natural | [Nome do Vendedor]"
-- Imagem: foto do vendedor → fallback logo Atlântica
-  (`products/logo-atlantica-fundo-preto.jpg`)
+- Imagem: foto do vendedor → fallback `products/logo-atlantica-fundo-preto.jpg`
 - Bio: bio do vendedor → fallback "Sou Consultor da Atlântica Natural e estou aqui para te ajudar!"
-- Compatível com WhatsApp, Telegram, Facebook, Twitter
 
 ### Redirect por role ✅
 - `components/shared/login-form.tsx` atualizado
-- Após login: busca sessão em `/api/auth/session`
-- `COMPANY_ADMIN` ou `SUPERADMIN` → `/admin`
+- `COMPANY_ADMIN` / `SUPERADMIN` → `/admin`
 - `SELLER` → `/painel`
 
+### Favicon ✅
+- `app/icon.png` e `public/icon.png` → favicon personalizado Lojah
+- URL: `products/favicon.png` no Supabase
+- `app/favicon.ico` deletado
+
+### Logos corrigidas ✅
+- `app/login/page.tsx` → logo Lojah preta
+- `app/cadastro/page.tsx` → logo Lojah preta
+
+### Title global ✅
+- `app/layout.tsx` → "Catálogo Online Atlântica Natural"
+
+### Banner assinatura expirando ✅
+- `app/painel/layout.tsx` — banner âmbar quando restam ≤ 10 dias
+
+### Card destaque catálogo no painel ✅
+- `app/painel/page.tsx` — card com imagem + 3 links (cliente, consultor 50% OFF, revenda)
+- Imagem: `products/catalogo.jpg`
+
+### QR Code PIX ✅
+- `components/seller/CouponPurchaseModal.tsx` — QR Code gerado via `qrcode.react`
+
 ### Responsividade mobile 🔜
-- Aguardando testes no celular para identificar problemas reais
-- Próxima ação: Gaspar testa e reporta o que está ruim
+- Aguardando testes no celular
 
 ---
 
-## 4. Pendências para próxima sessão
+## 4. Catálogo — 100% completo ✅
 
-### Módulo 6 — Responsividade mobile
-- [ ] Gaspar testa no celular e reporta problemas
-- [ ] Revisão das telas com problemas identificados
+### Descrições
+- **273/273 produtos** com descrição
+- Scripts utilizados: `update-descriptions.ts`, `update-descriptions-2.ts`, `update-descriptions-3.ts`, `update-descriptions-4.ts`
+- Padrão: 2-3 frases curtas focadas nos benefícios
 
-### Catálogo (herdado)
-- [ ] 71 produtos sem imagem de catálogo (`produtos-sem-imagem-catalogo.txt`)
-- [ ] ~140 produtos sem descrição
-- [ ] 21 perfumes Bortoletto 15ml sem classificação M/F
-- [ ] Perfumes 100ml — aguardando classificação M/F
-
-### Módulo 5 — Superadmin (pós-lançamento Atlântica)
-- [ ] Listar/criar empresas
-- [ ] Criar company_admin
-- [ ] Métricas gerais
+### Imagens de catálogo
+- **273/273 produtos** com `catalog_page_file` vinculado
+- Script: `update-catalogo-perfumes-e-outros.ts`
+- Perfumes femininos → `perfumes-femininos-15ml.jpg`
+- Perfumes masculinos → `perfumes-masculinos-15-ml.jpg` ⚠️ hífen antes do "ml"
+- Demais produtos → páginas numeradas do guia (ex: `6.jpg`, `50.jpg`)
 
 ---
 
-## 5. Infraestrutura (sem mudanças)
+## 5. Infraestrutura
 
 ### Serviços
 | Serviço | URL / ID | Conta |
@@ -121,8 +135,8 @@ FAQ, materiais/tutoriais) e início do Módulo 6 (Open Graph, redirect por role)
 ### Buckets Supabase
 | Bucket | Tipo | Conteúdo |
 |---|---|---|
-| `products` | Público | Fotos dos produtos (WebP) + logos |
-| `catalog-pages` | Público | Páginas do guia (JPG 1-159 + genéricas) |
+| `products` | Público | Fotos dos produtos (WebP) + logos + favicon |
+| `catalog-pages` | Público | Páginas do guia (JPG 1-159 + genéricas perfumes) |
 | `profile` | Público | Fotos de perfil dos vendedores |
 
 ### Credenciais de teste
