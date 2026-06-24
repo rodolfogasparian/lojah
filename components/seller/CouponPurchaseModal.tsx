@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Copy, Check } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 
 const PACKS = [
   { id: "1-anual", label: "1 cupom anual", quantidade: 1, valor: 67, descricao: "de R$ 197" },
@@ -113,6 +114,15 @@ export function CouponPurchaseModal({ sellerName, sellerSlug }: Props) {
                   <p className="text-sm text-muted-foreground mt-1">
                     {selectedPack.label} — <span className="font-semibold text-foreground">R$ {selectedPack.valor},00</span>
                   </p>
+                </div>
+
+                <div className="flex justify-center">
+                  <QRCodeSVG
+                    value={`pix:${PIX_KEY}?amount=${selectedPack.valor}.00&description=${encodeURIComponent(selectedPack.label)}`}
+                    size={180}
+                    level="M"
+                    includeMargin
+                  />
                 </div>
 
                 <div className="bg-gray-50 rounded-xl p-4 flex flex-col gap-3">

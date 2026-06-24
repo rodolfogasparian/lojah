@@ -37,7 +37,7 @@ export default async function CadastroPage() {
           />
           <div className="w-px h-10 bg-gray-200" />
           <img
-            src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-loja-verde.png"
+            src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-loja-preto.png"
             alt="Lojah"
             className="h-8 object-contain"
           />

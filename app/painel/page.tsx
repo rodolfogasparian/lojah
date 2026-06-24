@@ -80,6 +80,51 @@ export default async function PainelPage() {
         </p>
       </div>
 
+      {/* Card destaque catálogo */}
+      <div className="bg-white rounded-2xl border overflow-hidden shadow-sm">
+        <div className="flex flex-col sm:flex-row">
+          <div className="sm:w-48 shrink-0">
+            <img
+              src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/catalogo.jpg"
+              alt="Catálogo Atlântica Natural"
+              className="w-full h-48 sm:h-full object-cover"
+            />
+          </div>
+          <div className="flex-1 p-5 flex flex-col justify-center gap-3">
+            <div>
+              <h2 className="font-bold text-lg leading-tight">Catálogo Atlântica Natural</h2>
+              <p className="text-sm text-muted-foreground mt-1">Compartilhe seu catálogo personalizado com seus clientes</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <a
+                href={`https://atlantica.lojah.app/${profile.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+              >
+                🛍️ Catálogo cliente
+              </a>
+              <a
+                href={`https://atlantica.lojah.app/${profile.slug}/c`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-800 text-sm font-semibold hover:bg-gray-200 transition-colors"
+              >
+                💼 Catálogo consultor (50% OFF)
+              </a>
+              <a
+                href={`https://atlantica.lojah.app/${profile.slug}/r`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-800 text-sm font-semibold hover:bg-gray-200 transition-colors"
+              >
+                🤝 Página de revenda
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">🔗 Seus links</CardTitle>
