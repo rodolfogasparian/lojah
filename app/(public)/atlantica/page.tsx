@@ -40,12 +40,12 @@ export default function AtlanticaSalesPage() {
               </p>
               <div className="flex gap-3 flex-wrap">
                 <Link href={CADASTRO_URL}>
-                  <button style={{ background: "#f5f5f3", color: "#2d5a27" }} className="flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium">
+                  <button style={{ background: "#2d5a27", color: "#fff" }} className="flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium">
                     🛒 Quero meu catálogo
                   </button>
                 </Link>
                 <a href={CATALOGO_MODELO} target="_blank" rel="noopener noreferrer">
-                  <button style={{ background: "#efefed", color: "#3d7a32" }} className="flex items-center gap-2 px-5 py-3 rounded-lg text-sm">
+                  <button style={{ background: "#3d7a32", color: "#fff" }} className="flex items-center gap-2 px-5 py-3 rounded-lg text-sm">
                     👁️ Ver modelo ao vivo
                   </button>
                 </a>
@@ -53,7 +53,7 @@ export default function AtlanticaSalesPage() {
             </div>
             <div className="rounded-xl overflow-hidden">
               <img
-                src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/catalogo-2.jpg"
+                src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/catalogo-3.png"
                 alt="Catálogo Atlântica Natural"
                 className="w-full h-full object-cover rounded-xl"
               />
@@ -141,7 +141,7 @@ export default function AtlanticaSalesPage() {
         <div className="grid md:grid-cols-2 gap-4">
 
           {/* Individual */}
-          <div style={{ background: "#f5f0e8" }} className="rounded-xl p-6">
+          <div style={{ background: "#fffde7" }} className="rounded-xl p-6">
             <p className="text-xs text-gray-500 mb-4">Catálogo individual</p>
             <p className="text-xs text-gray-400 line-through mb-0.5">de R$ 197</p>
             <p style={{ color: "#2d5a27" }} className="text-xs font-medium mb-1">por apenas</p>
@@ -150,7 +150,7 @@ export default function AtlanticaSalesPage() {
               <span className="text-sm text-gray-500">/ano</span>
             </div>
             <Link href={CADASTRO_URL}>
-              <button style={{ background: "#f5f0e8", color: "#2d5a27", border: "1.5px solid #2d5a27" }} className="w-full py-3 rounded-lg text-sm font-medium">
+              <button style={{ background: "#2d5a27", color: "#fff", border: "none" }} className="w-full py-3 rounded-lg text-sm font-medium">
                 Quero meu catálogo
               </button>
             </Link>
