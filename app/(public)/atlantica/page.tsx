@@ -83,10 +83,15 @@ export default function AtlanticaSalesPage() {
       {/* VÍDEO */}
       <section className="px-4 pb-6 max-w-5xl mx-auto">
         <div style={{ border: "0.5px solid #c8e89a" }} className="bg-white rounded-xl p-5">
-          <div style={{ background: "#e8f7c8", border: "1.5px dashed #9fd45a" }} className="rounded-lg h-52 flex items-center justify-center flex-col gap-3">
-            <div style={{ background: "#2d5a27" }} className="w-14 h-14 rounded-full flex items-center justify-center text-2xl">▶️</div>
-            <p style={{ color: "#1e3d1a" }} className="text-sm font-medium">Veja o catálogo em ação</p>
-            <span style={{ color: "#3d7a32" }} className="text-xs">Vídeo demonstrativo — em breve</span>
+          <div className="rounded-lg overflow-hidden" style={{ aspectRatio: "16/9" }}>
+            <iframe
+              src="https://www.youtube.com/embed/kCkbqfeU6zo"
+              title="Apresentação do Catálogo Atlântica Natural"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+              style={{ border: "none" }}
+            />
           </div>
         </div>
       </section>
