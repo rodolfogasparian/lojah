@@ -38,7 +38,7 @@ const PACK_OPTIONS = [
     preco: "R$ 4/unidade",
     selectedClass: "border-blue-500 bg-blue-50",
     precoClass: "text-blue-600",
-    superAdminOnly: true,
+    superAdminOnly: false,
   },
 ];
 

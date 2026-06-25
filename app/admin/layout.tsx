@@ -33,6 +33,7 @@ export default async function AdminLayout({
         adminEmail={session.user.email}
         companyName={company?.name ?? "Lojah Admin"}
         logoutButton={<LogoutButton />}
+        userRole={session.user.role}
       />
       <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
     </div>

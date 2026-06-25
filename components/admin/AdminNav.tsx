@@ -8,6 +8,7 @@ type Props = {
   adminEmail: string;
   companyName: string;
   logoutButton: ReactNode;
+  userRole: "SUPERADMIN" | "COMPANY_ADMIN";
 };
 
 const NAV = [
@@ -19,7 +20,7 @@ const NAV = [
   { href: "/admin/materiais", label: "Materiais", icon: BookOpen, exact: false },
 ];
 
-export function AdminNav({ adminEmail, companyName, logoutButton }: Props) {
+export function AdminNav({ adminEmail, companyName, logoutButton, userRole }: Props) {
   const pathname = usePathname();
 
   return (
@@ -33,6 +34,13 @@ export function AdminNav({ adminEmail, companyName, logoutButton }: Props) {
         </div>
         <div className="flex items-center gap-3">
           <span className="text-xs text-muted-foreground hidden sm:block">{adminEmail}</span>
+          <span className={`hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${
+            userRole === "SUPERADMIN"
+              ? "bg-purple-100 text-purple-700"
+              : "bg-green-100 text-green-700"
+          }`}>
+            {userRole === "SUPERADMIN" ? "Super Admin" : "Admin"}
+          </span>
           {logoutButton}
         </div>
       </div>
