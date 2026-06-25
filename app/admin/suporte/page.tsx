@@ -5,10 +5,12 @@ import { TicketResolveButton } from "@/components/admin/TicketResolveButton";
 
 export default async function AdminSuportePage() {
   const session = await auth();
-  if (!session?.user?.companyId) redirect("/login");
+  if (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") redirect("/login");
+
+  const companyId = session.user.companyId ?? "none";
 
   const tickets = await db.supportTicket.findMany({
-    where: { company_id: session.user.companyId },
+    where: { company_id: companyId },
     include: { seller: { select: { name: true, slug: true } } },
     orderBy: { created_at: "desc" },
   });

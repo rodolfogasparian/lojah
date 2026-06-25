@@ -10,11 +10,13 @@ import { AprovarSolicitacaoButton } from "@/components/admin/AprovarSolicitacaoB
 
 export default async function CuponsPage() {
   const session = await auth();
-  if (!session?.user?.companyId) redirect("/login");
+  if (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") redirect("/login");
+
+  const companyId = session.user.companyId ?? "none";
 
   const [packs, pendingRequests] = await Promise.all([
     db.couponPack.findMany({
-    where: { company_id: session.user.companyId },
+    where: { company_id: companyId },
     include: {
       coupons: {
         include: {

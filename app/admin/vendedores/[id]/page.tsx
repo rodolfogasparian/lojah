@@ -10,7 +10,9 @@ export default async function EditarVendedorPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
-  if (!session?.user?.companyId) redirect("/login");
+  if (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") redirect("/login");
+
+  const companyId = session.user.companyId ?? "none";
 
   const { id } = await params;
 
@@ -19,7 +21,7 @@ export default async function EditarVendedorPage({
     include: { user: true },
   });
 
-  if (!seller || seller.company_id !== session.user.companyId) notFound();
+  if (!seller || seller.company_id !== companyId) notFound();
 
   return (
     <div className="flex flex-col gap-6 max-w-2xl">

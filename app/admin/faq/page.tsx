@@ -5,12 +5,14 @@ import { FaqForm } from "@/components/admin/FaqForm";
 
 export default async function AdminFaqPage() {
   const session = await auth();
-  if (!session?.user?.companyId) redirect("/login");
+  if (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") redirect("/login");
   if (session.user.role !== "COMPANY_ADMIN" && session.user.role !== "SUPERADMIN") redirect("/painel");
+
+  const companyId = session.user.companyId ?? "none";
 
   const faqs = (
     await db.panelContent.findMany({
-      where: { company_id: session.user.companyId, type: "FAQ" },
+      where: { company_id: companyId, type: "FAQ" },
       orderBy: { sort_order: "asc" },
     })
   ).map(faq => ({ ...faq, content: faq.content ?? "" }));

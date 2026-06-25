@@ -5,10 +5,12 @@ import { VendedorFiltros, SellerRow } from "@/components/admin/VendedorFiltros";
 
 export default async function VendedoresPage() {
   const session = await auth();
-  if (!session?.user?.companyId) redirect("/login");
+  if (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") redirect("/login");
+
+  const companyId = session.user.companyId ?? "none";
 
   const sellers = await db.sellerProfile.findMany({
-    where: { company_id: session.user.companyId },
+    where: { company_id: companyId },
     include: {
       user: { select: { email: true } },
       subscriptions: {

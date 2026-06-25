@@ -16,11 +16,13 @@ function gerarCodigo(prefix: string): string {
 export async function aprovarSolicitacao(requestId: string) {
   const session = await auth();
   if (
-    !session?.user?.companyId ||
+    (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") ||
     (session.user.role !== "COMPANY_ADMIN" && session.user.role !== "SUPERADMIN")
   ) {
     throw new Error("Não autorizado");
   }
+
+  const companyId = session.user.companyId ?? "none";
 
   const request = await db.couponRequest.findUnique({
     where: { id: requestId },
@@ -30,7 +32,7 @@ export async function aprovarSolicitacao(requestId: string) {
   if (!request || request.status !== "PENDING") {
     throw new Error("Solicitação não encontrada ou já processada");
   }
-  if (request.company_id !== session.user.companyId) {
+  if (request.company_id !== companyId) {
     throw new Error("Não autorizado");
   }
 

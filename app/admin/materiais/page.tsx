@@ -5,12 +5,14 @@ import { MaterialForm } from "@/components/admin/MaterialForm";
 
 export default async function AdminMateriaisPage() {
   const session = await auth();
-  if (!session?.user?.companyId) redirect("/login");
+  if (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") redirect("/login");
   if (session.user.role !== "COMPANY_ADMIN" && session.user.role !== "SUPERADMIN") redirect("/painel");
+
+  const companyId = session.user.companyId ?? "none";
 
   const materiais = await db.panelContent.findMany({
     where: {
-      company_id: session.user.companyId,
+      company_id: companyId,
       type: { in: ["TUTORIAL", "VIDEO"] },
     },
     orderBy: { sort_order: "asc" },

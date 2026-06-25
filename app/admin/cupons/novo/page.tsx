@@ -5,7 +5,7 @@ import { NewCouponPackForm } from "@/components/admin/NewCouponPackForm";
 
 export default async function NovoCupomPage() {
   const session = await auth();
-  if (!session?.user?.companyId) redirect("/login");
+  if (!session?.user?.companyId && session?.user?.role !== "SUPERADMIN") redirect("/login");
   if (session.user.role !== "COMPANY_ADMIN" && session.user.role !== "SUPERADMIN") {
     redirect("/admin");
   }
