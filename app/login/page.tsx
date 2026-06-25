@@ -32,6 +32,17 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <LoginForm />
+          <p className="text-center text-xs text-muted-foreground mt-4">
+            Esqueceu sua senha?{" "}
+            <a
+              href={`https://wa.me/45999463907?text=${encodeURIComponent("Olá! Esqueci minha senha do catálogo Atlântica Natural. Pode me ajudar a recuperar o acesso?")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-foreground transition-colors"
+            >
+              Clique aqui para recuperar
+            </a>
+          </p>
         </CardContent>
       </Card>
     </div>

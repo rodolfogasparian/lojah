@@ -23,6 +23,22 @@ export async function PATCH(
     return NextResponse.json({ error: "Vendedor não encontrado" }, { status: 404 });
   }
 
+  if (slug) {
+    const slugExistente = await db.sellerProfile.findFirst({
+      where: {
+        company_id: session.user.companyId,
+        slug,
+        NOT: { id },
+      },
+    });
+    if (slugExistente) {
+      return NextResponse.json(
+        { error: "Este usuário já está em uso por outro consultor." },
+        { status: 409 }
+      );
+    }
+  }
+
   await db.sellerProfile.update({
     where: { id },
     data: { name, slug, whatsapp, status, active: status === "ACTIVE" },
