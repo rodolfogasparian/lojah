@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { solicitarPack } from "@/app/painel/cupons/actions";
+import { gerarPayloadPix } from "@/lib/pix";
 
 const PIX_KEY = "whapspro@gmail.com";
 const WHATSAPP_ADMIN = "5545999463907";
 
-const PACK_INFO: Record<string, { label: string; duracao: string }> = {
-  PROMOTIONAL: { label: "Promocional",  duracao: "7 dias" },
-  ANNUAL:      { label: "Anual",        duracao: "1 ano" },
+const PACK_INFO: Record<string, { label: string; duracao: string; valor: number }> = {
+  PROMOTIONAL: { label: "Promocional",  duracao: "7 dias", valor: 10 },
+  ANNUAL:      { label: "Anual",        duracao: "1 ano",  valor: 370 },
 };
 
 interface Props {
@@ -23,6 +25,14 @@ export function ModalSolicitarPack({ tipo, preco, sellerSlug }: Props) {
   const [loading, setLoading] = useState(false);
 
   const info = PACK_INFO[tipo];
+
+  const pixPayload = gerarPayloadPix({
+    chave: PIX_KEY,
+    nome: "Rodolfo Gasparian",
+    cidade: "Capao da Canoa",
+    valor: info.valor,
+    descricao: `Pack Lojah ${info.label}`,
+  });
 
   async function handleJaPaguei() {
     setLoading(true);
@@ -69,18 +79,22 @@ export function ModalSolicitarPack({ tipo, preco, sellerSlug }: Props) {
               </p>
             </div>
 
-            {/* PIX */}
-            <div className="flex flex-col gap-2">
-              <p className="text-xs font-semibold text-[#999] uppercase tracking-wide">
-                Chave PIX
-              </p>
-              <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2.5 border border-border">
-                <span className="flex-1 font-mono text-sm font-bold">{PIX_KEY}</span>
-                <CopyButton text={PIX_KEY} />
+            {/* QR Code PIX */}
+            <div className="flex flex-col items-center gap-3">
+              <QRCodeSVG value={pixPayload} size={200} level="M" includeMargin />
+
+              {/* Chave PIX + copiar */}
+              <div className="w-full flex flex-col gap-1.5">
+                <p className="text-xs font-semibold text-[#999] uppercase tracking-wide">
+                  Chave PIX
+                </p>
+                <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2.5 border border-border">
+                  <span className="flex-1 font-mono text-sm font-bold">{PIX_KEY}</span>
+                  <CopyButton text={PIX_KEY} />
+                </div>
               </div>
-              <p className="text-2xl font-bold text-center text-[#1a1a1a] mt-1">
-                R$ {preco}
-              </p>
+
+              <p className="text-2xl font-bold text-[#1a1a1a]">R$ {preco}</p>
             </div>
 
             {/* Botões */}
