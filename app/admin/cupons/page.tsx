@@ -29,7 +29,7 @@ export default async function CuponsPage() {
       orderBy: { created_at: "desc" },
     }),
     db.couponRequest.findMany({
-      where: { company_id: session.user.companyId, status: "PENDING" },
+      where: { company_id: companyId, status: "PENDING" },
       include: { seller: { select: { name: true, slug: true } } },
       orderBy: { created_at: "asc" },
     }),
