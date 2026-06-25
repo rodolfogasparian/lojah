@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
+import { auth } from "@/lib/auth";
 import { getCompanyFromHost } from "@/lib/tenant";
 import { Card, CardContent } from "@/components/ui/card";
 import { SellerQrCode } from "@/components/catalog/seller-qr-code";
@@ -8,6 +9,7 @@ import { ShareButton } from "@/components/catalog/share-button";
 import { CatalogSection } from "@/components/catalog/CatalogSection";
 import { SellerTabs } from "@/components/seller/SellerTabs";
 import { SellerCardBody } from "@/components/seller/SellerCardBody";
+import CatalogoInativo from "@/components/catalog/CatalogoInativo";
 
 const SUPABASE_CATALOG_URL =
   "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/catalog-pages";
@@ -70,6 +72,7 @@ export default async function SellerPublicPage({
   const seller = await db.sellerProfile.findUnique({
     where: { company_id_slug: { company_id: company.id, slug } },
     select: {
+      id: true, user_id: true, status: true,
       name: true, slug: true, photo_url: true, whatsapp: true,
       instagram: true, youtube: true, tiktok: true, facebook: true,
       other_link: true, other_link_label: true,
@@ -77,8 +80,34 @@ export default async function SellerPublicPage({
       signup_button_text: true, signup_button_url: true, active: true,
     },
   });
-  if (!seller || !seller.active) {
+  if (!seller) {
     notFound();
+  }
+
+  const now = new Date();
+  const [activeSubscription, session] = await Promise.all([
+    db.subscription.findFirst({
+      where: {
+        seller_id: seller.id,
+        status: "ACTIVE",
+        expires_at: { gt: now },
+      },
+    }),
+    auth(),
+  ]);
+
+  const isOwner = session?.user?.id === seller.user_id;
+  const isSuspended = seller.status === "SUSPENDED";
+  const hasNoSubscription = !activeSubscription;
+
+  if (isSuspended || hasNoSubscription) {
+    return (
+      <CatalogoInativo
+        vendedorNome={seller.name}
+        vendedorWhatsapp={seller.whatsapp}
+        isOwner={isOwner}
+      />
+    );
   }
 
   const products = await db.product.findMany({

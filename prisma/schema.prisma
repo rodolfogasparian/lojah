@@ -22,6 +22,7 @@ model Company {
   panel_contents  PanelContent[]
   coupon_packs    CouponPack[]
   support_tickets SupportTicket[]
+  coupon_requests CouponRequest[]
 
   @@map("companies")
 }
@@ -82,6 +83,7 @@ model SellerProfile {
   support_tickets SupportTicket[]
   impersonation_tokens ImpersonationToken[]
   coupon_packs_received CouponPack[] @relation("CouponPackSeller")
+  coupon_requests CouponRequest[]
 
   @@unique([company_id, slug])
   @@map("seller_profiles")
@@ -136,6 +138,13 @@ model CouponPack {
 enum PackType {
   ANNUAL
   PROMOTIONAL
+  MONTHLY
+}
+
+enum CouponRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 model ImpersonationToken {
@@ -256,4 +265,21 @@ enum ContentType {
   SALES_PAGE
   SUPPORT
   FAQ
+}
+
+model CouponRequest {
+  id          String              @id @default(uuid())
+  seller_id   String
+  company_id  String
+  pack_type   PackType
+  quantity    Int                 @default(10)
+  status      CouponRequestStatus @default(PENDING)
+  created_at  DateTime            @default(now())
+  approved_at DateTime?
+  approved_by String?
+
+  seller  SellerProfile @relation(fields: [seller_id], references: [id])
+  company Company       @relation(fields: [company_id], references: [id])
+
+  @@map("coupon_requests")
 }
