@@ -38,10 +38,6 @@ export default function AguardandoPage() {
     setTimeout(() => router.push("/painel"), 2000);
   }
 
-  const whatsappMessage = encodeURIComponent(
-    "Olá! Quero adquirir minha assinatura na Atlântica Natural por R$ 67/ano"
-  );
-
   return (
     <div className="flex flex-1 items-center justify-center px-4 py-16">
       <div className="w-full max-w-md flex flex-col gap-4">
@@ -118,13 +114,13 @@ export default function AguardandoPage() {
           </CardHeader>
           <CardContent>
             <a
-              href={`https://wa.me/5545999463907?text=${whatsappMessage}`}
+              href="https://pay.hotmart.com/M106478390Y"
               target="_blank"
               rel="noreferrer"
               className="w-full"
             >
-              <Button className="w-full bg-[#25D366] text-white hover:bg-[#1ebe57]">
-                💬 Comprar no WhatsApp — R$ 67/ano
+              <Button className="w-full">
+                Comprar agora — R$ 67/ano
               </Button>
             </a>
           </CardContent>
