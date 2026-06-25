@@ -1,13 +1,13 @@
 # Lojah.app — Handoff Sessão 23/06/2026
 
-> **Data:** 23 de Junho de 2026
-> **Status:** Módulos 1-4 ✅ completos | Módulo 6 🔄 em andamento | Catálogo 100% completo ✅
+> **Data:** 23 de Junho de 2026  
+> **Status:** Módulos 1-4 ✅ completos | Módulo 6 ✅ completo | Catálogo 100% ✅ | Webhook Hotmart ✅
 
 ---
 
 ## Resumo da sessão
 
-Sessão completa cobrindo: fechamento do Módulo 4 (cupons, FAQ, materiais), início e avanço do Módulo 6 (Open Graph, redirect, favicon, polimento visual), e conclusão total do catálogo (273 descrições + 273 imagens de catálogo).
+Sessão completa: fechamento do Módulo 4, Módulo 6 (polimento), catálogo 100% completo, página de vendas, webhook Hotmart automatizado.
 
 ---
 
@@ -18,111 +18,126 @@ Sessão completa cobrindo: fechamento do Módulo 4 (cupons, FAQ, materiais), in�
 | Módulo 1 — Fundação | ✅ Completo | Banco, auth, multitenancy |
 | Módulo 2 — Página Pública | ✅ Completo | Catálogo, modal catálogo, carrinho |
 | Módulo 3 — Painel Vendedor | ✅ Completo | Perfil, cartão, upload foto, /c, /r, /cartao |
-| Módulo 4 — Painel Admin | ✅ Completo | Ver detalhes abaixo |
+| Módulo 4 — Painel Admin | ✅ Completo | Cupons, FAQ, Materiais, Suporte, Impersonation |
 | Módulo 5 — Superadmin | ⏳ Pendente | Após lançamento Atlântica |
-| Módulo 6 — Polimento | 🔄 Em andamento | Open Graph ✅, Redirect ✅, Favicon ✅, Mobile 🔜 |
+| Módulo 6 — Polimento | ✅ Completo | Open Graph, Redirect, Favicon, Mobile pendente |
 
 ---
 
 ## 2. Módulo 4 — Fechamento completo
 
-### Migration aplicada
-- `20260623101601_add_coupon_pack_assignment_and_faq`
-  - `CouponPack` ganhou `assigned_to` (String?) e `assigned_at` (DateTime?)
-  - Relação `CouponPackSeller` entre `CouponPack` e `SellerProfile`
-  - `ContentType` enum ganhou valor `FAQ`
-
 ### Entrega A — Cupons do Vendedor
-- `app/api/admin/cupons/atribuir/route.ts` — atribui pack a vendedor
-- `app/api/admin/vendedores-lista/route.ts` — lista vendedores para select
-- `components/admin/AssignCouponModal.tsx` — modal de atribuição
-- `app/admin/cupons/page.tsx` — badge de atribuição + botão "Atribuir"
-- `app/painel/cupons/page.tsx` — UI real com resumo + lista + copiar
-- `components/seller/CouponPurchaseModal.tsx` — compra via PIX com QR Code
-
-**Fluxo de compra (MVP PIX):**
-- 1 cupom anual: R$ 67 (de R$ 197)
-- 10 cupons anuais: R$ 370 (de R$ 1.970)
-- PIX: `whapspro@gmail.com`
-- Após pagamento → WhatsApp admin `45999463907` com mensagem formatada
-- Admin atribui cupons manualmente no painel
+- Atribuição de packs pelo admin (`AssignCouponModal`)
+- Visualização de cupons no painel do vendedor
+- Modal de compra via PIX com QR Code
+- Preços: 1 cupom R$67 | 10 cupons R$370
+- PIX: `whapspro@gmail.com` | WhatsApp: `45999463907`
 
 ### Entrega B — FAQ
-- `app/api/admin/faq/route.ts` + `[id]/route.ts`
-- `components/admin/FaqForm.tsx` — CRUD inline com sort_order
-- `app/admin/faq/page.tsx` — página admin
-- `components/seller/FaqAccordion.tsx` — accordion somente leitura
-- `app/painel/faq/page.tsx` — página vendedor
-- Links adicionados em `AdminNav.tsx` e `PainelNav.tsx`
+- Admin cadastra perguntas/respostas com sort_order
+- Vendedor consulta via accordion
+- Rotas: `/admin/faq` e `/painel/faq`
 
 ### Entrega C — Materiais/Tutoriais
-- `app/api/admin/materiais/route.ts` + `[id]/route.ts`
-- `components/admin/MaterialForm.tsx` — CRUD com tipo Tutorial/Vídeo + URL + sort_order
-- `app/admin/materiais/page.tsx` — página admin
-- `components/seller/MaterialCard.tsx` — cards com botão "Acessar"
-- `app/painel/materiais/page.tsx` — página vendedor
-- Links adicionados em `AdminNav.tsx` e `PainelNav.tsx`
-- Suporta: YouTube, Google Drive, PDF, PowerPoint, qualquer URL pública
+- Admin cadastra com título + URL + tipo (Tutorial/Vídeo)
+- Suporta YouTube, Google Drive, PDF, PowerPoint
+- Rotas: `/admin/materiais` e `/painel/materiais`
 
 ---
 
-## 3. Módulo 6 — Polimento (em andamento)
+## 3. Módulo 6 — Polimento completo
 
-### Open Graph ✅
-- `generateMetadata` adicionado em `app/(public)/[slug]/page.tsx`
-- Título: "Catálogo Atlântica Natural | [Nome do Vendedor]"
-- Imagem: foto do vendedor → fallback `products/logo-atlantica-fundo-preto.jpg`
-- Bio: bio do vendedor → fallback "Sou Consultor da Atlântica Natural e estou aqui para te ajudar!"
-
-### Redirect por role ✅
-- `components/shared/login-form.tsx` atualizado
-- `COMPANY_ADMIN` / `SUPERADMIN` → `/admin`
-- `SELLER` → `/painel`
-
-### Favicon ✅
-- `app/icon.png` e `public/icon.png` → favicon personalizado Lojah
-- URL: `products/favicon.png` no Supabase
-- `app/favicon.ico` deletado
-
-### Logos corrigidas ✅
-- `app/login/page.tsx` → logo Lojah preta
-- `app/cadastro/page.tsx` → logo Lojah preta
-
-### Title global ✅
-- `app/layout.tsx` → "Catálogo Online Atlântica Natural"
-
-### Banner assinatura expirando ✅
-- `app/painel/layout.tsx` — banner âmbar quando restam ≤ 10 dias
-
-### Card destaque catálogo no painel ✅
-- `app/painel/page.tsx` — card com imagem + 3 links (cliente, consultor 50% OFF, revenda)
-- Imagem: `products/catalogo.jpg`
-
-### QR Code PIX ✅
-- `components/seller/CouponPurchaseModal.tsx` — QR Code gerado via `qrcode.react`
-
-### Responsividade mobile 🔜
-- Aguardando testes no celular
+| Item | Status | Detalhe |
+|---|---|---|
+| Open Graph | ✅ | Preview WhatsApp com foto/bio do vendedor |
+| Redirect por role | ✅ | Admin → `/admin`, Vendedor → `/painel` |
+| Favicon | ✅ | `products/favicon.png` |
+| Logo preta login/cadastro | ✅ | `logo-loja-preto.png` |
+| Title global | ✅ | "Catálogo Online Atlântica Natural" |
+| Banner assinatura expirando | ✅ | Aparece 10 dias antes |
+| Card destaque catálogo painel | ✅ | Imagem + 3 links |
+| QR Code PIX | ✅ | `qrcode.react` no modal de compra |
+| Responsividade mobile | 🔜 | Aguarda testes no celular |
 
 ---
 
-## 4. Catálogo — 100% completo ✅
+## 4. Catálogo — 100% completo
 
-### Descrições
-- **273/273 produtos** com descrição
-- Scripts utilizados: `update-descriptions.ts`, `update-descriptions-2.ts`, `update-descriptions-3.ts`, `update-descriptions-4.ts`
-- Padrão: 2-3 frases curtas focadas nos benefícios
+| Item | Status |
+|---|---|
+| Descrições | ✅ 273/273 produtos |
+| Imagens de catálogo | ✅ 273/273 produtos |
 
-### Imagens de catálogo
-- **273/273 produtos** com `catalog_page_file` vinculado
-- Script: `update-catalogo-perfumes-e-outros.ts`
-- Perfumes femininos → `perfumes-femininos-15ml.jpg`
-- Perfumes masculinos → `perfumes-masculinos-15-ml.jpg` ⚠️ hífen antes do "ml"
-- Demais produtos → páginas numeradas do guia (ex: `6.jpg`, `50.jpg`)
+### Scripts de catálogo criados
+- `scripts/update-descriptions-3.ts` — perfumes Bortoletto (22)
+- `scripts/update-descriptions-4.ts` — 118 produtos restantes
+- `scripts/list-sem-descricao.ts` — lista produtos sem descrição
+- `scripts/list-sem-catalogo.ts` — lista produtos sem imagem
+- `scripts/update-catalogo-perfumes-e-outros.ts` — 110 produtos vinculados
+
+### Regra perfumes
+- Femininos → `perfumes-femininos-15ml.jpg`
+- Masculinos → `perfumes-masculinos-15-ml.jpg` ⚠️ hífen antes do "ml"
 
 ---
 
-## 5. Infraestrutura
+## 5. Página de Vendas — atlantica.lojah.app/atlantica
+
+### Arquivo
+- `app/(public)/atlantica/page.tsx`
+
+### Seções
+1. Hero com imagem `catalogo-3.png` + 2 botões verdes
+2. Demo ao vivo → abre `atlantica.lojah.app/br`
+3. Vídeo YouTube embed `https://youtu.be/kCkbqfeU6zo`
+4. Benefícios (6 cards bege)
+5. Como funciona (3 passos fundo verde)
+6. Planos e preços:
+   - Individual: R$67/ano → `pay.hotmart.com/M106478390Y`
+   - Pack 10: R$370 → `pay.hotmart.com/M106478390Y?off=o2ppbpn2`
+7. CTA final com WhatsApp
+
+### Rodapé público
+- `app/(public)/layout.tsx` — rodapé em todas as páginas públicas
+- Texto: "Desenvolvido por Sistema Inteligente • Solicite o Seu Catálogo"
+- Link: `atlantica.lojah.app/atlantica`
+
+---
+
+## 6. Webhook Hotmart — Automação completa ✅
+
+### Endpoint
+`POST https://atlantica.lojah.app/api/webhooks/hotmart`
+
+### Arquivo
+`app/api/webhooks/hotmart/route.ts`
+
+### Fluxo automático
+1. Hotmart envia POST ao aprovar compra
+2. Valida `x-hotmart-hottok`
+3. Cria usuário + perfil + assinatura 1 ano automaticamente
+4. Gera cupons `ATLA-XXXX-XXXX` e atribui ao vendedor
+5. Retorna `{ ok: true, email, cupons }`
+
+### Configuração Hotmart
+- Produto: Catálogo Online Atlântica Natural (ID: 8000147)
+- Evento: Compra aprovada
+- URL: `https://atlantica.lojah.app/api/webhooks/hotmart`
+- Versão: 2.0.0
+- Status: ✅ Testado e funcionando (200 - Processado)
+
+### Variável de ambiente
+- `HOTMART_HOTTOK` configurado no Vercel (Production)
+
+### Ofertas Hotmart
+| Oferta | Offer Code | Cupons gerados |
+|---|---|---|
+| Individual R$67 | — (sem código) | 1 cupom anual |
+| Pack 10 R$370 | `o2ppbpn2` | 10 cupons anuais |
+
+---
+
+## 7. Infraestrutura
 
 ### Serviços
 | Serviço | URL / ID | Conta |
@@ -131,6 +146,7 @@ Sessão completa cobrindo: fechamento do Módulo 4 (cupons, FAQ, materiais), in�
 | Cloudflare | `dash.cloudflare.com` | `rfogasparian@gmail.com` |
 | GitHub | `rodolfogasparian/lojah` | `rodolfogasparian@gmail.com` |
 | Vercel | `vercel.com/lojah/lojah` | `rodolfogasparian@gmail.com` |
+| Hotmart | `app.hotmart.com` | Produto ID: 8000147 |
 
 ### Buckets Supabase
 | Bucket | Tipo | Conteúdo |
@@ -144,6 +160,6 @@ Sessão completa cobrindo: fechamento do Módulo 4 (cupons, FAQ, materiais), in�
 |---|---|---|---|
 | SUPERADMIN | `admin@lojah.app` | `admin123` | — |
 | COMPANY_ADMIN | `rodolfogasparian@gmail.com` | `admin@2026` | — |
-| SELLER | `renda10online@gmail.com` | `senha123` | `mentoriar` |
+| SELLER | `renda10online@gmail.com` | `senha123` | `br` |
 
 ### URLs de produção
