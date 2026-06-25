@@ -49,6 +49,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           user.password_hash
         );
 
+        console.log("[AUTH DEBUG]", {
+          email: credentials.email,
+          userFound: !!user,
+          hasHash: !!user?.password_hash,
+          passwordMatch: user ? await compare(credentials.password as string, user.password_hash!) : false,
+        });
+
         if (!isValidPassword) {
           return null;
         }
