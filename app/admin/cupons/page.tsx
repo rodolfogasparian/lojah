@@ -132,8 +132,12 @@ export default async function CuponsPage() {
             <div key={pack.id} className="bg-white rounded-xl border border-border overflow-hidden">
               <div className="px-4 py-3 bg-gray-50 border-b flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${isPromocional ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>
-                    {isPromocional ? "Promocional 30 dias" : "Anual 1 ano"}
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                    pack.type === "ANNUAL"      ? "bg-green-100 text-green-700"  :
+                    pack.type === "PROMOTIONAL" ? "bg-orange-100 text-orange-700" :
+                                                  "bg-blue-100 text-blue-700"
+                  }`}>
+                    {PACK_LABEL[pack.type] ?? pack.type}
                   </span>
                   <span className="text-sm text-muted-foreground">
                     {pack.coupons.length} cupons — {disponiveis} disponíveis / {usados} usados
