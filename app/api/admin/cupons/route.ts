@@ -55,6 +55,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Não foi possível gerar códigos únicos suficientes." }, { status: 500 });
   }
 
+  const now = new Date();
+  const expiresAt = new Date(now);
+  if (type === "PROMOTIONAL") {
+    expiresAt.setDate(expiresAt.getDate() + 7);
+  } else if (type === "MONTHLY") {
+    expiresAt.setDate(expiresAt.getDate() + 30);
+  } else {
+    expiresAt.setDate(expiresAt.getDate() + 365);
+  }
+
   const pack = await db.couponPack.create({
     data: {
       buyer_id: session.user.id,
@@ -62,7 +72,7 @@ export async function POST(req: NextRequest) {
       quantity,
       type,
       coupons: {
-        create: codes.map(code => ({ code })),
+        create: codes.map(code => ({ code, expires_at: expiresAt })),
       },
     },
   });

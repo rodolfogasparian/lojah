@@ -47,9 +47,11 @@ export async function POST(req: NextRequest) {
   const expiresAt = new Date(now);
 
   if (packType === "PROMOTIONAL") {
-    expiresAt.setDate(expiresAt.getDate() + 30); // 30 dias
+    expiresAt.setDate(expiresAt.getDate() + 7);
+  } else if (packType === "MONTHLY") {
+    expiresAt.setDate(expiresAt.getDate() + 30);
   } else {
-    expiresAt.setFullYear(expiresAt.getFullYear() + 1); // 1 ano
+    expiresAt.setDate(expiresAt.getDate() + 365);
   }
 
   await db.$transaction(async (tx) => {
