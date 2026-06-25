@@ -431,8 +431,9 @@ export default function LandingPage() {
               <div>
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Individual</p>
                 <p className="text-3xl font-extrabold text-gray-900 mt-1">
-                  R$ 97<span className="text-sm font-normal text-gray-500">/mês</span>
+                  R$ 16,42<span className="text-sm font-normal text-gray-500">/mês</span>
                 </p>
+                <p className="text-xs text-gray-400 mt-0.5">R$ 197/ano — cobrado anualmente</p>
                 <p className="text-sm text-gray-500 mt-1">Para consultores independentes</p>
               </div>
               <ul className="flex flex-col gap-2">
@@ -472,17 +473,18 @@ export default function LandingPage() {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#166534" }}>Equipe</p>
                 <p className="text-3xl font-extrabold text-gray-900 mt-1">
-                  R$ 297<span className="text-sm font-normal text-gray-500">/mês</span>
+                  R$ 82<span className="text-sm font-normal text-gray-500">/mês</span>
                 </p>
+                <p className="text-xs text-gray-400 mt-0.5">R$ 985/ano — cobrado anualmente</p>
                 <p className="text-sm text-gray-500 mt-1">Para líderes e distribuidoras</p>
               </div>
               <ul className="flex flex-col gap-2">
                 {[
-                  "Até 10 consultores",
-                  "Painel administrativo",
-                  "Gestão de cupons",
-                  "Relatórios de atividade",
-                  "Produtos ilimitados",
+                  "10 vouchers para sua equipe",
+                  "Cada consultor com link exclusivo",
+                  "Painel administrativo completo",
+                  "Gestão de cupons e ativações",
+                  "A diferença do preço de venda é seu lucro",
                   "Suporte prioritário",
                 ].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-gray-700">
