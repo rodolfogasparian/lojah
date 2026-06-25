@@ -14,7 +14,7 @@ async function main() {
     return;
   }
 
-  const password_hash = await hash("admin123", 10);
+  const password_hash = await hash("admin1a2s3d4!", 10);
 
   await db.user.update({
     where: { email: "admin@lojah.app" },
