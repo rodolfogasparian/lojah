@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   ShoppingBag,
   Users,
@@ -132,6 +132,18 @@ const FAQS = [
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setLoginDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -139,13 +151,12 @@ export default function LandingPage() {
       {/* ── NAV ── */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#166534" }}>
-              <Store className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold text-lg text-gray-900">
-              lojah<span style={{ color: "#166534" }}>.app</span>
-            </span>
+          <a href="/">
+            <img
+              src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-loja-preto.png"
+              alt="Lojah"
+              className="h-8 w-auto"
+            />
           </a>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -173,6 +184,31 @@ export default function LandingPage() {
             >
               Começar
             </a>
+
+            {/* Dropdown Entrar */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setLoginDropdownOpen(!loginDropdownOpen)}
+                className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 border border-gray-200 hover:bg-gray-50 transition-colors"
+              >
+                Entrar
+                <ChevronDown className="w-3.5 h-3.5" />
+              </button>
+              {loginDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl border border-gray-100 shadow-lg overflow-hidden z-50">
+                  <a
+                    href="https://atlantica.lojah.app/login"
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    onClick={() => setLoginDropdownOpen(false)}
+                  >
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "#dcfce7" }}>
+                      <Store className="w-3.5 h-3.5" style={{ color: "#166534" }} />
+                    </div>
+                    <span className="font-medium">Atlântica Natural</span>
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
 
           <button
@@ -197,6 +233,12 @@ export default function LandingPage() {
               style={{ backgroundColor: "#166534" }}
             >
               Começar
+            </a>
+            <a
+              href="https://atlantica.lojah.app/login"
+              className="text-sm font-semibold text-gray-700"
+            >
+              Entrar — Atlântica Natural
             </a>
           </div>
         )}
@@ -243,71 +285,13 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Phone mockup */}
+          {/* Hero image */}
           <div className="flex justify-center">
-            <div className="relative">
-              <div className="w-56 h-[480px] rounded-[2.5rem] border-4 border-gray-800 bg-white shadow-2xl overflow-hidden relative">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-gray-800 rounded-b-2xl z-10" />
-                <div className="h-full flex flex-col pt-6" style={{ backgroundColor: "#f5f0e8" }}>
-                  <div className="px-4 py-3 bg-white border-b border-gray-100 flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: "#cfee9a" }}>
-                      <Store className="w-3 h-3" style={{ color: "#166534" }} />
-                    </div>
-                    <div>
-                      <p className="text-[9px] font-bold text-gray-900 leading-none">Atlântica Natural</p>
-                      <p className="text-[7px] text-gray-500 leading-none mt-0.5">Catálogo Digital</p>
-                    </div>
-                  </div>
-
-                  <div className="px-3 py-2">
-                    <div className="rounded-lg p-2 flex items-center gap-2" style={{ backgroundColor: "#cfee9a" }}>
-                      <div
-                        className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[8px] font-bold"
-                        style={{ color: "#166534" }}
-                      >
-                        RG
-                      </div>
-                      <div>
-                        <p className="text-[8px] font-bold" style={{ color: "#166534" }}>Rodolfo Gasparian</p>
-                        <p className="text-[7px] text-green-700">Consultor Atlântica</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 overflow-hidden px-3">
-                    <p className="text-[8px] font-bold text-gray-700 mb-2">Linha Ozonizada</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { name: "Natuoz 20ml", price: "R$ 44,99", bg: "#d1fae5" },
-                        { name: "Natuoz Hot", price: "R$ 65,99", bg: "#fef3c7" },
-                        { name: "Natuoz Bucal", price: "R$ 65,99", bg: "#dbeafe" },
-                        { name: "Rosa Mosqueta", price: "R$ 34,99", bg: "#fce7f3" },
-                      ].map((p) => (
-                        <div key={p.name} className="rounded-lg p-2 bg-white shadow-sm">
-                          <div className="w-full h-10 rounded-md mb-1.5" style={{ backgroundColor: p.bg }} />
-                          <p className="text-[7px] font-semibold text-gray-800 leading-tight">{p.name}</p>
-                          <p className="text-[7px] font-bold mt-0.5" style={{ color: "#166534" }}>{p.price}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="px-3 py-2 bg-white border-t border-gray-100 mt-2">
-                    <div
-                      className="w-full py-1.5 rounded-lg text-[8px] font-bold text-white text-center"
-                      style={{ backgroundColor: "#166534" }}
-                    >
-                      💬 Falar com Consultor
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -right-4 top-16 bg-white rounded-xl shadow-lg px-3 py-2 border border-gray-100">
-                <p className="text-[10px] font-bold text-gray-900">✅ Ativo</p>
-                <p className="text-[9px] text-gray-500">atlantica.lojah.app/rg</p>
-              </div>
-            </div>
+            <img
+              src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/hero-mockup.png"
+              alt="Catálogo Digital Lojah"
+              className="w-full max-w-md mx-auto drop-shadow-2xl rounded-3xl"
+            />
           </div>
         </div>
       </section>
