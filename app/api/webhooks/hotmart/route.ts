@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
+import { sendEmail } from "@/lib/email";
+import { boasVindasTemplate } from "@/lib/email-templates/boas-vindas";
+import { novaCompraTemplate } from "@/lib/email-templates/nova-compra";
 
 const HOTTOK = process.env.HOTMART_HOTTOK;
 const COMPANY_SLUG = "atlantica";
@@ -82,6 +85,7 @@ export async function POST(req: Request) {
 
     const senha = gerarSenha();
     const passwordHash = await hashPassword(senha);
+    const isNewUser = !user;
 
     if (!user) {
       // Cria usuário novo
@@ -173,6 +177,46 @@ export async function POST(req: Request) {
         },
       },
     });
+
+    // Email de boas-vindas para o comprador (somente quando conta foi criada agora)
+    if (isNewUser) {
+      try {
+        await sendEmail({
+          to: email,
+          subject: "Seu acesso à Atlântica Natural está pronto! 🌿",
+          html: boasVindasTemplate({
+            nome,
+            email,
+            senha,
+            painelUrl: "https://atlantica.lojah.app/painel",
+          }),
+        });
+      } catch (err) {
+        console.error("Erro ao enviar email de boas-vindas:", err);
+      }
+    }
+
+    // Email de aviso de nova compra para o admin
+    try {
+      await sendEmail({
+        to: "rodolfogasparian@gmail.com",
+        subject: "Nova compra recebida — Atlântica Natural",
+        html: novaCompraTemplate({
+          nome,
+          email,
+          plano: isPack ? "Pack 10 consultores" : "Plano Individual",
+          data: new Date().toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        }),
+      });
+    } catch (err) {
+      console.error("Erro ao enviar email de aviso ao admin:", err);
+    }
 
     console.log(`✅ Hotmart webhook processado: ${email} | ${qtdCupons} cupons | senha: ${senha}`);
 
