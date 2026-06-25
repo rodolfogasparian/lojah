@@ -1,8 +1,8 @@
-import Link from "next/link";
 
 const WHATSAPP_ADMIN = "45999463907";
 const CATALOGO_MODELO = "https://atlantica.lojah.app/br";
-const CADASTRO_URL = "https://atlantica.lojah.app/cadastro";
+const CHECKOUT_INDIVIDUAL = "https://pay.hotmart.com/M106478390Y";
+const CHECKOUT_PACK = "https://pay.hotmart.com/M106478390Y?off=o2ppbpn2";
 
 export const metadata = {
   title: "Catálogo Digital Atlântica Natural | Lojah",
@@ -39,11 +39,11 @@ export default function AtlanticaSalesPage() {
                 Link personalizado, cartão virtual e página de revenda — tudo em um só lugar para você vender mais pelo WhatsApp.
               </p>
               <div className="flex gap-3 flex-wrap">
-                <Link href={CADASTRO_URL}>
+                <a href={CHECKOUT_INDIVIDUAL} target="_blank" rel="noopener noreferrer">
                   <button style={{ background: "#2d5a27", color: "#fff" }} className="flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium">
                     🛒 Quero meu catálogo
                   </button>
-                </Link>
+                </a>
                 <a href={CATALOGO_MODELO} target="_blank" rel="noopener noreferrer">
                   <button style={{ background: "#3d7a32", color: "#fff" }} className="flex items-center gap-2 px-5 py-3 rounded-lg text-sm">
                     👁️ Ver modelo ao vivo
@@ -154,11 +154,11 @@ export default function AtlanticaSalesPage() {
               <span className="text-4xl font-medium">R$ 67</span>
               <span className="text-sm text-gray-500">/ano</span>
             </div>
-            <Link href={CADASTRO_URL}>
+            <a href={CHECKOUT_INDIVIDUAL} target="_blank" rel="noopener noreferrer">
               <button style={{ background: "#2d5a27", color: "#fff", border: "none" }} className="w-full py-3 rounded-lg text-sm font-medium">
                 Quero meu catálogo
               </button>
-            </Link>
+            </a>
           </div>
 
           {/* Pack */}
@@ -178,7 +178,7 @@ export default function AtlanticaSalesPage() {
                 Você recebe 10 vouchers para repassar o catálogo à sua equipe. O lucro da diferença é seu.
               </p>
             </div>
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a href={CHECKOUT_PACK} target="_blank" rel="noopener noreferrer">
               <button style={{ background: "#2d5a27", color: "#cfee9a" }} className="w-full py-3 rounded-lg text-sm font-medium">
                 Quero o pack
               </button>
