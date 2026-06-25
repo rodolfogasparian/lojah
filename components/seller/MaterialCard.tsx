@@ -1,4 +1,5 @@
 import { PlayCircle, BookOpen, ExternalLink } from "lucide-react";
+import { VideoModal } from "@/components/seller/VideoModal";
 
 interface Material {
   id: string;
@@ -36,17 +37,25 @@ export function MaterialCard({ materiais }: Props) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-sm">{m.title}</p>
-            {m.content && <p className="text-xs text-muted-foreground mt-0.5">{m.content}</p>}
+            {m.content && (
+              <p className="text-xs text-muted-foreground mt-0.5" style={{ whiteSpace: "pre-wrap" }}>
+                {m.content}
+              </p>
+            )}
           </div>
           {m.url && (
-            <a
-              href={m.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-opacity"
-            >
-              Acessar <ExternalLink className="size-3" />
-            </a>
+            m.type === "VIDEO" ? (
+              <VideoModal url={m.url} title={m.title} />
+            ) : (
+              <a
+                href={m.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-opacity"
+              >
+                Acessar <ExternalLink className="size-3" />
+              </a>
+            )
           )}
         </div>
       ))}

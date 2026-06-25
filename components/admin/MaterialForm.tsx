@@ -97,6 +97,7 @@ export function MaterialForm({ initialMateriais }: Props) {
         >
           <option value="TUTORIAL">Tutorial</option>
           <option value="VIDEO">Vídeo</option>
+          <option value="TUTORIAL">Documento</option>
         </select>
         <input
           value={data.title}
@@ -140,7 +141,13 @@ export function MaterialForm({ initialMateriais }: Props) {
           ) : (
             <div className="px-4 py-3 flex items-center gap-3">
               <span className="text-xs font-bold text-muted-foreground w-5 text-center shrink-0">{m.sort_order}</span>
-              <TypeIcon type={m.type} />
+              {m.url ? (
+                <a href={m.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
+                  <TypeIcon type={m.type} />
+                </a>
+              ) : (
+                <TypeIcon type={m.type} />
+              )}
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm truncate">{m.title}</p>
                 {m.content && <p className="text-xs text-muted-foreground mt-0.5 truncate">{m.content}</p>}

@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { CopyButton } from "@/components/shared/CopyButton";
-import { EmBreveButton } from "@/components/seller/EmBreveButton";
+import { ModalSolicitarPack } from "@/components/seller/ModalSolicitarPack";
 
 const PACK_LABEL: Record<string, string> = {
   ANNUAL: "Anual",
@@ -240,7 +240,7 @@ export default async function PainelCuponsPage() {
                     R$ 10,00
                   </p>
                 </div>
-                <EmBreveButton label="Solicitar pack" />
+                <ModalSolicitarPack tipo="PROMOTIONAL" preco="10,00" sellerSlug={profile.slug} />
               </div>
             </section>
 
@@ -277,7 +277,7 @@ export default async function PainelCuponsPage() {
                     R$ 370,00
                   </p>
                 </div>
-                <EmBreveButton label="Solicitar pack" />
+                <ModalSolicitarPack tipo="ANNUAL" preco="370,00" sellerSlug={profile.slug} />
               </div>
             </section>
           </>
