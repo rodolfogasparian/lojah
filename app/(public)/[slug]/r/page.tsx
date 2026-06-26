@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import LandingNaturais, { defaultPageData } from "@/components/landing/LandingNaturais";
+import LandingNaturais from "@/components/landing/LandingNaturais";
+import { defaultPageData } from "@/lib/landing-naturais-defaults";
 
 export default async function RevendaPage({
   params,
