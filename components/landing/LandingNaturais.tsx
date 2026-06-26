@@ -42,20 +42,20 @@ export default function LandingNaturais({
       {/* ---- Navbar ---- */}
       <header className="sticky top-0 z-30 border-b border-black/5 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <div className="flex min-w-0 items-center gap-2">
+          <div className="flex min-w-0 flex-col items-start gap-0.5">
             {data.brand.logoUrl ? (
               <img
                 src={data.brand.logoUrl}
                 alt={data.brand.name}
-                className="h-9 w-9 shrink-0 rounded-full object-cover"
+                className="h-16 shrink-0 object-contain"
               />
             ) : (
-              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[#0f3d1f] font-black">
+              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[#0f3d1f] font-black text-2xl">
                 {data.brand.name.charAt(0)}
               </div>
             )}
-            <span className="truncate text-base font-extrabold text-[#0f3d1f] sm:text-lg">
-              {data.brand.name}
+            <span className="text-xs text-neutral-500">
+              Você está sendo atendido(a) por {data.brand.name}
             </span>
           </div>
           <a
@@ -155,7 +155,7 @@ export default function LandingNaturais({
               className="group rounded-2xl border border-black/5 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#cfee9a] text-2xl">
-                {b.icon ?? "✓"}
+                <span className="text-[#0f3d1f]">{b.icon ?? "✓"}</span>
               </div>
               <h3 className="mt-4 text-lg font-extrabold text-[#0f1f12]">{b.title}</h3>
               <p className="mt-1 text-sm text-neutral-600">{b.description}</p>
@@ -178,8 +178,8 @@ export default function LandingNaturais({
                 key={d.title}
                 className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:bg-white/10"
               >
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-[#cfee9a] text-xl text-[#0f3d1f]">
-                  {d.icon ?? "✓"}
+                <div className="grid h-11 w-11 place-items-center rounded-xl bg-[#cfee9a] text-xl">
+                  <span className="text-[#0f3d1f]">{d.icon ?? "✓"}</span>
                 </div>
                 <h3 className="mt-4 text-base font-extrabold">{d.title}</h3>
                 <p className="mt-1 text-sm text-white/70">{d.description}</p>
