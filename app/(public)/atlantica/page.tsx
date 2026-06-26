@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Link2, MessageCircle, CreditCard, RefreshCw, Users, Smartphone } from "lucide-react";
 
 const WHATSAPP_ADMIN = "45999463907";
 const CATALOGO_MODELO = "https://atlantica.lojah.app/br";
@@ -102,16 +102,18 @@ export default function AtlanticaSalesPage() {
         <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-2">Benefícios</p>
         <h2 className="text-2xl font-semibold tracking-tight text-gray-900 mb-6">Tudo que você precisa para vender mais</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {[
-            ["🔗", "Link personalizado", "atlantica.lojah.app/seu-nome"],
-            ["💬", "Botão WhatsApp", "Clientes falam direto com você"],
-            ["🪪", "Cartão virtual", "Compartilhe seu contato digital"],
-            ["🔄", "Sempre atualizado", "Novos produtos aparecem automaticamente"],
-            ["👥", "Página de revenda", "Recrute novos consultores"],
-            ["📱", "Funciona no celular", "100% responsivo e rápido"],
-          ].map(([icon, title, desc]) => (
+          {([
+            [Link2,         "Link personalizado",  "atlantica.lojah.app/seu-nome"],
+            [MessageCircle, "Botão WhatsApp",       "Clientes falam direto com você"],
+            [CreditCard,    "Cartão virtual",       "Compartilhe seu contato digital"],
+            [RefreshCw,     "Sempre atualizado",    "Novos produtos aparecem automaticamente"],
+            [Users,         "Página de revenda",    "Recrute novos consultores"],
+            [Smartphone,    "Funciona no celular",  "100% responsivo e rápido"],
+          ] as const).map(([Icon, title, desc]) => (
             <div key={title} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-              <div className="w-9 h-9 rounded-2xl bg-green-50 text-green-700 flex items-center justify-center mb-3 text-lg">{icon}</div>
+              <div className="bg-green-50 rounded-2xl p-3 w-fit mb-3">
+                <Icon className="h-6 w-6 text-[#166534]" />
+              </div>
               <p className="text-sm font-medium text-gray-900 mb-1">{title}</p>
               <p className="text-xs text-gray-500">{desc}</p>
             </div>
