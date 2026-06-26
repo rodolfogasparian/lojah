@@ -1,17 +1,11 @@
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { getPainelProfile } from "@/lib/painel-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SupportTicketForm } from "@/components/seller/SupportTicketForm";
 
 export default async function SuporteVendedorPage() {
-  const session = await auth();
-  if (!session?.user) redirect("/login");
-
-  const profile = await db.sellerProfile.findUnique({
-    where: { user_id: session.user.id },
-    select: { id: true, company_id: true },
-  });
+  const profile = await getPainelProfile();
 
   if (!profile) redirect("/painel/perfil");
 

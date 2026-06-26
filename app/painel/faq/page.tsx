@@ -1,15 +1,10 @@
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { getPainelProfile } from "@/lib/painel-auth";
 import { FaqAccordion } from "@/components/seller/FaqAccordion";
 
 export default async function PainelFaqPage() {
-  const session = await auth();
-  if (!session?.user?.id) redirect("/login");
-
-  const profile = await db.sellerProfile.findFirst({
-    where: { user_id: session.user.id },
-  });
+  const profile = await getPainelProfile();
   if (!profile) redirect("/login");
 
   const faqs = (

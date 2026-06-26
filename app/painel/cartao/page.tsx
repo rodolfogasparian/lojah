@@ -1,18 +1,11 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { getPainelProfile } from "@/lib/painel-auth";
 import { ExternalLink } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CopyButton } from "@/components/shared/CopyButton";
 
 export default async function CartaoPage() {
-  const session = await auth();
-  if (!session?.user) redirect("/login");
-
-  const profile = await db.sellerProfile.findUnique({
-    where: { user_id: session.user.id },
-    include: { company: true },
-  });
+  const profile = await getPainelProfile();
 
   if (!profile) redirect("/painel/perfil");
 

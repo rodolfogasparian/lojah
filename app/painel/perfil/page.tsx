@@ -1,17 +1,9 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { Card, CardContent } from "@/components/ui/card";
 import { SellerProfileForm } from "@/components/seller/seller-profile-form";
+import { getPainelProfile } from "@/lib/painel-auth";
 
 export default async function PainelPerfilPage() {
-  const session = await auth();
-  if (!session?.user) redirect("/login");
-
-  const profile = await db.sellerProfile.findUnique({
-    where: { user_id: session.user.id },
-    include: { company: true },
-  });
+  const profile = await getPainelProfile();
 
   const companySlug = profile?.company?.slug ?? "";
   const sellerSlug = profile?.slug ?? "";
