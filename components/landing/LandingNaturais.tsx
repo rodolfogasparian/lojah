@@ -531,7 +531,7 @@ export default function LandingNaturais({
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <SectionHeader title={data.benefits.title} subtitle={data.benefits.subtitle} />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {data.benefits.items.map((b) => (
+          {(data.benefits.items || []).map((b) => (
             <div
               key={b.title}
               className="group rounded-2xl border border-black/5 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
@@ -555,7 +555,7 @@ export default function LandingNaturais({
             light
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {data.differentials.items.map((d) => (
+            {(data.differentials.items || []).map((d) => (
               <div
                 key={d.title}
                 className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:bg-white/10"
@@ -578,7 +578,7 @@ export default function LandingNaturais({
           subtitle={data.testimonials.subtitle}
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {data.testimonials.items.map((t, i) => (
+          {(data.testimonials.items || []).map((t, i) => (
             <div
               key={i}
               className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
@@ -610,7 +610,7 @@ export default function LandingNaturais({
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <SectionHeader title={data.gallery.title} subtitle={data.gallery.subtitle} />
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-            {data.gallery.items.map((p, i) => (
+            {(data.gallery.items || []).map((p, i) => (
               <div
                 key={i}
                 className="group relative overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
@@ -635,7 +635,7 @@ export default function LandingNaturais({
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <SectionHeader title={data.values.title} subtitle={data.values.subtitle} />
         <div className="mt-10 grid gap-5 sm:grid-cols-3">
-          {data.values.items.map((v, i) => (
+          {(data.values.items || []).map((v, i) => (
             <div
               key={v.title}
               className={`rounded-3xl border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg ${
@@ -681,7 +681,7 @@ export default function LandingNaturais({
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {data.kits.items.map((kit, i) => (
+            {(data.kits.items || []).map((kit, i) => (
               <div
                 key={kit.name}
                 className={`flex flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${
@@ -711,7 +711,7 @@ export default function LandingNaturais({
                     )}
                   </div>
                   <ul className="mt-4 flex flex-col gap-2 text-sm text-neutral-700">
-                    {kit.highlights.map((h) => (
+                    {(kit.highlights || []).map((h) => (
                       <li key={h} className="flex items-start gap-2">
                         <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[10px] text-[#0f3d1f]">
                           ✓
@@ -739,7 +739,7 @@ export default function LandingNaturais({
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
         <SectionHeader title={data.faq.title} subtitle={data.faq.subtitle} />
         <div className="mt-10 flex flex-col gap-3">
-          {data.faq.items.map((f, i) => {
+          {(data.faq.items || []).map((f, i) => {
             const open = openFaq === i;
             return (
               <div
@@ -820,11 +820,11 @@ export default function LandingNaturais({
             )}
           </div>
 
-          {data.footer.columns.map((col) => (
+          {(data.footer.columns || []).map((col) => (
             <div key={col.title}>
               <h4 className="text-sm font-extrabold text-[#0f1f12]">{col.title}</h4>
               <ul className="mt-3 flex flex-col gap-2 text-sm text-neutral-600">
-                {col.links.map((l) => (
+                {(col.links || []).map((l) => (
                   <li key={l.label}>
                     <a href={l.href} className="hover:text-[#0f3d1f]">
                       {l.label}
@@ -860,7 +860,7 @@ export default function LandingNaturais({
                 Pagamentos
               </p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {data.footer.paymentMethods.map((p) => (
+                {(data.footer.paymentMethods || []).map((p) => (
                   <span
                     key={p}
                     className="rounded-md border border-black/10 bg-[#f4f8ec] px-2 py-1 text-[11px] font-bold text-[#0f3d1f]"
