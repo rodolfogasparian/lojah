@@ -74,6 +74,7 @@ export const userRouter = router({
             slug,
             name: input.name,
             active: false,
+            signup_button_url: "https://cadastro.atlanticanatural.com.br/" + slug,
           },
         });
 

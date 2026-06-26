@@ -113,7 +113,7 @@ export async function POST(req: Request) {
           name: nome,
           status: "ACTIVE",
           signup_button_text: "Fazer cadastro",
-          signup_button_url: "https://cadastro.atlanticanatural.com.br/codigos",
+          signup_button_url: "https://cadastro.atlanticanatural.com.br/" + slug,
           subscriptions: {
             create: {
               status: "ACTIVE",
@@ -139,6 +139,7 @@ export async function POST(req: Request) {
           slug,
           name: nome,
           status: "ACTIVE",
+          signup_button_url: "https://cadastro.atlanticanatural.com.br/" + slug,
           subscriptions: {
             create: {
               status: "ACTIVE",
