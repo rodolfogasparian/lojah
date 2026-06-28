@@ -227,22 +227,17 @@ export default function LandingNaturais({
       <section className="bg-[#f4f8ec]">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <SectionHeader title={data.gallery.title} subtitle={data.gallery.subtitle} />
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {(data.gallery.items || []).map((p, i) => (
               <div
                 key={i}
-                className="group relative overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
+                className="group overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
               >
                 <img
-                  src={p.image}
-                  alt={p.name ?? "Produto"}
-                  className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
+                  src={p.imageUrl}
+                  alt={p.alt ?? "Produto"}
+                  className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
                 />
-                {p.name && (
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                    <p className="text-[11px] font-bold text-white sm:text-xs">{p.name}</p>
-                  </div>
-                )}
               </div>
             ))}
           </div>
@@ -306,20 +301,25 @@ export default function LandingNaturais({
                   i === 1 ? "border-[#0f3d1f] ring-2 ring-[#cfee9a]" : "border-black/5"
                 }`}
               >
-                <div className="relative">
-                  <img
-                    src={kit.image}
-                    alt={kit.name}
-                    className="aspect-[5/4] w-full object-cover"
-                  />
-                  {kit.badge && (
-                    <span className="absolute left-4 top-4 rounded-full bg-[#0f3d1f] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#cfee9a]">
-                      {kit.badge}
-                    </span>
-                  )}
-                </div>
+                {kit.image && (
+                  <div className="relative">
+                    <img
+                      src={kit.image}
+                      alt={kit.name}
+                      className="aspect-[5/4] w-full object-cover"
+                    />
+                    {kit.badge && (
+                      <span className="absolute left-4 top-4 rounded-full bg-[#0f3d1f] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#cfee9a]">
+                        {kit.badge}
+                      </span>
+                    )}
+                  </div>
+                )}
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="text-xl font-extrabold text-[#0f1f12]">{kit.name}</h3>
+                  {kit.description && (
+                    <p className="mt-1 text-sm text-neutral-500">{kit.description}</p>
+                  )}
                   <div className="mt-3 flex items-baseline gap-2">
                     <span className="text-3xl font-black text-[#0f3d1f]">{kit.price}</span>
                     {kit.oldPrice && (

@@ -1,13 +1,14 @@
 type Benefit = { icon?: string; title: string; description: string };
 type Differential = { icon?: string; title: string; description: string };
 type Testimonial = { videoUrl: string; name?: string; role?: string; thumbnail?: string };
-type Product = { image: string; name?: string };
+type Product = { imageUrl: string; alt?: string };
 type ValueCard = { title: string; description: string; value?: string; icon?: string };
 type Kit = {
   name: string;
-  image: string;
+  image?: string;
   price: string;
   oldPrice?: string;
+  description?: string;
   highlights: string[];
   whatsappMessage?: string;
   badge?: string;
@@ -55,40 +56,77 @@ export const defaultPageData: LandingNaturaisData = {
     region: "Atendimento nacional",
   },
   hero: {
-    badge: "Renda extra com produtos naturais",
-    title: "Compre Produtos Naturais Direto de Fábrica e Lucre",
-    highlight: "Até 100% sendo revendedor em sua cidade",
-    subtitle:
-      "Ganhe revendendo produtos com alta demanda, loja virtual pronta, catálogo digital e suporte completo. Comece com baixo investimento.",
+    title: "Faça parte do Maior Ecossistema de Produtos e Serviços do Brasil!",
+    subtitle: "Empreenda com propósito. Cresça com o maior ecossistema em vendas diretas!",
     imageUrl:
-      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=80",
-    ctaLabel: "Quero ser consultor(a) agora",
+      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/1-banner-ecossistema.png",
+    ctaLabel: "Quero saber mais",
     bullets: [
-      "Lucro de até 100% na revenda",
-      "Loja virtual + catálogo prontos",
-      "Suporte e treinamentos inclusos",
+      "Mais de 300 produtos para revender com até 100% de lucro",
+      "Ecossistema de serviços digitais com comissões recorrentes",
+      "Trabalhe de casa ou pelo celular no seu próprio horário",
     ],
   },
   benefits: {
-    title: "Tudo o que você recebe",
-    subtitle: "Um negócio completo, pronto para começar hoje mesmo.",
+    title: "Você escolhe onde lucrar!",
+    subtitle: "Dois ecossistemas completos para você empreender",
     items: [
-      { icon: "💰", title: "Lucro na revenda", description: "Margens de até 100% com produtos de altíssima procura." },
-      { icon: "🛒", title: "Loja virtual pronta", description: "Sua loja online configurada para vender 24h por dia." },
-      { icon: "📱", title: "Catálogo digital", description: "Compartilhe seus produtos no WhatsApp em 1 clique." },
-      { icon: "🎨", title: "Material de divulgação", description: "Artes prontas para Instagram, WhatsApp e Stories." },
-      { icon: "🚀", title: "Baixo investimento", description: "Comece pequeno e escale conforme suas vendas." },
-      { icon: "🤝", title: "Suporte e treinamentos", description: "Mentorias semanais e equipe sempre pronta para ajudar." },
+      {
+        icon: "🌿",
+        title: "Ecossistema de Produtos",
+        description:
+          "Mais de 300 produtos: Suplementação, Vitaminas, Perfumaria Fina, Óleos Ozonizados, Linha Capilar e Cuidados Diários. Lucro de até 100% na revenda.",
+      },
+      {
+        icon: "⚡",
+        title: "ATL ON MED",
+        description:
+          "Assistência médica acessível para toda a família. Comissões recorrentes por cada novo cliente.",
+      },
+      {
+        icon: "📱",
+        title: "ATL NEX — Telefonia",
+        description:
+          "Planos de telefonia digital. Ganhe comissão recorrente enquanto seu cliente usar o plano.",
+      },
+      {
+        icon: "🔋",
+        title: "Energia por Assinatura",
+        description:
+          "Até 55% de comissão por cada novo cliente de energia. Renda passiva todo mês.",
+      },
+      {
+        icon: "💻",
+        title: "ATL APPs",
+        description:
+          "Aplicativos e soluções digitais. Tecnologia que conecta, soluções que transformam.",
+      },
     ],
   },
   differentials: {
-    title: "Por que escolher a gente",
-    subtitle: "Mais que produtos, um negócio digital completo.",
+    title: "Por que ser consultor(a) Atlântica?",
+    subtitle: "Um modelo de negócio completo para você",
     items: [
-      { icon: "✅", title: "Produtos naturais certificados", description: "Linhas exclusivas com qualidade comprovada." },
-      { icon: "⚡", title: "Entrega rápida", description: "Logística ágil para você nunca perder uma venda." },
-      { icon: "📈", title: "Marca em crescimento", description: "Mercado bilionário e em alta no Brasil." },
-      { icon: "🏆", title: "Comunidade ativa", description: "Mais de 5.000 consultores(as) em todo o país." },
+      {
+        icon: "🏠",
+        title: "Trabalhe de casa",
+        description: "Faça tudo pelo celular, no seu ritmo e horário.",
+      },
+      {
+        icon: "📈",
+        title: "Renda recorrente",
+        description: "Serviços que renovam todo mês geram comissão automática.",
+      },
+      {
+        icon: "🎓",
+        title: "Treinamento completo",
+        description: "Receba todo suporte e treinamento necessário para vender.",
+      },
+      {
+        icon: "🤝",
+        title: "Suporte do consultor(a)",
+        description: "Você terá acompanhamento direto do seu consultor(a) responsável.",
+      },
     ],
   },
   testimonials: {
@@ -101,15 +139,16 @@ export const defaultPageData: LandingNaturaisData = {
     ],
   },
   gallery: {
-    title: "Conheça alguns produtos",
-    subtitle: "Linhas naturais que vendem sozinhas.",
+    title: "Conheça nossos produtos",
     items: [
-      { image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80", name: "Óleo essencial" },
-      { image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=600&q=80", name: "Suplemento natural" },
-      { image: "https://images.unsplash.com/photo-1612540139150-4e7fc6e7b9b3?auto=format&fit=crop&w=600&q=80", name: "Chá funcional" },
-      { image: "https://images.unsplash.com/photo-1556228841-a3c527ebefe5?auto=format&fit=crop&w=600&q=80", name: "Cosmético natural" },
-      { image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=600&q=80", name: "Linha skincare" },
-      { image: "https://images.unsplash.com/photo-1583912267550-d6c2ac3196c0?auto=format&fit=crop&w=600&q=80", name: "Aromaterapia" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/3-banner-300-produtos.png", alt: "Mais de 300 produtos" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/4-banner-linha-de-produtos.png", alt: "Linha de produtos" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/5-banner-natuoz.png", alt: "Linha Natuoz" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/7-banner-perfumes.png", alt: "Perfumaria" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/9-banner-linha-capilar.png", alt: "Linha Capilar" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/20-banner-atl-onmed.png", alt: "ATL ON MED" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/2-banner-franquia.png", alt: "Franquia de Serviços" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/17-banner-apps.png", alt: "ATL APPs" },
     ],
   },
   values: {
@@ -122,35 +161,30 @@ export const defaultPageData: LandingNaturaisData = {
     ],
   },
   kits: {
-    title: "Escolha seu kit inicial",
-    subtitle: "Comece hoje com o kit perfeito para o seu momento.",
+    title: "Escolha como começar",
+    subtitle: "Dois caminhos para fazer parte do ecossistema",
     items: [
       {
-        name: "Kit Iniciante",
-        image: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=700&q=80",
-        price: "R$ 297",
-        oldPrice: "R$ 497",
-        badge: "Mais acessível",
-        highlights: ["10 produtos best-sellers", "Catálogo digital", "Acesso ao grupo VIP"],
-        whatsappMessage: "Olá! Quero o Kit Iniciante, pode me ajudar?",
+        name: "Consultor(a) de Produtos",
+        price: "R$ 79,90",
+        description: "Comece revendendo mais de 300 produtos com até 100% de lucro",
+        highlights: [
+          "Acesso ao catálogo completo",
+          "Loja online personalizada",
+          "Suporte do consultor(a)",
+          "Sem mensalidade",
+        ],
       },
       {
-        name: "Kit Premium",
-        image: "https://images.unsplash.com/photo-1556228852-80b6e5eeff06?auto=format&fit=crop&w=700&q=80",
-        price: "R$ 597",
-        oldPrice: "R$ 997",
-        badge: "Mais vendido",
-        highlights: ["25 produtos variados", "Loja virtual personalizada", "Material de divulgação", "Treinamento exclusivo"],
-        whatsappMessage: "Olá! Quero o Kit Premium, pode me ajudar?",
-      },
-      {
-        name: "Kit Master",
-        image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=700&q=80",
-        price: "R$ 997",
-        oldPrice: "R$ 1.797",
-        badge: "Maior margem",
-        highlights: ["50+ produtos premium", "Loja virtual + catálogo", "Mentoria individual", "Prioridade na logística"],
-        whatsappMessage: "Olá! Quero o Kit Master, pode me ajudar?",
+        name: "Licença ATL Services",
+        price: "R$ 999,99",
+        description: "Acesso completo ao ecossistema de produtos E serviços digitais",
+        highlights: [
+          "Inclui licença de produtos",
+          "ATL ON MED + ATL NEX + Energia",
+          "ATL APPs",
+          "Comissões recorrentes mensais",
+        ],
       },
     ],
   },
@@ -170,7 +204,7 @@ export const defaultPageData: LandingNaturaisData = {
     ],
   },
   footer: {
-    description: "Atlântica Natural — oportunidade real para quem quer empreender com produtos naturais.",
+    description: "Faça parte do maior ecossistema de vendas diretas do Brasil.",
     columns: [
       {
         title: "Institucional",
@@ -191,7 +225,7 @@ export const defaultPageData: LandingNaturaisData = {
     ],
     contact: {
       whatsappLabel: "Fale conosco no WhatsApp",
-      email: "contato@vidanatural.com.br",
+      email: "contato@atlanticanatural.com.br",
       hours: "Seg a Sex, 9h às 18h",
     },
     paymentMethods: ["Pix", "Visa", "Mastercard", "Boleto", "Elo"],
