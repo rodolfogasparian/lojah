@@ -3,7 +3,8 @@
     "allow": [
       "PowerShell(npx next build 2>&1)",
       "Read(//c/Users/Rodolfo Gasparian/AppData/Local/Temp/claude/landing-naturais-extract/**)",
-      "PowerShell(cd \"C:\\\\Users\\\\Rodolfo Gasparian\\\\Desktop\\\\lojah-app\"; npx tsx --env-file .env -e \"import { PrismaClient } from '@prisma/client'; import { PrismaPg } from '@prisma/adapter-pg'; const db = new PrismaClient\\({ adapter: new PrismaPg\\({ connectionString: process.env.DATABASE_URL, max: 1 }\\) }\\); db.productCategory.update\\({ where: { id: 'e7ac34ac-fb94-4a15-babc-12976e562322' }, data: { sort_order: 999 } }\\).then\\(r => { console.log\\('OK sort_order:', r.sort_order\\); db.\\\\$disconnect\\(\\); }\\).catch\\(e => { console.error\\(e.message\\); process.exit\\(1\\); }\\);\")"
+      "PowerShell(cd \"C:\\\\Users\\\\Rodolfo Gasparian\\\\Desktop\\\\lojah-app\"; npx tsx --env-file .env -e \"import { PrismaClient } from '@prisma/client'; import { PrismaPg } from '@prisma/adapter-pg'; const db = new PrismaClient\\({ adapter: new PrismaPg\\({ connectionString: process.env.DATABASE_URL, max: 1 }\\) }\\); db.productCategory.update\\({ where: { id: 'e7ac34ac-fb94-4a15-babc-12976e562322' }, data: { sort_order: 999 } }\\).then\\(r => { console.log\\('OK sort_order:', r.sort_order\\); db.\\\\$disconnect\\(\\); }\\).catch\\(e => { console.error\\(e.message\\); process.exit\\(1\\); }\\);\")",
+      "PowerShell(npx tsx --env-file .env scripts/seed-atl-nex.ts)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Rodolfo Gasparian\\Desktop\\lojah-app\\app\\(public)\\[slug]\\r"

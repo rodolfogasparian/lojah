@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
@@ -14,45 +15,65 @@ import CatalogoInativo from "@/components/catalog/CatalogoInativo";
 const SUPABASE_CATALOG_URL =
   "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/catalog-pages";
 
-const SUPABASE_STORAGE_URL =
-  "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public";
-
-const DEFAULT_IMAGE = `${SUPABASE_STORAGE_URL}/products/logo-atlantica-fundo-preto.jpg`;
-const DEFAULT_BIO = "Sou Consultor da Atlântica Natural e estou aqui para te ajudar!";
-
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const company = await getCompanyFromHost();
-  if (!company) return {};
+  searchParams: Promise<{ categoria?: string }>;
+}): Promise<Metadata> {
+  const [{ slug }, { categoria }] = await Promise.all([params, searchParams]);
 
-  const seller = await db.sellerProfile.findUnique({
-    where: { company_id_slug: { company_id: company.id, slug } },
-    select: { name: true, bio: true, photo_url: true },
+  const profile = await db.sellerProfile.findFirst({
+    where: { slug },
+    select: { name: true, slug: true, photo_url: true },
   });
-  if (!seller) return {};
 
-  const title = `Catálogo Atlântica Natural | ${seller.name}`;
-  const description = seller.bio?.trim() || DEFAULT_BIO;
-  const image = seller.photo_url || DEFAULT_IMAGE;
+  const metadataMap: Record<string, { title: string; description: string }> = {
+    "Perfumes Bortoletto 15ml": {
+      title: `Perfumaria Fina 15ml | ${profile?.name ?? "Atlântica Natural"}`,
+      description: "Perfumes finos importados em 15ml. Qualidade premium com preço acessível. Confira!",
+    },
+    "Perfumes Bortoletto 100ml": {
+      title: `Perfumaria Fina 100ml | ${profile?.name ?? "Atlântica Natural"}`,
+      description: "Perfumes finos em frasco 100ml. Presente perfeito com qualidade de boutique!",
+    },
+    "Linha Ozonizada": {
+      title: `Linha Natuoz Ozonizada | ${profile?.name ?? "Atlântica Natural"}`,
+      description: "Óleos ozonizados para pele, cabelo e saúde. Tecnologia natural com resultados comprovados!",
+    },
+    "Suplementos e Nutracêuticos": {
+      title: `Suplementos Naturais | ${profile?.name ?? "Atlântica Natural"}`,
+      description: "Vitaminas, suplementos e nutracêuticos de alta qualidade para sua saúde e bem-estar!",
+    },
+    "ATL Services": {
+      title: `ATL Services | ${profile?.name ?? "Atlântica Natural"}`,
+      description: "Assistência médica, telefonia, energia e muito mais. Serviços digitais com comissão recorrente!",
+    },
+  };
+
+  const meta = metadataMap[categoria ?? ""] ?? {
+    title: `Catálogo Atlântica Natural | ${profile?.name ?? "Atlântica Natural"}`,
+    description: "Mais de 300 produtos naturais com até 100% de lucro na revenda. Acesse o catálogo completo!",
+  };
 
   return {
-    title,
-    description,
+    title: meta.title,
+    description: meta.description,
     openGraph: {
-      title,
-      description,
-      images: [{ url: image, width: 800, height: 800, alt: seller.name }],
+      title: meta.title,
+      description: meta.description,
+      images: [{
+        url: profile?.photo_url ?? "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-branco.png",
+        width: 1200,
+        height: 630,
+      }],
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
-      images: [image],
+      title: meta.title,
+      description: meta.description,
     },
   };
 }
