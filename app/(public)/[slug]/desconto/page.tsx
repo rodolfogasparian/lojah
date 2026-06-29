@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { headers } from "next/headers";
 import { db } from "@/lib/db";
 import { getCompanyFromHost } from "@/lib/tenant";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -86,13 +85,6 @@ export default async function ConsultorDescontoPage({
       : null,
   }));
 
-  const headersList = await headers();
-  const host = headersList.get("host") ?? "";
-  const protocol = host.startsWith("localhost") || host.includes(".localhost")
-    ? "http"
-    : "https";
-  const currentUrl = `${protocol}://${host}/${slug}/desconto`;
-
   const whatsappDigits = seller.whatsapp?.replace(/\D/g, "");
 
   return (
@@ -117,7 +109,8 @@ export default async function ConsultorDescontoPage({
           signupButtonText={seller.signup_button_text ?? "Fazer cadastro"}
           signupButtonUrl={seller.signup_button_url ?? "https://cadastro.atlanticanatural.com.br/codigos"}
           sellerName={seller.name}
-          pageUrl={currentUrl}
+          companySlug={company.slug}
+          sellerSlug={slug}
           isConsultor
         />
       </div>

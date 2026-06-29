@@ -187,8 +187,9 @@ export default async function SellerPublicPage({
       signupButtonText={seller.signup_button_text ?? "Fazer cadastro"}
       signupButtonUrl={seller.signup_button_url ?? "https://cadastro.atlanticanatural.com.br/codigos"}
       sellerName={seller.name}
-      pageUrl={currentUrl}
       initialCategoryName={categoria}
+      companySlug={company.slug}
+      sellerSlug={slug}
     />
   );
 

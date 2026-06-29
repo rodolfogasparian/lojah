@@ -35,9 +35,10 @@ type Props = {
   signupButtonText: string;
   signupButtonUrl: string;
   sellerName: string;
-  pageUrl: string;
   isConsultor?: boolean;
   initialCategoryName?: string;
+  companySlug: string;
+  sellerSlug: string;
 };
 
 export function CatalogSection({
@@ -46,9 +47,10 @@ export function CatalogSection({
   signupButtonText,
   signupButtonUrl,
   sellerName,
-  pageUrl,
   isConsultor,
   initialCategoryName,
+  companySlug,
+  sellerSlug,
 }: Props) {
   const categories = useMemo(() => {
     const seen = new Map<string, string>();
@@ -85,12 +87,14 @@ export function CatalogSection({
     const product = products.find((p) => p.id === productId);
     if (!product) return;
 
+    const productUrl = `https://${companySlug}.lojah.app/${sellerSlug}/produto/${product.id}`;
+
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({
           title: product.name,
           text: `${product.name} — confira no catálogo de ${sellerName}`,
-          url: pageUrl,
+          url: productUrl,
         });
       } catch {
         // usuário cancelou o compartilhamento
@@ -98,7 +102,7 @@ export function CatalogSection({
       return;
     }
 
-    await navigator.clipboard.writeText(pageUrl);
+    await navigator.clipboard.writeText(productUrl);
   }
 
   if (products.length === 0) {
