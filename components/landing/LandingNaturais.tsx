@@ -174,7 +174,7 @@ export default function LandingNaturais({
           {(data.benefits.items || []).map((b) => (
             <div
               key={b.title}
-              className="group overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="group overflow-hidden rounded-2xl border border-[#00ff88]/30 bg-[#0d1f0d] transition-all hover:-translate-y-1 hover:border-[#00ff88]"
             >
               {b.imageUrl ? (
                 <img
@@ -184,14 +184,19 @@ export default function LandingNaturais({
                 />
               ) : (
                 <div className="p-6 pb-0">
-                  <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#cfee9a] text-2xl">
-                    <span className="text-[#0f3d1f]">{b.icon ?? "✓"}</span>
+                  <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#00ff88]/15 text-2xl border border-[#00ff88]/30">
+                    <span className="text-[#00ff88]">{b.icon ?? "✓"}</span>
                   </div>
                 </div>
               )}
               <div className="p-6">
-                <h3 className="text-lg font-extrabold text-[#0f1f12]">{b.title}</h3>
-                <p className="mt-1 text-sm text-neutral-600">{b.description}</p>
+                <h3
+                  className="text-lg font-extrabold text-[#00ff88]"
+                  style={{ textShadow: "0 0 10px #00ff88" }}
+                >
+                  {b.title}
+                </h3>
+                <p className="mt-1 text-sm text-white">{b.description}</p>
               </div>
             </div>
           ))}
