@@ -113,7 +113,7 @@ export default async function SellerPublicPage({
   const products = await db.product.findMany({
     where: { company_id: company.id, active: true },
     include: { category: true },
-    orderBy: { sort_order: "asc" },
+    orderBy: [{ category: { sort_order: "asc" } }, { sort_order: "asc" }],
   });
 
   const catalogProducts = products.map((product) => ({
