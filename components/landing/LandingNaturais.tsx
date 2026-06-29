@@ -200,8 +200,7 @@ export default function LandingNaturais({
                 key={d.title}
                 className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:bg-white/10"
               >
-                <span className="text-white text-3xl">{d.icon ?? "✓"}</span>
-                <h3 className="mt-4 text-base font-extrabold">{d.title}</h3>
+                <h3 className="text-base font-extrabold">{d.title}</h3>
                 <p className="mt-1 text-sm text-white/70">{d.description}</p>
               </div>
             ))}
@@ -286,14 +285,7 @@ export default function LandingNaturais({
                   : "border-black/5 bg-white text-[#0f1f12]"
               }`}
             >
-              <div
-                className={`grid h-12 w-12 place-items-center rounded-2xl text-2xl ${
-                  i === 1 ? "bg-[#cfee9a] text-[#0f3d1f]" : "bg-[#cfee9a]"
-                }`}
-              >
-                {v.icon ?? "💎"}
-              </div>
-              <h3 className="mt-4 text-lg font-extrabold">{v.title}</h3>
+              <h3 className="text-lg font-extrabold">{v.title}</h3>
               <p
                 className={`mt-1 text-sm ${
                   i === 1 ? "text-white/80" : "text-neutral-600"
