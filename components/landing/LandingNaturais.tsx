@@ -236,7 +236,7 @@ export default function LandingNaturais({
           {(data.testimonials.items || []).map((t, i) => (
             <div
               key={i}
-              className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
+              className="overflow-hidden rounded-2xl border border-[#00ff88]/30 bg-[#0d1f0d]"
             >
               {t.videoUrl ? (
                 <iframe
@@ -256,7 +256,7 @@ export default function LandingNaturais({
               {(t.name || t.role) && (
                 <div className="p-4">
                   {t.name && (
-                    <p className="text-sm font-extrabold text-[#0f1f12]">{t.name}</p>
+                    <p className="text-sm font-extrabold text-white">{t.name}</p>
                   )}
                   {t.role && <p className="text-xs text-neutral-500">{t.role}</p>}
                 </div>
