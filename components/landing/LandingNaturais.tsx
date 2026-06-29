@@ -138,7 +138,8 @@ export default function LandingNaturais({
                 href={waLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="neon-pulse group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#00ff88] px-6 py-4 text-base font-bold text-[#0a1a0a] transition hover:scale-105 sm:w-auto"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-[#00ff88] bg-[#0f3d1f] px-6 py-4 text-base font-bold text-[#00ff88] transition-all hover:scale-105 sm:w-auto"
+                style={{ textShadow: "0 0 10px #00ff88", boxShadow: "0 0 20px rgba(0,255,136,0.4)" }}
               >
                 <span>💬</span>
                 {data.hero.ctaLabel}
