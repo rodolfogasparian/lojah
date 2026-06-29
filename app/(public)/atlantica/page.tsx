@@ -40,7 +40,7 @@ export default function AtlanticaSalesPage() {
                 Link personalizado, cartão virtual e página de revenda — tudo em um só lugar para você vender mais pelo WhatsApp.
               </p>
               <div className="flex gap-3 flex-wrap">
-                <a href={CHECKOUT_INDIVIDUAL} target="_blank" rel="noopener noreferrer">
+                <a href="/cadastro">
                   <button className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium bg-[#166534] text-white hover:bg-green-800 transition-colors">
                     🛒 Quero meu catálogo
                   </button>
@@ -173,7 +173,7 @@ export default function AtlanticaSalesPage() {
                 </li>
               ))}
             </ul>
-            <a href={CHECKOUT_INDIVIDUAL} target="_blank" rel="noopener noreferrer">
+            <a href="/cadastro">
               <button className="w-full py-3 rounded-full text-sm font-medium bg-[#166534] text-white hover:bg-green-800 transition-colors">
                 Quero meu catálogo
               </button>
