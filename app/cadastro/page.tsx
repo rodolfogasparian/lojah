@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Card,
   CardContent,
@@ -7,6 +8,23 @@ import {
 } from "@/components/ui/card";
 import { RegisterForm } from "@/components/shared/register-form";
 import { getCompanyFromHost } from "@/lib/tenant";
+
+const TITLE = "Faça o seu cadastro para ter um Catálogo Online!";
+const DESCRIPTION = "Crie sua conta gratuitamente e tenha seu catálogo online personalizado com a Atlântica Natural.";
+const OG_IMAGE = "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-branco.png";
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [{ url: OG_IMAGE, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+};
 
 export default async function CadastroPage() {
   const company = await getCompanyFromHost();
