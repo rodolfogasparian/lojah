@@ -12,7 +12,6 @@ const buildWhatsappLink = (phone: string, message?: string) => {
 };
 
 const neonGreen = { textShadow: "0 0 20px #00ff88, 0 0 40px #00ff88" };
-const neonCyan  = { textShadow: "0 0 20px #00ffff, 0 0 40px #00ffff" };
 const neonGreenBox = { boxShadow: "0 0 20px rgba(0,255,136,0.6)" };
 
 export default function LandingNaturais({
@@ -33,9 +32,8 @@ export default function LandingNaturais({
     setLightboxIndex((i) => (i === null ? null : (i + 1) % galleryItems.length));
 
   return (
-    /* [1] Fundo geral: preto esverdeado profundo */
     <div
-      className="min-h-screen w-full bg-[#0a1a0a] text-white antialiased"
+      className="min-h-screen w-full bg-[#fafaf7] text-[#1a1f1a] antialiased"
       style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}
     >
       {/* keyframes para pulso neon nos botões CTA */}
@@ -48,21 +46,20 @@ export default function LandingNaturais({
       `}</style>
 
       {/* ---- Top attention bar ---- */}
-      <div className="w-full bg-[#050f05] text-[13px] sm:text-sm text-neutral-300">
+      <div className="w-full bg-[#0f3d1f] text-white text-[13px] sm:text-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-center gap-2 px-4 py-2 text-center">
-          <span className="inline-block h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#00ff88]" />
+          <span className="inline-block h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#cfee9a]" />
           <span className="truncate">
             {data.topBar.text}
             {data.topBar.region && (
-              <span className="hidden sm:inline opacity-60"> • {data.topBar.region}</span>
+              <span className="hidden sm:inline opacity-75"> • {data.topBar.region}</span>
             )}
           </span>
         </div>
       </div>
 
       {/* ---- Navbar ---- */}
-      {/* [2] Navbar neon */}
-      <header className="sticky top-0 z-30 border-b border-[#00ff88]/20 bg-[#0d1f0d]/95 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-black/5 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <div className="flex min-w-0 flex-col items-start gap-0.5">
             {data.brand.logoUrl ? (
@@ -72,14 +69,15 @@ export default function LandingNaturais({
                 className="h-12 shrink-0 object-contain"
               />
             ) : (
-              <div className="grid h-12 w-12 shrink-0 place-items-center bg-[#00ff88] text-[#0a1a0a] font-black text-2xl">
+              <div className="grid h-12 w-12 shrink-0 place-items-center bg-[#cfee9a] text-[#0f3d1f] font-black text-2xl">
                 {data.brand.name.charAt(0)}
               </div>
             )}
-            <span className="text-xs text-[#00ff88]/60">
+            <span className="text-xs text-neutral-500">
               Você está sendo atendido(a) por {data.brand.name}
             </span>
           </div>
+          {/* CTA: mantém neon-pulse + bg #00ff88 */}
           <a
             href={waLink()}
             target="_blank"
@@ -97,32 +95,35 @@ export default function LandingNaturais({
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(900px 400px at 80% -10%, rgba(0,255,136,0.12) 0%, transparent 60%), radial-gradient(700px 350px at -10% 90%, rgba(0,255,255,0.08) 0%, transparent 55%)",
+              "radial-gradient(900px 400px at 80% -10%, #cfee9a 0%, transparent 60%), radial-gradient(700px 350px at -10% 90%, #e6f7c7 0%, transparent 55%)",
           }}
         />
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:items-center lg:py-24">
           <div className="flex flex-col gap-5 text-center lg:text-left">
             {data.hero.badge && (
-              <span className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#00ff88]/30 bg-[#00ff88]/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#00ff88] shadow-sm lg:mx-0">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#00ff88]" />
+              <span className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#0f3d1f]/15 bg-white px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#0f3d1f] shadow-sm lg:mx-0">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#0f3d1f]" />
                 {data.hero.badge}
               </span>
             )}
-            <h1 className="text-3xl font-black leading-[1.1] text-white sm:text-4xl lg:text-5xl">
+            <h1 className="text-3xl font-black leading-[1.1] text-[#0f1f12] sm:text-4xl lg:text-5xl">
               {data.hero.title}{" "}
               {data.hero.highlight && (
-                <span className="text-[#00ff88]" style={neonGreen}>{data.hero.highlight}</span>
+                <span className="relative inline-block">
+                  <span className="relative z-10">{data.hero.highlight}</span>
+                  <span className="absolute inset-x-0 bottom-1 -z-0 h-3 rounded-full bg-[#cfee9a]" />
+                </span>
               )}
             </h1>
-            <p className="text-base text-neutral-300 sm:text-lg">
+            <p className="text-base text-neutral-600 sm:text-lg">
               {data.hero.subtitle}
             </p>
 
             {data.hero.bullets && data.hero.bullets.length > 0 && (
-              <ul className="mx-auto flex flex-col gap-2 text-sm text-neutral-200 sm:text-base lg:mx-0">
+              <ul className="mx-auto flex flex-col gap-2 text-sm text-[#0f3d1f] sm:text-base lg:mx-0">
                 {data.hero.bullets.map((b) => (
                   <li key={b} className="flex items-center gap-2">
-                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[#00ff88]/50 bg-[#00ff88]/15 text-[#00ff88]">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[#0f3d1f]">
                       ✓
                     </span>
                     <span className="font-semibold">{b}</span>
@@ -132,6 +133,7 @@ export default function LandingNaturais({
             )}
 
             <div className="flex flex-col items-center gap-3 sm:flex-row lg:items-start">
+              {/* CTA: mantém neon-pulse + #00ff88 */}
               <a
                 href={waLink()}
                 target="_blank"
@@ -141,22 +143,22 @@ export default function LandingNaturais({
                 <span>💬</span>
                 {data.hero.ctaLabel}
               </a>
-              <span className="text-xs text-neutral-400">
+              <span className="text-xs text-neutral-500">
                 Resposta em poucos minutos no WhatsApp
               </span>
             </div>
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-4 -z-10 rounded-[2rem] blur-2xl" style={{ background: "rgba(0,255,136,0.08)" }} />
-            <div className="overflow-hidden rounded-3xl border border-[#00ff88]/20 bg-[#0d1f0d] shadow-xl">
+            <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-[#cfee9a]/40 blur-2xl" />
+            <div className="overflow-hidden rounded-3xl border border-black/5 bg-white shadow-xl shadow-[#0f3d1f]/10">
               <img
                 src={data.hero.imageUrl}
                 alt="Produtos naturais"
                 className="aspect-[4/5] w-full object-cover sm:aspect-[5/4]"
               />
             </div>
-            <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-[#00ff88]/30 bg-[#0d1f0d] px-4 py-2 text-xs font-bold text-[#00ff88] shadow-md sm:text-sm">
+            <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-black/5 bg-white px-4 py-2 text-xs font-bold text-[#0f3d1f] shadow-md sm:text-sm">
               <span className="text-base">⭐</span>
               +5.000 consultores(as) ativos
             </div>
@@ -165,52 +167,53 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- Benefits ---- */}
-      {/* [3] Fundo escuro, título verde neon, cards com borda neon */}
-      <section className="bg-[#0a1a0a] px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader title={data.benefits.title} subtitle={data.benefits.subtitle} neon="green" />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {(data.benefits.items || []).map((b) => (
-              <div
-                key={b.title}
-                className="group overflow-hidden rounded-2xl border border-[#00ff88]/30 bg-[#0d1f0d] transition-all hover:border-[#00ff88] hover:shadow-[0_0_20px_rgba(0,255,136,0.3)]"
-              >
-                {b.imageUrl ? (
-                  <img
-                    src={b.imageUrl}
-                    alt={b.title}
-                    className="w-full object-contain max-h-48"
-                  />
-                ) : (
-                  <div className="p-6 pb-0">
-                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#00ff88]/15 text-2xl border border-[#00ff88]/30">
-                      <span>{b.icon ?? "✓"}</span>
-                    </div>
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <SectionHeader title={data.benefits.title} subtitle={data.benefits.subtitle} />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {(data.benefits.items || []).map((b) => (
+            <div
+              key={b.title}
+              className="group overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            >
+              {b.imageUrl ? (
+                <img
+                  src={b.imageUrl}
+                  alt={b.title}
+                  className="w-full object-contain max-h-48"
+                />
+              ) : (
+                <div className="p-6 pb-0">
+                  <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#cfee9a] text-2xl">
+                    <span className="text-[#0f3d1f]">{b.icon ?? "✓"}</span>
                   </div>
-                )}
-                <div className="p-6">
-                  <h3 className="text-lg font-extrabold text-white">{b.title}</h3>
-                  <p className="mt-1 text-sm text-neutral-300">{b.description}</p>
                 </div>
+              )}
+              <div className="p-6">
+                <h3 className="text-lg font-extrabold text-[#0f1f12]">{b.title}</h3>
+                <p className="mt-1 text-sm text-neutral-600">{b.description}</p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ---- Differentials ---- */}
-      {/* [4] Fundo #0d1f0d, título ciano neon, cards com borda ciano */}
-      <section className="bg-[#0d1f0d] px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader title={data.differentials.title} subtitle={data.differentials.subtitle} neon="cyan" />
+      {/* fundo verde escuro original; título mantém neon verde por estar sobre bg escuro */}
+      <section className="bg-[#0f3d1f] text-white">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <SectionHeader
+            title={data.differentials.title}
+            subtitle={data.differentials.subtitle}
+            neon="green"
+          />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {(data.differentials.items || []).map((d) => (
               <div
                 key={d.title}
-                className="rounded-2xl border border-[#00ffff]/30 bg-[#0a1a0a] p-6 transition-all hover:border-[#00ffff] hover:shadow-[0_0_20px_rgba(0,255,255,0.3)]"
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:bg-white/10"
               >
-                <h3 className="text-base font-extrabold text-[#00ffff]">{d.title}</h3>
-                <p className="mt-1 text-sm text-neutral-300">{d.description}</p>
+                <h3 className="text-base font-extrabold">{d.title}</h3>
+                <p className="mt-1 text-sm text-white/70">{d.description}</p>
               </div>
             ))}
           </div>
@@ -218,55 +221,54 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- Testimonials / Videos ---- */}
-      {/* [12] Fundo escuro, título ciano neon */}
-      <section className="bg-[#0a1a0a] px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader title={data.testimonials.title} subtitle={data.testimonials.subtitle} neon="cyan" />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2">
-            {(data.testimonials.items || []).map((t, i) => (
-              <div
-                key={i}
-                className="overflow-hidden rounded-2xl border border-[#00ffff]/20 bg-[#0d1f0d]"
-              >
-                {t.videoUrl ? (
-                  <iframe
-                    src={t.videoUrl}
-                    title={t.name ?? `Depoimento ${i + 1}`}
-                    width="100%"
-                    height="250"
-                    frameBorder="0"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen
-                  />
-                ) : (
-                  <div className="flex h-40 items-center justify-center bg-[#0a1a0a] text-sm text-neutral-500">
-                    Vídeo não disponível
-                  </div>
-                )}
-                {(t.name || t.role) && (
-                  <div className="p-4">
-                    {t.name && (
-                      <p className="text-sm font-extrabold text-white">{t.name}</p>
-                    )}
-                    {t.role && <p className="text-xs text-neutral-400">{t.role}</p>}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <SectionHeader
+          title={data.testimonials.title}
+          subtitle={data.testimonials.subtitle}
+        />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          {(data.testimonials.items || []).map((t, i) => (
+            <div
+              key={i}
+              className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
+            >
+              {t.videoUrl ? (
+                <iframe
+                  src={t.videoUrl}
+                  title={t.name ?? `Depoimento ${i + 1}`}
+                  width="100%"
+                  height="250"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="flex h-40 items-center justify-center bg-black/5 text-sm text-neutral-400">
+                  Vídeo não disponível
+                </div>
+              )}
+              {(t.name || t.role) && (
+                <div className="p-4">
+                  {t.name && (
+                    <p className="text-sm font-extrabold text-[#0f1f12]">{t.name}</p>
+                  )}
+                  {t.role && <p className="text-xs text-neutral-500">{t.role}</p>}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ---- Gallery ---- */}
-      {/* [11] Fundo #0d1f0d, título verde neon */}
-      <section className="bg-[#0d1f0d] px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader title={data.gallery.title} subtitle={data.gallery.subtitle} neon="green" />
+      <section className="bg-[#f4f8ec]">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <SectionHeader title={data.gallery.title} subtitle={data.gallery.subtitle} />
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {galleryItems.map((p, i) => (
               <div
                 key={i}
-                className="group cursor-pointer overflow-hidden rounded-2xl border border-[#00ff88]/20 bg-[#0a1a0a] transition hover:border-[#00ff88]/60"
+                className="group cursor-pointer overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
                 onClick={() => setLightboxIndex(i)}
               >
                 <img
@@ -281,54 +283,55 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- Values / earnings ---- */}
-      {/* [5] Fundo escuro, título verde neon, card do meio com borda neon */}
-      <section className="bg-[#0a1a0a] px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader title={data.values.title} subtitle={data.values.subtitle} neon="green" />
-          <div className="mt-10 grid gap-5 sm:grid-cols-3">
-            {(data.values.items || []).map((v, i) => (
-              <div
-                key={v.title}
-                className={`rounded-3xl border p-6 transition hover:-translate-y-1 ${
-                  i === 1
-                    ? "border-2 border-[#00ff88] bg-[#0d1f0d]"
-                    : "border-[#00ff88]/20 bg-[#0d1f0d]"
-                }`}
-                style={i === 1 ? { boxShadow: "0 0 30px rgba(0,255,136,0.5)" } : undefined}
-              >
-                <h3 className="text-lg font-extrabold text-white">{v.title}</h3>
-                <p className="mt-1 text-sm text-neutral-300">{v.description}</p>
-                {v.value && (
-                  <p
-                    className="mt-5 text-2xl font-black sm:text-3xl text-[#00ff88]"
-                    style={neonGreen}
-                  >
-                    {v.value}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 text-center text-xs text-neutral-500">
-            *Valores ilustrativos baseados na média dos consultores(as) ativos.
-          </p>
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <SectionHeader title={data.values.title} subtitle={data.values.subtitle} />
+        <div className="mt-10 grid gap-5 sm:grid-cols-3">
+          {(data.values.items || []).map((v, i) => (
+            <div
+              key={v.title}
+              className={`rounded-3xl border p-6 transition hover:-translate-y-1 hover:shadow-lg ${
+                i === 1
+                  ? "border-2 border-[#00ff88] bg-[#0f3d1f] text-white"
+                  : "border-black/5 bg-white text-[#0f1f12]"
+              }`}
+              /* card do meio: mantém borda + glow neon */
+              style={i === 1 ? { boxShadow: "0 0 30px rgba(0,255,136,0.5)" } : undefined}
+            >
+              <h3 className="text-lg font-extrabold">{v.title}</h3>
+              <p className={`mt-1 text-sm ${i === 1 ? "text-white/80" : "text-neutral-600"}`}>
+                {v.description}
+              </p>
+              {v.value && (
+                /* preço em destaque: mantém neon verde */
+                <p
+                  className="mt-5 text-2xl font-black sm:text-3xl text-[#00ff88]"
+                  style={neonGreen}
+                >
+                  {v.value}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
+        <p className="mt-6 text-center text-xs text-neutral-500">
+          *Valores ilustrativos baseados na média dos consultores(as) ativos.
+        </p>
       </section>
 
       {/* ---- Kits ---- */}
-      {/* [7] Fundo #0d1f0d, cards neon, card do meio ciano */}
-      <section className="bg-[#0d1f0d] px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} neon="green" />
+      <section className="bg-[#f4f8ec]">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {(data.kits.items || []).map((kit, i) => (
               <div
                 key={kit.name}
-                className={`flex flex-col overflow-hidden rounded-3xl border bg-[#0a1a0a] transition hover:-translate-y-1 ${
+                className={`flex flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${
                   i === 1
                     ? "border-2 border-[#00ffff]"
-                    : "border-[#00ff88]/40"
+                    : "border-black/5"
                 }`}
+                /* Licença ATL Services: mantém glow ciano */
                 style={i === 1 ? { boxShadow: "0 0 25px rgba(0,255,255,0.4)" } : undefined}
               >
                 {kit.image && (
@@ -339,18 +342,19 @@ export default function LandingNaturais({
                       className="w-full object-contain max-h-52 rounded-t-xl"
                     />
                     {kit.badge && (
-                      <span className="absolute left-4 top-4 rounded-full bg-[#00ff88] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#0a1a0a]">
+                      <span className="absolute left-4 top-4 rounded-full bg-[#0f3d1f] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#cfee9a]">
                         {kit.badge}
                       </span>
                     )}
                   </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-white">{kit.name}</h3>
+                  <h3 className="text-xl font-extrabold text-[#0f1f12]">{kit.name}</h3>
                   {kit.description && (
-                    <p className="mt-1 text-sm text-neutral-300">{kit.description}</p>
+                    <p className="mt-1 text-sm text-neutral-500">{kit.description}</p>
                   )}
                   <div className="mt-3 flex items-baseline gap-2">
+                    {/* preço: mantém neon verde */}
                     <span
                       className="text-3xl font-black text-[#00ff88]"
                       style={neonGreen}
@@ -358,15 +362,15 @@ export default function LandingNaturais({
                       {kit.price}
                     </span>
                     {kit.oldPrice && (
-                      <span className="text-sm text-neutral-500 line-through">
+                      <span className="text-sm text-neutral-400 line-through">
                         {kit.oldPrice}
                       </span>
                     )}
                   </div>
-                  <ul className="mt-4 flex flex-col gap-2 text-sm text-neutral-300">
+                  <ul className="mt-4 flex flex-col gap-2 text-sm text-neutral-700">
                     {(kit.highlights || []).map((h) => (
                       <li key={h} className="flex items-start gap-2">
-                        <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full border border-[#00ff88]/50 bg-[#00ff88]/15 text-[10px] text-[#00ff88]">
+                        <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[10px] text-[#0f3d1f]">
                           ✓
                         </span>
                         <span>{h}</span>
@@ -378,11 +382,12 @@ export default function LandingNaturais({
                       href={kit.catalogUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-[#00ff88] px-5 py-3 text-sm font-extrabold text-[#00ff88] transition hover:bg-[#00ff88] hover:text-[#0a1a0a]"
+                      className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-[#00ff88] px-5 py-3 text-sm font-extrabold text-[#00ff88] transition hover:bg-[#00ff88] hover:text-[#0a1a0a] hover:scale-105"
                     >
                       🛒 Ver catálogo
                     </a>
                   ) : (
+                    /* CTA: mantém neon-pulse */
                     <a
                       href={waLink(kit.whatsappMessage)}
                       target="_blank"
@@ -400,60 +405,56 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- FAQ ---- */}
-      {/* [8] Fundo escuro, título neon, accordion escuro */}
-      <section className="bg-[#0a1a0a] px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-3xl">
-          <SectionHeader title={data.faq.title} subtitle={data.faq.subtitle} neon="green" />
-          <div className="mt-10 flex flex-col">
-            {(data.faq.items || []).map((f, i) => {
-              const open = openFaq === i;
-              return (
-                <div
-                  key={f.question}
-                  className="border-b border-[#00ff88]/20"
+      <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
+        <SectionHeader title={data.faq.title} subtitle={data.faq.subtitle} />
+        <div className="mt-10 flex flex-col gap-3">
+          {(data.faq.items || []).map((f, i) => {
+            const open = openFaq === i;
+            return (
+              <div
+                key={f.question}
+                className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(open ? null : i)}
+                  className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
                 >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(open ? null : i)}
-                    className="flex w-full items-center justify-between gap-3 py-4 text-left transition hover:text-[#00ff88]"
+                  <span className="text-sm font-extrabold text-[#0f1f12] sm:text-base">
+                    {f.question}
+                  </span>
+                  <span
+                    className={`grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[#0f3d1f] transition ${
+                      open ? "rotate-45" : ""
+                    }`}
                   >
-                    <span className={`text-sm font-extrabold sm:text-base ${open ? "text-[#00ff88]" : "text-white"}`}>
-                      {f.question}
-                    </span>
-                    <span
-                      className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[#00ff88]/40 bg-[#00ff88]/10 text-[#00ff88] transition ${
-                        open ? "rotate-45" : ""
-                      }`}
-                    >
-                      +
-                    </span>
-                  </button>
-                  {open && (
-                    <div className="pb-4 text-sm text-neutral-300">
-                      {f.answer}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                    +
+                  </span>
+                </button>
+                {open && (
+                  <div className="border-t border-black/5 px-5 py-4 text-sm text-neutral-600">
+                    {f.answer}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
       {/* ---- Final CTA ---- */}
       <section className="px-4 pb-20 sm:px-6">
-        <div
-          className="mx-auto max-w-5xl overflow-hidden rounded-[2rem] border border-[#00ff88]/30 bg-[#050f05] p-8 text-center shadow-xl sm:p-14"
-          style={{ boxShadow: "0 0 40px rgba(0,255,136,0.15)" }}
-        >
-          <h2 className="text-2xl font-black sm:text-4xl text-white">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-[2rem] bg-[#0f3d1f] p-8 text-center text-white shadow-xl sm:p-14">
+          <h2 className="text-2xl font-black sm:text-4xl">
             Comece hoje seu negócio com{" "}
+            {/* highlight: mantém neon verde por estar sobre bg escuro */}
             <span className="text-[#00ff88]" style={neonGreen}>produtos naturais</span>
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-neutral-300 sm:text-base">
+          <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 sm:text-base">
             Fale com nosso time pelo WhatsApp e receba todas as informações
             sobre como se tornar consultor(a).
           </p>
+          {/* CTA: mantém neon-pulse */}
           <a
             href={waLink()}
             target="_blank"
@@ -466,8 +467,7 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- Footer ---- */}
-      {/* [9] Fundo #050f05, texto neutro, links com hover neon */}
-      <footer className="border-t border-[#00ff88]/10 bg-[#050f05]">
+      <footer className="border-t border-black/5 bg-[#050f05]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2">
@@ -478,7 +478,7 @@ export default function LandingNaturais({
                   className="h-10 object-contain"
                 />
               ) : (
-                <div className="grid h-10 w-10 place-items-center bg-[#00ff88] text-[#0a1a0a] font-black">
+                <div className="grid h-10 w-10 place-items-center bg-[#cfee9a] text-[#0f3d1f] font-black">
                   {data.brand.name.charAt(0)}
                 </div>
               )}
@@ -531,7 +531,7 @@ export default function LandingNaturais({
                 {(data.footer.paymentMethods || []).map((p) => (
                   <span
                     key={p}
-                    className="rounded-md border border-[#00ff88]/20 bg-[#0d1f0d] px-2 py-1 text-[11px] font-bold text-neutral-300"
+                    className="rounded-md border border-neutral-700 bg-[#0d1f0d] px-2 py-1 text-[11px] font-bold text-neutral-300"
                   >
                     {p}
                   </span>
@@ -540,7 +540,7 @@ export default function LandingNaturais({
             </div>
           </div>
         </div>
-        <div className="border-t border-[#00ff88]/10 px-4 py-4 text-center text-xs text-neutral-500 sm:px-6">
+        <div className="border-t border-white/5 px-4 py-4 text-center text-xs text-neutral-500 sm:px-6">
           {data.footer.copyright}
         </div>
         {/* spacer for mobile fixed bar */}
@@ -548,7 +548,8 @@ export default function LandingNaturais({
       </footer>
 
       {/* ---- Mobile fixed WhatsApp bar ---- */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#00ff88]/20 bg-[#0d1f0d]/95 p-3 backdrop-blur sm:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-black/5 bg-white/95 p-3 backdrop-blur sm:hidden">
+        {/* CTA: mantém neon */}
         <a
           href={waLink()}
           target="_blank"
@@ -577,20 +578,20 @@ export default function LandingNaturais({
       {/* ---- Lightbox modal ---- */}
       {lightboxIndex !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
           onClick={() => setLightboxIndex(null)}
         >
           <button
             type="button"
             onClick={() => setLightboxIndex(null)}
-            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-[#00ff88]/30 bg-[#0d1f0d] text-white text-2xl hover:border-[#00ff88] hover:text-[#00ff88]"
+            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white text-2xl hover:bg-white/40"
           >
             ×
           </button>
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); lightboxPrev(); }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full border border-[#00ff88]/30 bg-[#0d1f0d] text-white text-2xl hover:border-[#00ff88] hover:text-[#00ff88]"
+            className="absolute left-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white text-2xl hover:bg-white/40"
           >
             ‹
           </button>
@@ -603,7 +604,7 @@ export default function LandingNaturais({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); lightboxNext(); }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full border border-[#00ff88]/30 bg-[#0d1f0d] text-white text-2xl hover:border-[#00ff88] hover:text-[#00ff88]"
+            className="absolute right-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white text-2xl hover:bg-white/40"
           >
             ›
           </button>
@@ -630,7 +631,11 @@ function SectionHeader({
       : undefined;
 
   const titleColor =
-    neon === "green" ? "text-[#00ff88]" : neon === "cyan" ? "text-[#00ffff]" : "text-white";
+    neon === "green"
+      ? "text-[#00ff88]"
+      : neon === "cyan"
+      ? "text-[#00ffff]"
+      : "text-[#0f1f12]";
 
   return (
     <div className="mx-auto max-w-2xl text-center">
@@ -641,7 +646,7 @@ function SectionHeader({
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-3 text-sm text-neutral-400 sm:text-base">{subtitle}</p>
+        <p className="mt-3 text-sm text-neutral-600 sm:text-base">{subtitle}</p>
       )}
     </div>
   );

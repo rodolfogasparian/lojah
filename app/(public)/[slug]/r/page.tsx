@@ -25,7 +25,7 @@ export default async function RevendaPage({
         brand: {
           name: profile.name,
           logoUrl:
-            "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-preto.jpg",
+            "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/logo-atl-neon.png",
         },
         hero: {
           ...defaultPageData.hero,
