@@ -17,9 +17,16 @@ export default function LandingNaturais({
   data?: LandingNaturaisData;
 }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const waLink = (msg?: string) =>
     buildWhatsappLink(data.whatsapp, msg ?? data.defaultWhatsappMessage);
+
+  const galleryItems = data.gallery?.items || [];
+  const lightboxPrev = () =>
+    setLightboxIndex((i) => (i === null ? null : (i - 1 + galleryItems.length) % galleryItems.length));
+  const lightboxNext = () =>
+    setLightboxIndex((i) => (i === null ? null : (i + 1) % galleryItems.length));
 
   return (
     <div
@@ -40,6 +47,7 @@ export default function LandingNaturais({
       </div>
 
       {/* ---- Navbar ---- */}
+      {/* [1] Logo: h-12, object-contain, sem bordas arredondadas */}
       <header className="sticky top-0 z-30 border-b border-black/5 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <div className="flex min-w-0 flex-col items-start gap-0.5">
@@ -47,10 +55,10 @@ export default function LandingNaturais({
               <img
                 src={data.brand.logoUrl}
                 alt={data.brand.name}
-                className="h-16 shrink-0 object-contain"
+                className="h-12 shrink-0 object-contain"
               />
             ) : (
-              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[#0f3d1f] font-black text-2xl">
+              <div className="grid h-12 w-12 shrink-0 place-items-center bg-[#cfee9a] text-[#0f3d1f] font-black text-2xl">
                 {data.brand.name.charAt(0)}
               </div>
             )}
@@ -139,32 +147,46 @@ export default function LandingNaturais({
             </div>
             <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-black/5 bg-white px-4 py-2 text-xs font-bold text-[#0f3d1f] shadow-md sm:text-sm">
               <span className="text-base">⭐</span>
-              +5.000 representantes ativos
+              +5.000 consultores(as) ativos
             </div>
           </div>
         </div>
       </section>
 
       {/* ---- Benefits ---- */}
+      {/* [2] Imagens sem corte: object-contain max-h-48 */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <SectionHeader title={data.benefits.title} subtitle={data.benefits.subtitle} />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {(data.benefits.items || []).map((b) => (
             <div
               key={b.title}
-              className="group rounded-2xl border border-black/5 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="group overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#cfee9a] text-2xl">
-                <span className="text-[#0f3d1f]">{b.icon ?? "✓"}</span>
+              {b.imageUrl ? (
+                <img
+                  src={b.imageUrl}
+                  alt={b.title}
+                  className="w-full object-contain max-h-48"
+                />
+              ) : (
+                <div className="p-6 pb-0">
+                  <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#cfee9a] text-2xl">
+                    <span className="text-[#0f3d1f]">{b.icon ?? "✓"}</span>
+                  </div>
+                </div>
+              )}
+              <div className="p-6">
+                <h3 className="text-lg font-extrabold text-[#0f1f12]">{b.title}</h3>
+                <p className="mt-1 text-sm text-neutral-600">{b.description}</p>
               </div>
-              <h3 className="mt-4 text-lg font-extrabold text-[#0f1f12]">{b.title}</h3>
-              <p className="mt-1 text-sm text-neutral-600">{b.description}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ---- Differentials ---- */}
+      {/* [3] Ícones brancos: texto branco text-3xl, sem fundo verde */}
       <section className="bg-[#0f3d1f] text-white">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <SectionHeader
@@ -178,9 +200,7 @@ export default function LandingNaturais({
                 key={d.title}
                 className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:bg-white/10"
               >
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-[#cfee9a] text-xl">
-                  <span className="text-[#0f3d1f]">{d.icon ?? "✓"}</span>
-                </div>
+                <span className="text-white text-3xl">{d.icon ?? "✓"}</span>
                 <h3 className="mt-4 text-base font-extrabold">{d.title}</h3>
                 <p className="mt-1 text-sm text-white/70">{d.description}</p>
               </div>
@@ -190,26 +210,33 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- Testimonials / Videos ---- */}
+      {/* [5] Embed Vimeo: largura 100%, altura 250, allow autoplay+fullscreen */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <SectionHeader
           title={data.testimonials.title}
           subtitle={data.testimonials.subtitle}
         />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {(data.testimonials.items || []).map((t, i) => (
             <div
               key={i}
               className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
             >
-              <div className="aspect-video w-full bg-black/5">
+              {t.videoUrl ? (
                 <iframe
                   src={t.videoUrl}
                   title={t.name ?? `Depoimento ${i + 1}`}
-                  className="h-full w-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  width="100%"
+                  height="250"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen"
                   allowFullScreen
                 />
-              </div>
+              ) : (
+                <div className="flex h-40 items-center justify-center bg-black/5 text-sm text-neutral-400">
+                  Vídeo não disponível
+                </div>
+              )}
               {(t.name || t.role) && (
                 <div className="p-4">
                   {t.name && (
@@ -224,14 +251,16 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- Gallery ---- */}
+      {/* [4] Lightbox ao clicar: cursor-pointer + estado lightboxIndex */}
       <section className="bg-[#f4f8ec]">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <SectionHeader title={data.gallery.title} subtitle={data.gallery.subtitle} />
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {(data.gallery.items || []).map((p, i) => (
+            {galleryItems.map((p, i) => (
               <div
                 key={i}
-                className="group overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
+                className="group cursor-pointer overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
+                onClick={() => setLightboxIndex(i)}
               >
                 <img
                   src={p.imageUrl}
@@ -285,11 +314,13 @@ export default function LandingNaturais({
           ))}
         </div>
         <p className="mt-6 text-center text-xs text-neutral-500">
-          *Valores ilustrativos baseados na média dos representantes ativos.
+          *Valores ilustrativos baseados na média dos consultores(as) ativos.
         </p>
       </section>
 
       {/* ---- Kits ---- */}
+      {/* [6] Imagens sem corte: object-contain max-h-52 rounded-t-xl */}
+      {/* [8] CTA diferente para kits com catalogUrl */}
       <section className="bg-[#f4f8ec]">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} />
@@ -306,7 +337,7 @@ export default function LandingNaturais({
                     <img
                       src={kit.image}
                       alt={kit.name}
-                      className="aspect-[5/4] w-full object-cover"
+                      className="w-full object-contain max-h-52 rounded-t-xl"
                     />
                     {kit.badge && (
                       <span className="absolute left-4 top-4 rounded-full bg-[#0f3d1f] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#cfee9a]">
@@ -338,14 +369,25 @@ export default function LandingNaturais({
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href={waLink(kit.whatsappMessage)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0f3d1f] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#0a2d16]"
-                  >
-                    <span>💬</span> Quero esse kit
-                  </a>
+                  {kit.catalogUrl ? (
+                    <a
+                      href={kit.catalogUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-[#0f3d1f] px-5 py-3 text-sm font-extrabold text-[#0f3d1f] transition hover:bg-[#0f3d1f] hover:text-white"
+                    >
+                      🛒 Ver catálogo
+                    </a>
+                  ) : (
+                    <a
+                      href={waLink(kit.whatsappMessage)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0f3d1f] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#0a2d16]"
+                    >
+                      <span>💬</span> Quero esse kit
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
@@ -400,7 +442,7 @@ export default function LandingNaturais({
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 sm:text-base">
             Fale com nosso time pelo WhatsApp e receba todas as informações
-            sobre como se tornar representante.
+            sobre como se tornar consultor(a).
           </p>
           <a
             href={waLink()}
@@ -422,16 +464,13 @@ export default function LandingNaturais({
                 <img
                   src={data.brand.logoUrl}
                   alt={data.brand.name}
-                  className="h-9 w-9 rounded-full object-cover"
+                  className="h-10 object-contain"
                 />
               ) : (
-                <div className="grid h-9 w-9 place-items-center rounded-full bg-[#cfee9a] text-[#0f3d1f] font-black">
+                <div className="grid h-10 w-10 place-items-center bg-[#cfee9a] text-[#0f3d1f] font-black">
                   {data.brand.name.charAt(0)}
                 </div>
               )}
-              <span className="text-base font-extrabold text-[#0f3d1f]">
-                {data.brand.name}
-              </span>
             </div>
             {data.footer.description && (
               <p className="mt-3 text-sm text-neutral-600">{data.footer.description}</p>
@@ -508,6 +547,60 @@ export default function LandingNaturais({
           <span>💬</span> Falar no WhatsApp
         </a>
       </div>
+
+      {/* ---- [7] Botão WhatsApp flutuante (desktop) ---- */}
+      <a
+        href={`https://wa.me/${data.whatsapp.replace(/\D/g, "")}`}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Falar no WhatsApp"
+        className="hidden sm:flex fixed bottom-6 right-6 z-50 h-14 w-14 items-center justify-center rounded-full shadow-lg transition hover:scale-110"
+        style={{ backgroundColor: "#25D366" }}
+      >
+        <svg viewBox="0 0 32 32" fill="white" className="h-7 w-7">
+          <path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.663 4.614 1.813 6.52L4 29l7.695-1.787A11.94 11.94 0 0016 28c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22a9.94 9.94 0 01-5.07-1.387l-.364-.213-4.566 1.06 1.09-4.455-.236-.373A9.956 9.956 0 016 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.406-7.463c-.297-.148-1.757-.868-2.03-.968-.272-.099-.47-.148-.668.148-.198.296-.766.968-.938 1.166-.173.198-.347.222-.643.074-.297-.148-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.457.13-.605.134-.133.297-.347.446-.52.148-.174.198-.297.297-.495.099-.198.05-.371-.025-.52-.074-.148-.668-1.613-.916-2.208-.24-.579-.486-.5-.668-.51l-.57-.01c-.198 0-.52.074-.792.371-.272.296-1.04 1.017-1.04 2.48 0 1.463 1.065 2.876 1.213 3.074.148.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.757-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347z" />
+        </svg>
+      </a>
+
+      {/* ---- [4] Lightbox modal ---- */}
+      {lightboxIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+          onClick={() => setLightboxIndex(null)}
+        >
+          {/* Botão fechar */}
+          <button
+            type="button"
+            onClick={() => setLightboxIndex(null)}
+            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white text-2xl hover:bg-white/40"
+          >
+            ×
+          </button>
+          {/* Seta anterior */}
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); lightboxPrev(); }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white text-2xl hover:bg-white/40"
+          >
+            ‹
+          </button>
+          {/* Imagem */}
+          <img
+            src={galleryItems[lightboxIndex]?.imageUrl}
+            alt={galleryItems[lightboxIndex]?.alt ?? ""}
+            className="max-h-[90vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          {/* Seta próxima */}
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); lightboxNext(); }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white text-2xl hover:bg-white/40"
+          >
+            ›
+          </button>
+        </div>
+      )}
     </div>
   );
 }

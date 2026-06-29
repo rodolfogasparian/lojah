@@ -1,4 +1,4 @@
-type Benefit = { icon?: string; title: string; description: string };
+type Benefit = { icon?: string; imageUrl?: string; title: string; description: string };
 type Differential = { icon?: string; title: string; description: string };
 type Testimonial = { videoUrl: string; name?: string; role?: string; thumbnail?: string };
 type Product = { imageUrl: string; alt?: string };
@@ -12,6 +12,7 @@ type Kit = {
   highlights: string[];
   whatsappMessage?: string;
   badge?: string;
+  catalogUrl?: string;
 };
 type FAQItem = { question: string; answer: string };
 type FooterLink = { label: string; href: string };
@@ -50,7 +51,11 @@ export const defaultPageData: LandingNaturaisData = {
   whatsapp: "5511999999999",
   defaultWhatsappMessage:
     "Olá! Quero ser consultor(a) e receber mais informações sobre os kits.",
-  brand: { name: "Atlântica Natural", logoUrl: "" },
+  brand: {
+    name: "Atlântica Natural",
+    logoUrl:
+      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-branco.png",
+  },
   topBar: {
     text: "Vagas abertas para consultores(as) em todo o Brasil",
     region: "Atendimento nacional",
@@ -59,7 +64,7 @@ export const defaultPageData: LandingNaturaisData = {
     title: "Faça parte do Maior Ecossistema de Produtos e Serviços do Brasil!",
     subtitle: "Empreenda com propósito. Cresça com o maior ecossistema em vendas diretas!",
     imageUrl:
-      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/1-banner-ecossistema.png",
+      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/21-maior-ecossistema.png",
     ctaLabel: "Quero saber mais",
     bullets: [
       "Mais de 300 produtos para revender com até 100% de lucro",
@@ -72,34 +77,46 @@ export const defaultPageData: LandingNaturaisData = {
     subtitle: "Dois ecossistemas completos para você empreender",
     items: [
       {
-        icon: "🌿",
+        imageUrl:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/3-banner-300-produtos.png",
         title: "Ecossistema de Produtos",
         description:
           "Mais de 300 produtos: Suplementação, Vitaminas, Perfumaria Fina, Óleos Ozonizados, Linha Capilar e Cuidados Diários. Lucro de até 100% na revenda.",
       },
       {
-        icon: "⚡",
+        imageUrl:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/20-banner-atl-onmed.png",
         title: "ATL ON MED",
         description:
           "Assistência médica acessível para toda a família. Comissões recorrentes por cada novo cliente.",
       },
       {
-        icon: "📱",
+        imageUrl:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/11-banner-chip.png",
         title: "ATL NEX — Telefonia",
         description:
           "Planos de telefonia digital. Ganhe comissão recorrente enquanto seu cliente usar o plano.",
       },
       {
-        icon: "🔋",
+        imageUrl:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/20-energia-assinatura.png",
         title: "Energia por Assinatura",
         description:
           "Até 55% de comissão por cada novo cliente de energia. Renda passiva todo mês.",
       },
       {
-        icon: "💻",
+        imageUrl:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/17-banner-apps.png",
         title: "ATL APPs",
         description:
           "Aplicativos e soluções digitais. Tecnologia que conecta, soluções que transformam.",
+      },
+      {
+        imageUrl:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/18-banner-renda-recorrente.png",
+        title: "Renda Recorrente",
+        description:
+          "Receba renda recorrente de todo o sistema de produtos e serviços.",
       },
     ],
   },
@@ -133,22 +150,21 @@ export const defaultPageData: LandingNaturaisData = {
     title: "Histórias reais de quem já começou",
     subtitle: "Veja o que nossos consultores(as) estão conquistando.",
     items: [
-      { videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", name: "Mariana S.", role: "Consultor(a) há 8 meses" },
-      { videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", name: "Carlos M.", role: "Consultor(a) há 1 ano" },
-      { videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", name: "Juliana R.", role: "Consultor(a) há 6 meses" },
+      { videoUrl: "https://player.vimeo.com/video/687733508", name: "Depoimento 1" },
+      { videoUrl: "https://player.vimeo.com/video/687733046", name: "Depoimento 2" },
     ],
   },
   gallery: {
     title: "Conheça nossos produtos",
     items: [
-      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/3-banner-300-produtos.png", alt: "Mais de 300 produtos" },
-      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/4-banner-linha-de-produtos.png", alt: "Linha de produtos" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/4-banner-linha-de-produtos.png", alt: "Linha de Produtos" },
       { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/5-banner-natuoz.png", alt: "Linha Natuoz" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/6-banner-venda-natuoz.png", alt: "Venda Natuoz" },
       { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/7-banner-perfumes.png", alt: "Perfumaria" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/8-banner-venda-perfumes.png", alt: "Venda Perfumes" },
       { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/9-banner-linha-capilar.png", alt: "Linha Capilar" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/16-banner-planos-chip.png", alt: "Planos Chip" },
       { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/20-banner-atl-onmed.png", alt: "ATL ON MED" },
-      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/2-banner-franquia.png", alt: "Franquia de Serviços" },
-      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/17-banner-apps.png", alt: "ATL APPs" },
     ],
   },
   values: {
@@ -162,12 +178,14 @@ export const defaultPageData: LandingNaturaisData = {
   },
   kits: {
     title: "Escolha como começar",
-    subtitle: "Dois caminhos para fazer parte do ecossistema",
+    subtitle: "Três caminhos para fazer parte do ecossistema",
     items: [
       {
         name: "Consultor(a) de Produtos",
         price: "R$ 79,90",
         description: "Comece revendendo mais de 300 produtos com até 100% de lucro",
+        image:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/10-banner-kit-livre.png",
         highlights: [
           "Acesso ao catálogo completo",
           "Loja online personalizada",
@@ -179,12 +197,27 @@ export const defaultPageData: LandingNaturaisData = {
         name: "Licença ATL Services",
         price: "R$ 999,99",
         description: "Acesso completo ao ecossistema de produtos E serviços digitais",
+        image:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/22-banner-licenca-servicos-2.png",
         highlights: [
           "Inclui licença de produtos",
           "ATL ON MED + ATL NEX + Energia",
           "ATL APPs",
           "Comissões recorrentes mensais",
         ],
+      },
+      {
+        name: "Apenas consumir produtos",
+        price: "Consulte valores",
+        description: "Compre produtos de alta qualidade com desconto para uso pessoal",
+        image:
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/catalogo-3.png",
+        highlights: [
+          "Mais de 300 produtos",
+          "Preço de consultor(a)",
+          "Sem compromisso de revenda",
+        ],
+        catalogUrl: "/catalogo",
       },
     ],
   },
