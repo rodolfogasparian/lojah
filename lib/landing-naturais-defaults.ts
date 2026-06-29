@@ -54,7 +54,7 @@ export const defaultPageData: LandingNaturaisData = {
   brand: {
     name: "Atlântica Natural",
     logoUrl:
-      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-branco.png",
+      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/logo-atl-neon.png",
   },
   topBar: {
     text: "Vagas abertas para consultores(as) em todo o Brasil",
@@ -164,7 +164,7 @@ export const defaultPageData: LandingNaturaisData = {
       { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/8-banner-venda-perfumes.png", alt: "Venda Perfumes" },
       { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/9-banner-linha-capilar.png", alt: "Linha Capilar" },
       { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/16-banner-planos-chip.png", alt: "Planos Chip" },
-      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/20-banner-atl-onmed.png", alt: "ATL ON MED" },
+      { imageUrl: "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/21-banner-atl-onmed-2.png", alt: "ATL ON MED" },
     ],
   },
   values: {
