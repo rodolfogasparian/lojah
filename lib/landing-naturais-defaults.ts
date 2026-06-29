@@ -234,6 +234,36 @@ export const defaultPageData: LandingNaturaisData = {
         answer:
           "Para fazer suas vendas não existe mínimo de meta. Para ganhar bônus de formação de equipe é necessário estar ativo no mês com um pedido de pelo menos 50 pontos (equivalente a R$ 150 reais).",
       },
+      {
+        question: "Preciso comprar estoque?",
+        answer:
+          "Não! Você faz o pedido após a venda. Sem risco de encalhe e sem precisar investir em estoque antecipado.",
+      },
+      {
+        question: "Preciso ter CNPJ?",
+        answer:
+          "Não. Você pode começar como pessoa física. O cadastro é simples e rápido, feito 100% online.",
+      },
+      {
+        question: "Como e quando recebo minhas comissões?",
+        answer:
+          "Suas comissões você recebe ao entregar o produto ao cliente, pois você compra com preço diferenciado. A diferença do valor de venda com o valor de compra é o seu lucro.",
+      },
+      {
+        question: "Posso indicar outras pessoas e ganhar por isso?",
+        answer:
+          "Sim! Ao formar sua equipe você passa a receber bônus sobre as vendas das pessoas que você indicou, gerando renda recorrente.",
+      },
+      {
+        question: "O que está incluído na Licença ATL Services?",
+        answer:
+          "A licença inclui acesso ao ecossistema completo: produtos Atlântica Natural + ATL ON MED (assistência médica) + ATL NEX (telefonia) + Energia por Assinatura + ATL APPs. Tudo em um único cadastro. Além é claro do direito de revenda de produtos.",
+      },
+      {
+        question: "Os produtos têm registro na Anvisa?",
+        answer:
+          "Sim. Todos os produtos Atlântica Natural seguem as normas regulatórias brasileiras e possuem os registros necessários.",
+      },
     ],
   },
   footer: {
