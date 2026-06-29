@@ -1,9 +1,42 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
 import { getCompanyFromHost } from "@/lib/tenant";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CatalogSection } from "@/components/catalog/CatalogSection";
+
+const FALLBACK_IMAGE = "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-branco.png";
+const DESCRIPTION = "Compre com 50% de desconto mais de 300 produtos Atlântica Natural!";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const profile = await db.sellerProfile.findFirst({
+    where: { slug },
+    select: { name: true, slug: true, photo_url: true },
+  });
+
+  const name = profile?.name ?? "Consultor(a)";
+  const title = `Catálogo Consultor(a) | ${name}`;
+
+  return {
+    title,
+    description: DESCRIPTION,
+    openGraph: {
+      title,
+      description: DESCRIPTION,
+      images: [{ url: profile?.photo_url ?? FALLBACK_IMAGE, width: 1200, height: 630 }],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+  };
+}
 
 const SUPABASE_CATALOG_URL =
   "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/catalog-pages";
