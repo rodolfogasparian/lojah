@@ -67,6 +67,8 @@ export default function LandingNaturais({
                 src={data.brand.logoUrl}
                 alt={data.brand.name}
                 className="h-12 shrink-0 object-contain"
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className="grid h-12 w-12 shrink-0 place-items-center bg-[#cfee9a] text-[#0f3d1f] font-black text-2xl">
@@ -157,6 +159,7 @@ export default function LandingNaturais({
                 src={data.hero.imageUrl}
                 alt="Produtos naturais"
                 className="aspect-[4/5] w-full object-cover sm:aspect-[5/4]"
+                decoding="async"
               />
             </div>
             <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-black/5 bg-white px-4 py-2 text-xs font-bold text-[#0f3d1f] shadow-md sm:text-sm">
@@ -181,6 +184,8 @@ export default function LandingNaturais({
                   src={b.imageUrl}
                   alt={b.title}
                   className="w-full object-contain max-h-48"
+                  loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <div className="p-6 pb-0">
@@ -281,6 +286,8 @@ export default function LandingNaturais({
                   src={p.imageUrl}
                   alt={p.alt ?? "Produto"}
                   className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}
@@ -343,6 +350,8 @@ export default function LandingNaturais({
                       src={kit.image}
                       alt={kit.name}
                       className="w-full object-contain max-h-52 rounded-t-xl"
+                      loading="lazy"
+                      decoding="async"
                     />
                     {kit.badge && (
                       <span className="absolute left-4 top-4 rounded-full bg-[#00ff88] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#0a1a0a]">
@@ -477,6 +486,8 @@ export default function LandingNaturais({
                   src={data.brand.logoUrl}
                   alt={data.brand.name}
                   className="h-10 object-contain"
+                  loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <div className="grid h-10 w-10 place-items-center bg-[#cfee9a] text-[#0f3d1f] font-black">
@@ -575,6 +586,8 @@ export default function LandingNaturais({
             src={galleryItems[lightboxIndex]?.imageUrl}
             alt={galleryItems[lightboxIndex]?.alt ?? ""}
             className="max-h-[90vh] max-w-[90vw] object-contain"
+            loading="lazy"
+            decoding="async"
             onClick={(e) => e.stopPropagation()}
           />
           <button
