@@ -12,6 +12,11 @@ const QUICK_CATEGORIES = [
   "Suplementos e Nutracêuticos",
 ];
 
+const categoryLabels: Record<string, string> = {
+  "Perfumes Bortoletto 15ml": "Perfumes 15ml",
+  "Perfumes Bortoletto 100ml": "Perfumes 100ml",
+};
+
 type CatalogProduct = {
   id: string;
   name: string;
@@ -111,7 +116,7 @@ export function CatalogSection({
           className="w-full border border-primary rounded-full px-3 py-2 bg-white text-sm focus:outline-none"
         >
           {categories.map((c) => (
-            <option key={c.id} value={c.id}>{c.label}</option>
+            <option key={c.id} value={c.id}>{categoryLabels[c.label] ?? c.label}</option>
           ))}
         </select>
       </div>
@@ -127,7 +132,7 @@ export function CatalogSection({
               onClick={() => setActiveCategory(category.id)}
               className="px-3 py-1 rounded-full border border-primary text-primary bg-white text-xs font-medium transition-colors hover:bg-primary hover:text-white cursor-pointer"
             >
-              {label}
+              {categoryLabels[label] ?? label}
             </button>
           );
         })}
