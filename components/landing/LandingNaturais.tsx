@@ -283,55 +283,52 @@ export default function LandingNaturais({
       </section>
 
       {/* ---- Values / earnings ---- */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <SectionHeader title={data.values.title} subtitle={data.values.subtitle} />
-        <div className="mt-10 grid gap-5 sm:grid-cols-3">
-          {(data.values.items || []).map((v, i) => (
-            <div
-              key={v.title}
-              className={`rounded-3xl border p-6 transition hover:-translate-y-1 hover:shadow-lg ${
-                i === 1
-                  ? "border-2 border-[#00ff88] bg-[#0f3d1f] text-white"
-                  : "border-black/5 bg-white text-[#0f1f12]"
-              }`}
-              /* card do meio: mantém borda + glow neon */
-              style={i === 1 ? { boxShadow: "0 0 30px rgba(0,255,136,0.5)" } : undefined}
-            >
-              <h3 className="text-lg font-extrabold">{v.title}</h3>
-              <p className={`mt-1 text-sm ${i === 1 ? "text-white/80" : "text-neutral-600"}`}>
-                {v.description}
-              </p>
-              {v.value && (
-                /* preço em destaque: mantém neon verde */
-                <p
-                  className="mt-5 text-2xl font-black sm:text-3xl text-[#00ff88]"
-                  style={neonGreen}
-                >
-                  {v.value}
-                </p>
-              )}
-            </div>
-          ))}
+      <section className="bg-[#0a1a0a] px-4 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeader title={data.values.title} subtitle={data.values.subtitle} neon="green" />
+          <div className="mt-10 grid gap-5 sm:grid-cols-3">
+            {(data.values.items || []).map((v, i) => (
+              <div
+                key={v.title}
+                className={`rounded-3xl border p-6 transition hover:-translate-y-1 ${
+                  i === 1
+                    ? "border-2 border-[#00ff88] bg-[#0d2b0d] text-white"
+                    : "border-[#00ff88]/20 bg-[#0d1f0d] text-white"
+                }`}
+                style={i === 1 ? { boxShadow: "0 0 30px rgba(0,255,136,0.5)" } : undefined}
+              >
+                <h3 className="text-lg font-extrabold">{v.title}</h3>
+                <p className="mt-1 text-sm text-neutral-300">{v.description}</p>
+                {v.value && (
+                  <p
+                    className="mt-5 text-2xl font-black sm:text-3xl text-[#00ff88]"
+                    style={neonGreen}
+                  >
+                    {v.value}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-xs text-neutral-400">
+            *Valores ilustrativos baseados na média dos consultores(as) ativos.
+          </p>
         </div>
-        <p className="mt-6 text-center text-xs text-neutral-500">
-          *Valores ilustrativos baseados na média dos consultores(as) ativos.
-        </p>
       </section>
 
       {/* ---- Kits ---- */}
-      <section className="bg-[#f4f8ec]">
+      <section className="bg-[#0d1f0d]">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-          <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} />
+          <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} neon="green" />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {(data.kits.items || []).map((kit, i) => (
               <div
                 key={kit.name}
-                className={`flex flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${
+                className={`flex flex-col overflow-hidden rounded-3xl border bg-[#0a1a0a] transition hover:-translate-y-1 hover:shadow-xl ${
                   i === 1
                     ? "border-2 border-[#00ffff]"
-                    : "border-black/5"
+                    : "border-[#00ff88]/30"
                 }`}
-                /* Licença ATL Services: mantém glow ciano */
                 style={i === 1 ? { boxShadow: "0 0 25px rgba(0,255,255,0.4)" } : undefined}
               >
                 {kit.image && (
@@ -342,35 +339,34 @@ export default function LandingNaturais({
                       className="w-full object-contain max-h-52 rounded-t-xl"
                     />
                     {kit.badge && (
-                      <span className="absolute left-4 top-4 rounded-full bg-[#0f3d1f] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#cfee9a]">
+                      <span className="absolute left-4 top-4 rounded-full bg-[#00ff88] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#0a1a0a]">
                         {kit.badge}
                       </span>
                     )}
                   </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-[#0f1f12]">{kit.name}</h3>
+                  <h3 className="text-xl font-extrabold text-white">{kit.name}</h3>
                   {kit.description && (
-                    <p className="mt-1 text-sm text-neutral-500">{kit.description}</p>
+                    <p className="mt-1 text-sm text-neutral-300">{kit.description}</p>
                   )}
                   <div className="mt-3 flex items-baseline gap-2">
-                    {/* preço: mantém neon verde */}
                     <span
-                      className="text-3xl font-black text-[#00ff88]"
-                      style={neonGreen}
+                      className={`text-3xl font-bold ${i === 1 ? "text-[#00ffff]" : "text-[#00ff88]"}`}
+                      style={{ textShadow: i === 1 ? "0 0 15px #00ffff" : "0 0 15px #00ff88" }}
                     >
                       {kit.price}
                     </span>
                     {kit.oldPrice && (
-                      <span className="text-sm text-neutral-400 line-through">
+                      <span className="text-sm text-neutral-500 line-through">
                         {kit.oldPrice}
                       </span>
                     )}
                   </div>
-                  <ul className="mt-4 flex flex-col gap-2 text-sm text-neutral-700">
+                  <ul className="mt-4 flex flex-col gap-2 text-sm text-neutral-200">
                     {(kit.highlights || []).map((h) => (
                       <li key={h} className="flex items-start gap-2">
-                        <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#cfee9a] text-[10px] text-[#0f3d1f]">
+                        <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full border border-[#00ff88]/40 bg-[#00ff88]/15 text-[10px] text-[#00ff88]">
                           ✓
                         </span>
                         <span>{h}</span>
@@ -387,7 +383,6 @@ export default function LandingNaturais({
                       🛒 Ver catálogo
                     </a>
                   ) : (
-                    /* CTA: mantém neon-pulse */
                     <a
                       href={waLink(kit.whatsappMessage)}
                       target="_blank"
@@ -646,7 +641,9 @@ function SectionHeader({
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-3 text-sm text-neutral-600 sm:text-base">{subtitle}</p>
+        <p className={`mt-3 text-sm sm:text-base ${neon ? "text-neutral-300" : "text-neutral-600"}`}>
+          {subtitle}
+        </p>
       )}
     </div>
   );
