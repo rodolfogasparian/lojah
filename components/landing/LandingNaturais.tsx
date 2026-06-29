@@ -319,7 +319,7 @@ export default function LandingNaturais({
       {/* ---- Kits ---- */}
       <section className="bg-[#0d1f0d]">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-          <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} neon="green" />
+          <SectionHeader title={data.kits.title} subtitle={data.kits.subtitle} titleClassName="text-white" />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {(data.kits.items || []).map((kit, i) => (
               <div
@@ -613,10 +613,12 @@ function SectionHeader({
   title,
   subtitle,
   neon,
+  titleClassName,
 }: {
   title: string;
   subtitle?: string;
   neon?: "green" | "cyan";
+  titleClassName?: string;
 }) {
   const titleStyle =
     neon === "green"
@@ -625,12 +627,13 @@ function SectionHeader({
       ? { textShadow: "0 0 20px #00ffff, 0 0 40px #00ffff" }
       : undefined;
 
-  const titleColor =
-    neon === "green"
-      ? "text-[#00ff88]"
-      : neon === "cyan"
-      ? "text-[#00ffff]"
-      : "text-[#0f1f12]";
+  const titleColor = titleClassName
+    ? titleClassName
+    : neon === "green"
+    ? "text-[#00ff88]"
+    : neon === "cyan"
+    ? "text-[#00ffff]"
+    : "text-[#0f1f12]";
 
   return (
     <div className="mx-auto max-w-2xl text-center">
