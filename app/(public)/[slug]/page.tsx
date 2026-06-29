@@ -59,10 +59,12 @@ export async function generateMetadata({
 
 export default async function SellerPublicPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ categoria?: string }>;
 }) {
-  const { slug } = await params;
+  const [{ slug }, { categoria }] = await Promise.all([params, searchParams]);
 
   const company = await getCompanyFromHost();
   if (!company) {
@@ -165,6 +167,7 @@ export default async function SellerPublicPage({
       signupButtonUrl={seller.signup_button_url ?? "https://cadastro.atlanticanatural.com.br/codigos"}
       sellerName={seller.name}
       pageUrl={currentUrl}
+      initialCategoryName={categoria}
     />
   );
 

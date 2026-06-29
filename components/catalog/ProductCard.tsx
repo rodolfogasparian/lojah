@@ -44,7 +44,7 @@ export function ProductCard({
   return (
     <article className="flex flex-col bg-card rounded-2xl border border-border overflow-hidden">
       <div className="relative aspect-square bg-white">
-        {isConsultor && (
+        {isConsultor && product.category?.name !== "ATL Services" && (
           <span className="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
             50% OFF
           </span>

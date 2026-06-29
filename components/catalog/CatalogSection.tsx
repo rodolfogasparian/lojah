@@ -37,6 +37,7 @@ type Props = {
   sellerName: string;
   pageUrl: string;
   isConsultor?: boolean;
+  initialCategoryName?: string;
 };
 
 export function CatalogSection({
@@ -47,6 +48,7 @@ export function CatalogSection({
   sellerName,
   pageUrl,
   isConsultor,
+  initialCategoryName,
 }: Props) {
   const categories = useMemo(() => {
     const seen = new Map<string, string>();
@@ -56,7 +58,11 @@ export function CatalogSection({
     return [{ id: "all", label: "Todos" }, ...[...seen.entries()].map(([id, label]) => ({ id, label }))];
   }, [products]);
 
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState(() => {
+    if (!initialCategoryName) return "all";
+    const found = products.find((p) => p.category?.name === initialCategoryName);
+    return found?.category?.id ?? "all";
+  });
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProducts = useMemo(() => {

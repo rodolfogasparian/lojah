@@ -14,8 +14,8 @@ export default async function CartaoPage() {
 
   const urlCartao = `https://${companySlug}.lojah.app/${sellerSlug}/cartao`;
   const urlCliente = `https://${companySlug}.lojah.app/${sellerSlug}`;
-  const urlConsultor = `https://${companySlug}.lojah.app/${sellerSlug}/c`;
-  const urlRevenda = `https://${companySlug}.lojah.app/${sellerSlug}/r`;
+  const urlConsultor = `https://${companySlug}.lojah.app/${sellerSlug}/desconto`;
+  const urlRevenda = `https://${companySlug}.lojah.app/${sellerSlug}/revenda`;
 
   return (
     <div className="flex flex-col gap-6">

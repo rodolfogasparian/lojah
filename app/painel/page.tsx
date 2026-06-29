@@ -48,7 +48,7 @@ export default async function PainelPage() {
     {
       label: "Catálogo Preço Consultor",
       description: "50% de desconto para consultores",
-      url: `${base}/c`,
+      url: `${base}/desconto`,
       color: "text-blue-700",
       bg: "bg-blue-50",
       border: "border-blue-200",
@@ -64,7 +64,7 @@ export default async function PainelPage() {
     {
       label: "Página de Cadastro de Vendedores",
       description: "Indique e cadastre novos consultores",
-      url: `${base}/r`,
+      url: `${base}/revenda`,
       color: "text-orange-700",
       bg: "bg-orange-50",
       border: "border-orange-200",
@@ -105,7 +105,7 @@ export default async function PainelPage() {
                 🛍️ Catálogo cliente
               </a>
               <a
-                href={`https://atlantica.lojah.app/${profile.slug}/c`}
+                href={`https://atlantica.lojah.app/${profile.slug}/desconto`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-800 text-sm font-semibold hover:bg-gray-200 transition-colors"
@@ -113,7 +113,7 @@ export default async function PainelPage() {
                 💼 Catálogo consultor (50% OFF)
               </a>
               <a
-                href={`https://atlantica.lojah.app/${profile.slug}/r`}
+                href={`https://atlantica.lojah.app/${profile.slug}/revenda`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-800 text-sm font-semibold hover:bg-gray-200 transition-colors"
