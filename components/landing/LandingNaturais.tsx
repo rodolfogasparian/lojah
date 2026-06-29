@@ -509,31 +509,6 @@ export default function LandingNaturais({
             >
               💬 {data.footer.contact.whatsappLabel}
             </a>
-            {data.footer.contact.email && (
-              <p className="mt-3 text-sm text-neutral-400">
-                {data.footer.contact.email}
-              </p>
-            )}
-            {data.footer.contact.hours && (
-              <p className="mt-1 text-xs text-neutral-500">
-                {data.footer.contact.hours}
-              </p>
-            )}
-            <div className="mt-4">
-              <p className="text-xs font-bold uppercase tracking-wide text-neutral-500">
-                Pagamentos
-              </p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {(data.footer.paymentMethods || []).map((p) => (
-                  <span
-                    key={p}
-                    className="rounded-md border border-neutral-700 bg-[#0d1f0d] px-2 py-1 text-[11px] font-bold text-neutral-300"
-                  >
-                    {p}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
         <div className="border-t border-white/5 px-4 py-4 text-center text-xs text-neutral-500 sm:px-6">

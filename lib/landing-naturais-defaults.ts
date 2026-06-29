@@ -64,7 +64,7 @@ export const defaultPageData: LandingNaturaisData = {
     title: "Faça parte do Maior Ecossistema de Produtos e Serviços do Brasil!",
     subtitle: "Empreenda com propósito. Cresça com o maior ecossistema em vendas diretas!",
     imageUrl:
-      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/21-maior-ecossistema.png",
+      "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/renda-recorrente-neon.png",
     ctaLabel: "Quero saber mais",
     bullets: [
       "Mais de 300 produtos para revender com até 100% de lucro",
@@ -198,7 +198,7 @@ export const defaultPageData: LandingNaturaisData = {
         price: "R$ 999,99",
         description: "Acesso completo ao ecossistema de produtos E serviços digitais",
         image:
-          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/22-banner-licenca-servicos-2.png",
+          "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/banner-licenca-neon.png",
         highlights: [
           "Inclui licença de produtos",
           "ATL ON MED + ATL NEX + Energia",
