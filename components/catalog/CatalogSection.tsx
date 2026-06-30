@@ -10,12 +10,16 @@ const QUICK_CATEGORIES = [
   "Perfumes Bortoletto 100ml",
   "Linha Ozonizada",
   "Suplementos e Nutracêuticos",
+  "Telemedicina",
+  "Telefonia",
   "ATL Services",
 ];
 
 const categoryLabels: Record<string, string> = {
   "Perfumes Bortoletto 15ml": "Perfumes 15ml",
   "Perfumes Bortoletto 100ml": "Perfumes 100ml",
+  "Telemedicina": "Telemedicina",
+  "Telefonia": "Telefonia",
   "ATL Services": "Serviços",
 };
 

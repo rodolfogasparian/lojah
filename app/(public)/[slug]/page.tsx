@@ -46,6 +46,14 @@ export async function generateMetadata({
       title: `Suplementos Naturais | ${profile?.name ?? "Atlântica Natural"}`,
       description: "Vitaminas, suplementos e nutracêuticos de alta qualidade para sua saúde e bem-estar!",
     },
+    "Telemedicina": {
+      title: `Telemedicina | ${profile?.name ?? "Atlântica Natural"}`,
+      description: "Planos de assistência médica com telemedicina para você e sua família. Consulte valores!",
+    },
+    "Telefonia": {
+      title: `Telefonia ATL NEX | ${profile?.name ?? "Atlântica Natural"}`,
+      description: "Planos de telefonia digital com WhatsApp ilimitado e ligações. Confira os planos!",
+    },
     "ATL Services": {
       title: `ATL Services | ${profile?.name ?? "Atlântica Natural"}`,
       description: "Assistência médica, telefonia, energia e muito mais. Serviços digitais com comissão recorrente!",
