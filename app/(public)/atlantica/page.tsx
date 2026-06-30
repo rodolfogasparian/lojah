@@ -147,7 +147,7 @@ export default function AtlanticaSalesPage() {
                   className="w-8 h-8 rounded-full bg-[#0f3d1f] text-white border border-[#00ff88] flex items-center justify-center mx-auto mb-3 text-sm font-medium"
                   style={{ boxShadow: "0 0 15px rgba(0,255,136,0.4)" }}
                 >{n}</div>
-                <p className="text-sm font-medium text-[#0f3d1f] mb-1">{title}</p>
+                <p className="text-sm font-medium text-white mb-1">{title}</p>
                 <p className="text-xs text-neutral-300">{desc}</p>
               </div>
             ))}
