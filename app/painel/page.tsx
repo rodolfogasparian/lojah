@@ -71,6 +71,45 @@ export default async function PainelPage() {
     },
   ];
 
+  const categoryLinks = [
+    {
+      label: "Catálogo — Perfumes 15ml",
+      description: "Link direto para perfumes 15ml",
+      url: `https://atlantica.lojah.app/${profile.slug}/perfumes`,
+      color: "text-purple-600",
+    },
+    {
+      label: "Catálogo — Linha Ozonizada",
+      description: "Link direto para linha ozonizada",
+      url: `https://atlantica.lojah.app/${profile.slug}?categoria=Linha+Ozonizada`,
+      color: "text-green-600",
+    },
+    {
+      label: "Catálogo — Suplementos",
+      description: "Link direto para suplementos e nutracêuticos",
+      url: `https://atlantica.lojah.app/${profile.slug}?categoria=Suplementos+e+Nutrac%C3%AAuticos`,
+      color: "text-blue-600",
+    },
+    {
+      label: "Catálogo — Telemedicina",
+      description: "Link direto para planos de saúde",
+      url: `https://atlantica.lojah.app/${profile.slug}?categoria=Telemedicina`,
+      color: "text-red-600",
+    },
+    {
+      label: "Catálogo — Telefonia",
+      description: "Link direto para planos ATL NEX",
+      url: `https://atlantica.lojah.app/${profile.slug}?categoria=Telefonia`,
+      color: "text-cyan-600",
+    },
+    {
+      label: "Catálogo — Serviços",
+      description: "Link direto para ATL Services completo",
+      url: `https://atlantica.lojah.app/${profile.slug}/servicos`,
+      color: "text-orange-600",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -134,6 +173,38 @@ export default async function PainelPage() {
             <div
               key={url}
               className={`flex items-center justify-between gap-3 p-3 rounded-xl border ${bg} ${border}`}
+            >
+              <div className="flex flex-col min-w-0">
+                <span className={`text-sm font-bold ${color}`}>{label}</span>
+                <span className="text-xs text-muted-foreground">{description}</span>
+                <span className="text-[11px] text-gray-500 truncate mt-0.5 font-mono">{url}</span>
+              </div>
+              <div className="flex items-center gap-1 shrink-0">
+                <CopyButton text={url} />
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="size-7 rounded-md border border-border bg-white grid place-items-center text-muted-foreground hover:bg-gray-50 transition-colors"
+                >
+                  <ExternalLink className="size-3.5" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">🔗 Links por Categoria</CardTitle>
+          <p className="text-xs text-muted-foreground">Compartilhe links diretos para cada categoria do catálogo</p>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          {categoryLinks.map(({ label, description, url, color }) => (
+            <div
+              key={url}
+              className="flex items-center justify-between gap-3 p-3 rounded-xl border border-border bg-muted/30"
             >
               <div className="flex flex-col min-w-0">
                 <span className={`text-sm font-bold ${color}`}>{label}</span>
