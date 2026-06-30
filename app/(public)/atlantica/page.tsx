@@ -30,13 +30,13 @@ export default function AtlanticaSalesPage() {
           </div>
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="inline-block text-xs font-medium px-3 py-1 rounded-full mb-4 bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
+              <div className="inline-block text-xs font-medium px-3 py-1 rounded-full mb-4 bg-[#00ff88]/15 text-[#0f3d1f] border border-[#00ff88]/30">
                 ★ Catálogo digital exclusivo
               </div>
               <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 leading-tight mb-4">
                 Seu catálogo Atlântica Natural no celular, sempre atualizado
               </h1>
-              <p className="text-sm text-gray-500 leading-relaxed mb-6">
+              <p className="text-sm text-gray-600 leading-relaxed mb-6">
                 Link personalizado, cartão virtual e página de revenda — tudo em um só lugar para você vender mais pelo WhatsApp.
               </p>
               <div className="flex gap-3 flex-wrap">
@@ -57,7 +57,7 @@ export default function AtlanticaSalesPage() {
             </div>
             <div className="rounded-xl overflow-hidden">
               <img
-                src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/catalogo-3.png"
+                src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/images/venda-mais.png"
                 alt="Catálogo Atlântica Natural"
                 className="w-full h-full object-cover rounded-xl"
               />
@@ -140,7 +140,7 @@ export default function AtlanticaSalesPage() {
                   className="w-8 h-8 rounded-full bg-[#0f3d1f] text-white border border-[#00ff88] flex items-center justify-center mx-auto mb-3 text-sm font-medium"
                   style={{ boxShadow: "0 0 15px rgba(0,255,136,0.4)" }}
                 >{n}</div>
-                <p className="text-sm font-medium text-[#00ff88] mb-1">{title}</p>
+                <p className="text-sm font-medium text-[#0f3d1f] mb-1">{title}</p>
                 <p className="text-xs text-gray-500">{desc}</p>
               </div>
             ))}
@@ -158,9 +158,9 @@ export default function AtlanticaSalesPage() {
           <div className="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm">
             <p className="text-xs text-gray-500 mb-4">Catálogo individual</p>
             <p className="text-xs text-gray-400 line-through mb-0.5">de R$ 197</p>
-            <p className="text-xs font-medium text-[#00ff88] mb-1" style={{ textShadow: "0 0 10px #00ff88" }}>por apenas</p>
+            <p className="text-xs font-medium text-gray-500 mb-1">por apenas</p>
             <div className="flex items-baseline gap-1 mb-5">
-              <span className="text-4xl font-semibold text-gray-900">R$ 67</span>
+              <span className="text-4xl font-semibold text-[#0f3d1f]">R$ 67</span>
               <span className="text-sm text-gray-500">/ano</span>
             </div>
             <ul className="mt-6 space-y-3">
@@ -172,7 +172,7 @@ export default function AtlanticaSalesPage() {
                 "Suporte via WhatsApp",
               ].map((f) => (
                 <li key={f} className="flex items-center gap-3 text-sm">
-                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-green-50 text-green-700">
+                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-green-50 text-[#0f3d1f]">
                     <Check className="h-3 w-3" strokeWidth={3} />
                   </span>
                   <span className="text-gray-700">{f}</span>
@@ -201,7 +201,7 @@ export default function AtlanticaSalesPage() {
             <p className="text-xs text-green-300 line-through mb-0.5">de R$ 1.970</p>
             <p className="text-xs font-medium text-[#00ff88] mb-1">por apenas</p>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-semibold text-white">R$ 370</span>
+              <span className="text-4xl font-semibold text-[#00ff88]" style={{ textShadow: "0 0 15px #00ff88" }}>R$ 370</span>
             </div>
             <p className="text-xs text-green-200 mb-3">R$ 37 por catálogo</p>
             <div className="rounded-xl bg-white/10 p-3 mb-4">
