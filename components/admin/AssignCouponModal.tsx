@@ -50,7 +50,12 @@ export function AssignCouponModal({ packId, packType, quantity }: Props) {
     }
   }
 
-  const tipoLabel = packType === "PROMOTIONAL" ? "Promocional 30 dias" : "Anual 1 ano";
+  const PACK_LABEL: Record<string, string> = {
+    PROMOTIONAL: "7 dias",
+    ANNUAL: "Anual",
+    MONTHLY: "30 dias",
+  };
+  const tipoLabel = PACK_LABEL[packType] ?? packType;
 
   return (
     <>
