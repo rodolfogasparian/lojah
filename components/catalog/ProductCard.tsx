@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Eye, MessageCircle, Minus, Plus, Share2, ShoppingCart } from "lucide-react";
+import { Copy, Eye, MessageCircle, Minus, Plus, Share2, ShoppingCart } from "lucide-react";
 import { brl } from "@/lib/format";
 import { CatalogPageModal } from "./CatalogPageModal";
 
@@ -15,31 +15,74 @@ type Props = {
     image_url: string | null;
     catalogPageUrl?: string | null;
   };
+  productUrl: string;
+  sellerName: string;
   qty: number;
   onAdd: (id: string) => void;
   onRemove: (id: string) => void;
   whatsappPhone: string;
   signupButtonText: string;
   signupButtonUrl: string;
-  onShare?: (id: string) => void;
+  isShareMenuOpen: boolean;
+  onToggleShareMenu: () => void;
+  onCloseShareMenu: () => void;
   onSendOrder?: () => void;
   isConsultor?: boolean;
 };
 
 export function ProductCard({
   product,
+  productUrl,
+  sellerName,
   qty,
   onAdd,
   onRemove,
   whatsappPhone,
   signupButtonText,
   signupButtonUrl,
-  onShare,
+  isShareMenuOpen,
+  onToggleShareMenu,
+  onCloseShareMenu,
   onSendOrder,
   isConsultor,
 }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const shareMenuRef = useRef<HTMLDivElement>(null);
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(`Olá! Quero o ${product.name}.`)}`;
+
+  useEffect(() => {
+    if (!isShareMenuOpen) return;
+    function handleClickOutside(e: MouseEvent) {
+      if (shareMenuRef.current && !shareMenuRef.current.contains(e.target as Node)) {
+        onCloseShareMenu();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isShareMenuOpen, onCloseShareMenu]);
+
+  async function handleNativeShare() {
+    try {
+      await navigator.share({
+        title: product.name,
+        text: `${product.name} — confira no catálogo de ${sellerName}`,
+        url: productUrl,
+      });
+    } catch {
+      // usuário cancelou
+    }
+    onCloseShareMenu();
+  }
+
+  async function handleCopyLink() {
+    await navigator.clipboard.writeText(productUrl);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+      onCloseShareMenu();
+    }, 2000);
+  }
 
   return (
     <article className="flex flex-col bg-card rounded-2xl border border-border overflow-hidden">
@@ -88,9 +131,58 @@ export function ProductCard({
             <a href={whatsappUrl} target="_blank" rel="noreferrer" className="flex-1 h-9 rounded-lg border border-border bg-card text-foreground text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:bg-green-50 transition-colors">
               <MessageCircle className="size-3.5 text-green-500" /> Eu quero
             </a>
-            <button type="button" aria-label="Compartilhar" onClick={() => onShare?.(product.id)} className="size-9 rounded-lg border border-border bg-card grid place-items-center text-muted-foreground hover:bg-gray-50 transition-colors">
-              <Share2 className="size-3.5" />
-            </button>
+            <div className="relative" ref={shareMenuRef}>
+              <button
+                type="button"
+                aria-label="Compartilhar"
+                onClick={onToggleShareMenu}
+                className="size-9 rounded-lg border border-border bg-card grid place-items-center text-muted-foreground hover:bg-gray-50 transition-colors"
+              >
+                <Share2 className="size-3.5" />
+              </button>
+              {isShareMenuOpen && (
+                <div className="absolute bottom-full right-0 mb-1.5 z-20 bg-white border border-border rounded-xl shadow-lg overflow-hidden min-w-[185px]">
+                  {typeof navigator !== "undefined" && navigator.share && (
+                    <button
+                      type="button"
+                      onClick={handleNativeShare}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-gray-50 transition-colors"
+                    >
+                      <Share2 className="size-3.5 text-muted-foreground" />
+                      Compartilhar
+                    </button>
+                  )}
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(product.name + " - " + productUrl)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={onCloseShareMenu}
+                    className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-gray-50 transition-colors"
+                  >
+                    <MessageCircle className="size-3.5 text-green-500" />
+                    WhatsApp
+                  </a>
+                  <a
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(product.name + " - " + productUrl)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={onCloseShareMenu}
+                    className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-gray-50 transition-colors"
+                  >
+                    <MessageCircle className="size-3.5 text-green-600" />
+                    WhatsApp Business
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-gray-50 transition-colors"
+                  >
+                    <Copy className="size-3.5 text-muted-foreground" />
+                    {copied ? "Copiado! ✓" : "Copiar link"}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {qty > 0 ? (

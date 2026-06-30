@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { Search } from "lucide-react";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { CartBar } from "@/components/catalog/CartBar";
@@ -80,6 +80,7 @@ export function CatalogSection({
     return found?.category?.id ?? "all";
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [shareMenuOpen, setShareMenuOpen] = useState<string | null>(null);
 
   const filteredProducts = useMemo(() => {
     let result: CatalogProduct[];
@@ -101,27 +102,10 @@ export function CatalogSection({
 
   const { cart, add, remove, count, total, sendWhatsAppOrder } = useCart(products);
 
-  async function handleShare(productId: string) {
-    const product = products.find((p) => p.id === productId);
-    if (!product) return;
-
-    const productUrl = `https://${companySlug}.lojah.app/${sellerSlug}/produto/${product.id}`;
-
-    if (typeof navigator !== "undefined" && navigator.share) {
-      try {
-        await navigator.share({
-          title: product.name,
-          text: `${product.name} — confira no catálogo de ${sellerName}`,
-          url: productUrl,
-        });
-      } catch {
-        // usuário cancelou o compartilhamento
-      }
-      return;
-    }
-
-    await navigator.clipboard.writeText(productUrl);
-  }
+  const buildProductUrl = useCallback(
+    (productId: string) => `https://${companySlug}.lojah.app/${sellerSlug}/produto/${productId}`,
+    [companySlug, sellerSlug],
+  );
 
   if (products.length === 0) {
     return null;
@@ -204,13 +188,19 @@ export function CatalogSection({
           <ProductCard
             key={product.id}
             product={product}
+            productUrl={buildProductUrl(product.id)}
+            sellerName={sellerName}
             qty={cart[product.id] ?? 0}
             onAdd={add}
             onRemove={remove}
             whatsappPhone={whatsappPhone}
             signupButtonText={signupButtonText}
             signupButtonUrl={signupButtonUrl}
-            onShare={handleShare}
+            isShareMenuOpen={shareMenuOpen === product.id}
+            onToggleShareMenu={() =>
+              setShareMenuOpen((prev) => (prev === product.id ? null : product.id))
+            }
+            onCloseShareMenu={() => setShareMenuOpen(null)}
             onSendOrder={() => sendWhatsAppOrder(whatsappPhone)}
             isConsultor={isConsultor}
           />
