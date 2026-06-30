@@ -19,18 +19,31 @@ REGRAS OBRIGATÓRIAS:
 - Todos os comandos devem ser em português
 - Sempre indicar claramente onde rodar cada comando: [Claude Code] ou [PowerShell]
 
-ESTADO ATUAL (atualizado 30/06/2026):
-- Módulo 1 ✅ Fundação (banco, auth, multitenancy)
-- Módulo 2 ✅ Página Pública (catálogo, modal, carrinho)
-- Módulo 3 ✅ Painel Vendedor (perfil, cartão, upload foto, /desconto, /revenda, /cartao)
-- Módulo 4 ✅ Painel Admin (vendedores, cupons, suporte, FAQ, materiais)
-- Módulo 5 ⏳ Superadmin — PRIORIDADE DA PRÓXIMA SESSÃO (não implementado ainda)
-- Módulo 6 🔄 Parcial — SEO/Open Graph completo, responsividade mobile pendente
+ESTADO ATUAL (atualizado em 30/06/2026 — pausa estratégica):
+- Módulo 1 ✅ Fundação
+- Módulo 2 ✅ Página Pública
+- Módulo 3 ✅ Painel Vendedor
+- Módulo 4 ✅ Painel Admin
+- Módulo 5 🔄 Superadmin — PARCIALMENTE CONSTRUÍDO, PAUSADO INTENCIONALMENTE (ver detalhes abaixo)
+- Módulo 6 🔄 Parcial
 
-PRIORIDADE IMEDIATA — Módulo 5 Superadmin:
-Criar rota /master exclusiva para SUPERADMIN e REVERTER gambiarras do /admin.
+MÓDULO 5 — O QUE JÁ EXISTE (não tocar sem completar o resto):
+- app/master/layout.tsx → proteção SUPERADMIN only, funcionando
+- app/master/page.tsx → dashboard placeholder, funcionando
+- app/master/empresas/page.tsx → listagem real de empresas via Prisma, funcionando
+- components/master/MasterNav.tsx → navegação do superadmin, funcionando
+- Acesso: somente manual via URL https://atlantica.lojah.app/master (login ainda não redireciona para cá)
 
-GAMBIARRAS A REVERTER (9 arquivos) — AINDA PENDENTE:
+MÓDULO 5 — O QUE FALTA (retomar nesta ordem quando o foco voltar para cá):
+1. app/master/empresas/nova/page.tsx — formulário criar empresa + slug + company_admin
+2. app/master/empresas/actions.ts — server actions de criação
+3. SÓ DEPOIS disso funcionar: reverter a gambiarra nos 9 arquivos do /admin (listados abaixo)
+4. SÓ DEPOIS da reversão: mudar login-form.tsx para redirecionar SUPERADMIN para /master
+5. SÓ DEPOIS disso: adicionar redirect em app/admin/layout.tsx para SUPERADMIN ir para /master
+
+⚠️ REGRA DE SEGURANÇA: NÃO reverter a gambiarra do /admin (item 3) antes do item 1-2 estarem prontos e testados. Isso deixaria o SUPERADMIN sem acesso a nada, sem substituto funcional.
+
+GAMBIARRA NO /admin — AINDA INTACTA E FUNCIONANDO (não mexer agora):
 Os arquivos abaixo foram modificados com solução temporária que DEVE ser revertida:
 - app/admin/page.tsx
 - app/admin/vendedores/page.tsx
@@ -47,16 +60,6 @@ Cada um tem:
    → Deve voltar para: if (!session?.user?.companyId) redirect("/login")
 2. Linha: const companyId = session.user.companyId ?? "none"
    → Deve ser removida e substituir companyId de volta por session.user.companyId
-
-Módulo 5 deve criar:
-- app/master/layout.tsx — proteção SUPERADMIN only, redirect para /master se for SUPERADMIN
-- app/master/page.tsx — dashboard com métricas de TODAS as empresas
-- app/master/empresas/page.tsx — listar todas as empresas
-- app/master/empresas/nova/page.tsx — criar empresa + slug + company_admin
-- app/master/empresas/actions.ts — server actions
-- components/master/MasterNav.tsx — navegação do superadmin
-- Modificar components/shared/login-form.tsx: SUPERADMIN → router.push("/master")
-- Modificar app/admin/layout.tsx: adicionar redirect para /master se role === SUPERADMIN
 
 ROTAS ATUAIS DO PROJETO (reestruturadas em 30/06/2026):
 - /[slug] → catálogo preço cliente
