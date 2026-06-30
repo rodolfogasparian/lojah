@@ -5,6 +5,15 @@ import { ProductCard } from "@/components/catalog/ProductCard";
 import { CartBar } from "@/components/catalog/CartBar";
 import { useCart } from "@/hooks/useCart";
 
+const SERVICE_CATEGORIES = [
+  "Telefonia",
+  "Telemedicina",
+  "TV",
+  "Inteligência Artificial",
+  "Energia",
+  "ATL Services",
+];
+
 const QUICK_CATEGORIES = [
   "Perfumes Bortoletto 15ml",
   "Perfumes Bortoletto 100ml",
@@ -12,7 +21,7 @@ const QUICK_CATEGORIES = [
   "Suplementos e Nutracêuticos",
   "Telemedicina",
   "Telefonia",
-  "ATL Services",
+  "SERVICOS_AGRUPADOS",
 ];
 
 const categoryLabels: Record<string, string> = {
@@ -21,6 +30,7 @@ const categoryLabels: Record<string, string> = {
   "Telemedicina": "Telemedicina",
   "Telefonia": "Telefonia",
   "ATL Services": "Serviços",
+  "SERVICOS_AGRUPADOS": "Serviços",
 };
 
 type CatalogProduct = {
@@ -72,10 +82,14 @@ export function CatalogSection({
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProducts = useMemo(() => {
-    let result =
-      activeCategory === "all"
-        ? products
-        : products.filter((product) => product.category?.id === activeCategory);
+    let result: CatalogProduct[];
+    if (activeCategory === "all") {
+      result = products;
+    } else if (activeCategory === "SERVICOS_AGRUPADOS") {
+      result = products.filter((p) => SERVICE_CATEGORIES.includes(p.category?.name ?? ""));
+    } else {
+      result = products.filter((p) => p.category?.id === activeCategory);
+    }
 
     const query = searchQuery.trim().toLowerCase();
     if (query) {
@@ -139,6 +153,20 @@ export function CatalogSection({
 
       <div className="flex gap-2 flex-wrap mb-4">
         {QUICK_CATEGORIES.map((label) => {
+          if (label === "SERVICOS_AGRUPADOS") {
+            const hasServices = products.some((p) => SERVICE_CATEGORIES.includes(p.category?.name ?? ""));
+            if (!hasServices) return null;
+            return (
+              <button
+                key="SERVICOS_AGRUPADOS"
+                type="button"
+                onClick={() => setActiveCategory("SERVICOS_AGRUPADOS")}
+                className="px-3 py-1 rounded-full border border-primary text-primary bg-white text-xs font-medium transition-colors hover:bg-primary hover:text-white cursor-pointer"
+              >
+                Serviços
+              </button>
+            );
+          }
           const category = categories.find((c) => c.label === label);
           if (!category) return null;
           return (
