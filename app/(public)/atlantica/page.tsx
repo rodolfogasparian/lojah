@@ -53,7 +53,10 @@ export default function AtlanticaSalesPage() {
                   </button>
                 </a>
                 <a href={CATALOGO_MODELO} target="_blank" rel="noopener noreferrer">
-                  <button className="flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors">
+                  <button
+                    className="flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium bg-[#0f3d1f] text-[#00ff88] border border-[#00ff88] animate-pulse-slow"
+                    style={{ textShadow: "0 0 10px #00ff88" }}
+                  >
                     👁️ Ver modelo ao vivo
                   </button>
                 </a>
