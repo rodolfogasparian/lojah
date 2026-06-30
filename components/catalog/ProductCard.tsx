@@ -142,7 +142,7 @@ export function ProductCard({
               </button>
               {isShareMenuOpen && (
                 <div className="absolute bottom-full right-0 mb-1.5 z-20 bg-white border border-border rounded-xl shadow-lg overflow-hidden min-w-[185px]">
-                  {typeof navigator !== "undefined" && navigator.share && (
+                  {typeof navigator !== "undefined" && typeof navigator.share === "function" && (
                     <button
                       type="button"
                       onClick={handleNativeShare}
