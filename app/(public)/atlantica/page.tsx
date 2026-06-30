@@ -68,16 +68,16 @@ export default function AtlanticaSalesPage() {
 
       {/* DEMO AO VIVO */}
       <section className="px-4 py-6 max-w-5xl mx-auto">
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex items-center justify-between gap-4 flex-wrap">
+        <div className="bg-[#0d1f0d] rounded-2xl border border-[#00ff88]/30 p-5 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-2xl bg-green-50 flex items-center justify-center text-xl">👁️</div>
+            <div className="w-11 h-11 rounded-2xl bg-[#00ff88]/10 flex items-center justify-center text-xl">👁️</div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Veja como fica o seu catálogo</p>
-              <p className="text-xs text-gray-500 mt-0.5">Acesse um catálogo real funcionando agora mesmo</p>
+              <p className="text-sm font-medium text-white">Veja como fica o seu catálogo</p>
+              <p className="text-xs text-neutral-300 mt-0.5">Acesse um catálogo real funcionando agora mesmo</p>
             </div>
           </div>
           <a href={CATALOGO_MODELO} target="_blank" rel="noopener noreferrer">
-            <button className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors bg-transparent">
+            <button className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-[#0f3d1f] text-[#00ff88] border border-[#00ff88] hover:scale-105 transition-all">
               ↗ Abrir catálogo modelo
             </button>
           </a>
@@ -135,13 +135,13 @@ export default function AtlanticaSalesPage() {
               ["2", "Personalize", "Adicione foto, bio e seus dados de contato"],
               ["3", "Compartilhe", "Envie seu link no WhatsApp e venda mais"],
             ].map(([n, title, desc]) => (
-              <div key={n} className="rounded-3xl border border-gray-200 bg-white p-5 text-center shadow-sm">
+              <div key={n} className="rounded-3xl border border-[#00ff88]/30 bg-[#0d1f0d] p-5 text-center">
                 <div
                   className="w-8 h-8 rounded-full bg-[#0f3d1f] text-white border border-[#00ff88] flex items-center justify-center mx-auto mb-3 text-sm font-medium"
                   style={{ boxShadow: "0 0 15px rgba(0,255,136,0.4)" }}
                 >{n}</div>
                 <p className="text-sm font-medium text-[#0f3d1f] mb-1">{title}</p>
-                <p className="text-xs text-gray-500">{desc}</p>
+                <p className="text-xs text-neutral-300">{desc}</p>
               </div>
             ))}
           </div>
@@ -149,19 +149,20 @@ export default function AtlanticaSalesPage() {
       </section>
 
       {/* PREÇOS */}
-      <section className="px-4 py-12 max-w-5xl mx-auto">
-        <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-2">Planos</p>
-        <h2 className="text-2xl font-semibold tracking-tight text-gray-900 mb-6">Escolha seu plano</h2>
+      <section className="bg-[#0a1a0a] px-4 py-12">
+        <div className="max-w-5xl mx-auto">
+        <p className="text-xs font-medium tracking-widest text-neutral-400 uppercase mb-2">Planos</p>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Escolha seu plano</h2>
         <div className="grid md:grid-cols-2 gap-4">
 
           {/* Individual */}
-          <div className="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm">
-            <p className="text-xs text-gray-500 mb-4">Catálogo individual</p>
-            <p className="text-xs text-gray-400 line-through mb-0.5">de R$ 197</p>
-            <p className="text-xs font-medium text-gray-500 mb-1">por apenas</p>
+          <div className="rounded-[2rem] border border-[#00ff88]/30 bg-[#0d1f0d] p-6">
+            <p className="text-xs text-neutral-400 mb-4">Catálogo individual</p>
+            <p className="text-xs text-neutral-500 line-through mb-0.5">de R$ 197</p>
+            <p className="text-xs font-medium text-neutral-400 mb-1">por apenas</p>
             <div className="flex items-baseline gap-1 mb-5">
-              <span className="text-4xl font-semibold text-[#0f3d1f]">R$ 67</span>
-              <span className="text-sm text-gray-500">/ano</span>
+              <span className="text-4xl font-semibold text-[#00ff88]" style={{ textShadow: "0 0 10px #00ff88" }}>R$ 67</span>
+              <span className="text-sm text-neutral-400">/ano</span>
             </div>
             <ul className="mt-6 space-y-3">
               {[
@@ -172,16 +173,16 @@ export default function AtlanticaSalesPage() {
                 "Suporte via WhatsApp",
               ].map((f) => (
                 <li key={f} className="flex items-center gap-3 text-sm">
-                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-green-50 text-[#0f3d1f]">
+                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#00ff88]/10 text-[#00ff88]">
                     <Check className="h-3 w-3" strokeWidth={3} />
                   </span>
-                  <span className="text-gray-700">{f}</span>
+                  <span className="text-neutral-200">{f}</span>
                 </li>
               ))}
             </ul>
             <a href="/cadastro">
               <button
-                className="w-full py-3 mt-6 rounded-full text-sm font-medium bg-[#0f3d1f] text-white border border-[#00ff88] hover:scale-105 transition-all"
+                className="w-full py-3 mt-6 rounded-full text-sm font-medium bg-[#0f3d1f] text-[#00ff88] border border-[#00ff88] hover:scale-105 transition-all"
                 style={{ boxShadow: "0 0 20px rgba(0,255,136,0.4)" }}
               >
                 Quero meu catálogo
@@ -233,6 +234,7 @@ export default function AtlanticaSalesPage() {
             </a>
           </div>
 
+        </div>
         </div>
       </section>
 
