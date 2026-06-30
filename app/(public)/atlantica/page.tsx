@@ -20,13 +20,17 @@ export default function AtlanticaSalesPage() {
       {/* HERO */}
       <section className="bg-gray-50 px-4 py-14">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center justify-center gap-8 mb-6">
             <img
-              src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-preto.jpg"
+              src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-branco.png"
               alt="Atlântica Natural"
-              className="w-9 h-9 rounded-lg object-contain bg-white p-0.5"
+              className="h-14 object-contain"
             />
-            <span className="text-sm font-medium text-gray-600">Atlântica Natural × Lojah</span>
+            <img
+              src="https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-loja-preto.png"
+              alt="Lojah"
+              className="h-14 object-contain"
+            />
           </div>
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
