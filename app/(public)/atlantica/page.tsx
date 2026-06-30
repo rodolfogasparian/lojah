@@ -54,7 +54,7 @@ export default function AtlanticaSalesPage() {
                 </a>
                 <a href={CATALOGO_MODELO} target="_blank" rel="noopener noreferrer">
                   <button
-                    className="flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium bg-[#0f3d1f] text-[#00ff88] border border-[#00ff88] animate-pulse-slow"
+                    className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium bg-[#0f3d1f] text-[#00ff88] border border-[#00ff88] animate-pulse-slow transition-all hover:scale-105"
                     style={{ textShadow: "0 0 10px #00ff88" }}
                   >
                     👁️ Ver modelo ao vivo
@@ -186,6 +186,17 @@ export default function AtlanticaSalesPage() {
                   <span className="text-neutral-200">{f}</span>
                 </li>
               ))}
+              <li className="flex items-center gap-3 text-sm">
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#00ff88]/10 text-[#00ff88]">
+                  <Check className="h-3 w-3" strokeWidth={3} />
+                </span>
+                <span className="text-neutral-200">
+                  Página de Captura Revendedor{" "}
+                  <a href="https://atlantica.lojah.app/br/revenda" target="_blank" rel="noopener noreferrer" className="text-xs text-[#00ff88] underline">
+                    Ver modelo
+                  </a>
+                </span>
+              </li>
             </ul>
             <a href="/cadastro">
               <button
@@ -233,6 +244,17 @@ export default function AtlanticaSalesPage() {
                   <span className="text-white">{f}</span>
                 </li>
               ))}
+              <li className="flex items-center gap-3 text-sm">
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-white/15 text-white">
+                  <Check className="h-3 w-3" strokeWidth={3} />
+                </span>
+                <span className="text-white">
+                  Página de Captura Revendedor{" "}
+                  <a href="https://atlantica.lojah.app/br/revenda" target="_blank" rel="noopener noreferrer" className="text-xs text-[#00ff88] underline">
+                    Ver modelo
+                  </a>
+                </span>
+              </li>
             </ul>
             <a href={CHECKOUT_PACK} target="_blank" rel="noopener noreferrer">
               <button className="w-full py-3 rounded-full text-sm font-medium bg-white text-[#0f3d1f] hover:bg-green-50 transition-colors">

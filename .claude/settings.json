@@ -9,7 +9,8 @@
       "Bash(rm \"c:/Users/Rodolfo Gasparian/Desktop/lojah-app/app/\\(public\\)/[slug]/r/page.tsx\")",
       "Bash(rm \"c:/Users/Rodolfo Gasparian/Desktop/lojah-app/app/\\(public\\)/[slug]/c/page.tsx\")",
       "Bash(npx tsx *)",
-      "Read(//c/Users/Rodolfo Gasparian/Desktop/lojah-app/app/\\(public\\)/**)"
+      "Read(//c/Users/Rodolfo Gasparian/Desktop/lojah-app/app/\\(public\\)/**)",
+      "PowerShell(Get-ChildItem -LiteralPath \"c:\\\\Users\\\\Rodolfo Gasparian\\\\Desktop\\\\lojah-app\\\\app\" -Recurse | Where-Object { $_.Name -match \"atlantica\" -or $_.FullName -match \"atlantica\" } | Select-Object FullName)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Rodolfo Gasparian\\Desktop\\lojah-app\\app\\(public)\\[slug]\\r",
