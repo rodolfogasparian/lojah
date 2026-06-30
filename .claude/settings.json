@@ -8,10 +8,12 @@
       "PowerShell(npx tsx --env-file .env scripts/seed-categorias-servicos.ts)",
       "Bash(rm \"c:/Users/Rodolfo Gasparian/Desktop/lojah-app/app/\\(public\\)/[slug]/r/page.tsx\")",
       "Bash(rm \"c:/Users/Rodolfo Gasparian/Desktop/lojah-app/app/\\(public\\)/[slug]/c/page.tsx\")",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "Read(//c/Users/Rodolfo Gasparian/Desktop/lojah-app/app/\\(public\\)/**)"
     ],
     "additionalDirectories": [
-      "C:\\Users\\Rodolfo Gasparian\\Desktop\\lojah-app\\app\\(public)\\[slug]\\r"
+      "C:\\Users\\Rodolfo Gasparian\\Desktop\\lojah-app\\app\\(public)\\[slug]\\r",
+      "c:\\Users\\Rodolfo Gasparian\\Desktop\\lojah-app\\app\\(public)\\[slug]\\c"
     ]
   }
 }
