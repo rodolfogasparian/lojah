@@ -30,7 +30,7 @@ export default function AtlanticaSalesPage() {
           </div>
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="inline-block text-xs font-medium px-3 py-1 rounded-full mb-4 bg-green-50 text-green-700">
+              <div className="inline-block text-xs font-medium px-3 py-1 rounded-full mb-4 bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
                 ★ Catálogo digital exclusivo
               </div>
               <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 leading-tight mb-4">
@@ -41,7 +41,10 @@ export default function AtlanticaSalesPage() {
               </p>
               <div className="flex gap-3 flex-wrap">
                 <a href="/cadastro">
-                  <button className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium bg-[#166534] text-white hover:bg-green-800 transition-colors">
+                  <button
+                    className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium bg-[#0f3d1f] text-white border border-[#00ff88] hover:scale-105 transition-all"
+                    style={{ boxShadow: "0 0 20px rgba(0,255,136,0.4)" }}
+                  >
                     🛒 Quero meu catálogo
                   </button>
                 </a>
@@ -110,12 +113,12 @@ export default function AtlanticaSalesPage() {
             [Users,         "Página de revenda",    "Recrute novos consultores"],
             [Smartphone,    "Funciona no celular",  "100% responsivo e rápido"],
           ] as const).map(([Icon, title, desc]) => (
-            <div key={title} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-              <div className="bg-green-50 rounded-2xl p-3 w-fit mb-3">
-                <Icon className="h-6 w-6 text-[#166534]" />
+            <div key={title} className="rounded-3xl border border-[#00ff88]/30 bg-[#0d1f0d] p-6">
+              <div className="bg-[#00ff88]/10 rounded-2xl p-3 w-fit mb-3">
+                <Icon className="h-6 w-6 text-[#00ff88]" />
               </div>
-              <p className="text-sm font-medium text-gray-900 mb-1">{title}</p>
-              <p className="text-xs text-gray-500">{desc}</p>
+              <p className="text-sm font-medium text-[#00ff88] mb-1">{title}</p>
+              <p className="text-xs text-white">{desc}</p>
             </div>
           ))}
         </div>
@@ -133,8 +136,11 @@ export default function AtlanticaSalesPage() {
               ["3", "Compartilhe", "Envie seu link no WhatsApp e venda mais"],
             ].map(([n, title, desc]) => (
               <div key={n} className="rounded-3xl border border-gray-200 bg-white p-5 text-center shadow-sm">
-                <div className="w-8 h-8 rounded-full bg-[#166534] text-white flex items-center justify-center mx-auto mb-3 text-sm font-medium">{n}</div>
-                <p className="text-sm font-medium text-gray-900 mb-1">{title}</p>
+                <div
+                  className="w-8 h-8 rounded-full bg-[#0f3d1f] text-white border border-[#00ff88] flex items-center justify-center mx-auto mb-3 text-sm font-medium"
+                  style={{ boxShadow: "0 0 15px rgba(0,255,136,0.4)" }}
+                >{n}</div>
+                <p className="text-sm font-medium text-[#00ff88] mb-1">{title}</p>
                 <p className="text-xs text-gray-500">{desc}</p>
               </div>
             ))}
@@ -152,7 +158,7 @@ export default function AtlanticaSalesPage() {
           <div className="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm">
             <p className="text-xs text-gray-500 mb-4">Catálogo individual</p>
             <p className="text-xs text-gray-400 line-through mb-0.5">de R$ 197</p>
-            <p className="text-xs font-medium text-[#166534] mb-1">por apenas</p>
+            <p className="text-xs font-medium text-[#00ff88] mb-1" style={{ textShadow: "0 0 10px #00ff88" }}>por apenas</p>
             <div className="flex items-baseline gap-1 mb-5">
               <span className="text-4xl font-semibold text-gray-900">R$ 67</span>
               <span className="text-sm text-gray-500">/ano</span>
@@ -174,22 +180,28 @@ export default function AtlanticaSalesPage() {
               ))}
             </ul>
             <a href="/cadastro">
-              <button className="w-full py-3 rounded-full text-sm font-medium bg-[#166534] text-white hover:bg-green-800 transition-colors">
+              <button
+                className="w-full py-3 mt-6 rounded-full text-sm font-medium bg-[#0f3d1f] text-white border border-[#00ff88] hover:scale-105 transition-all"
+                style={{ boxShadow: "0 0 20px rgba(0,255,136,0.4)" }}
+              >
                 Quero meu catálogo
               </button>
             </a>
           </div>
 
           {/* Pack */}
-          <div className="rounded-[2rem] p-6 relative bg-gradient-to-br from-[#166534] to-green-900 text-white shadow-sm">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-medium px-4 py-1 rounded-full whitespace-nowrap bg-white text-[#166534]">
+          <div
+            className="rounded-[2rem] p-6 relative bg-[#0d1f0d] border border-[#00ff88] text-white"
+            style={{ boxShadow: "0 0 25px rgba(0,255,136,0.3)" }}
+          >
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-medium px-4 py-1 rounded-full whitespace-nowrap bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
               Mais econômico
             </div>
             <p className="text-xs text-green-200 mb-4">Pack 10 catálogos</p>
             <p className="text-xs text-green-300 line-through mb-0.5">de R$ 1.970</p>
-            <p className="text-xs font-medium text-green-200 mb-1">por apenas</p>
+            <p className="text-xs font-medium text-[#00ff88] mb-1">por apenas</p>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-semibold">R$ 370</span>
+              <span className="text-4xl font-semibold text-white">R$ 370</span>
             </div>
             <p className="text-xs text-green-200 mb-3">R$ 37 por catálogo</p>
             <div className="rounded-xl bg-white/10 p-3 mb-4">
@@ -210,12 +222,12 @@ export default function AtlanticaSalesPage() {
                   <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-white/15 text-white">
                     <Check className="h-3 w-3" strokeWidth={3} />
                   </span>
-                  <span className="text-white/90">{f}</span>
+                  <span className="text-white">{f}</span>
                 </li>
               ))}
             </ul>
             <a href={CHECKOUT_PACK} target="_blank" rel="noopener noreferrer">
-              <button className="w-full py-3 rounded-full text-sm font-medium bg-white text-[#166534] hover:bg-green-50 transition-colors">
+              <button className="w-full py-3 rounded-full text-sm font-medium bg-white text-[#0f3d1f] hover:bg-green-50 transition-colors">
                 Quero o pack
               </button>
             </a>
@@ -225,13 +237,21 @@ export default function AtlanticaSalesPage() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="bg-[#166534] px-4 py-14 text-center">
+      <section className="bg-[#0f3d1f] px-4 py-14 text-center">
         <div className="max-w-md mx-auto">
           <div className="text-4xl mb-4">💬</div>
-          <h2 className="text-xl font-semibold tracking-tight text-white mb-2">Ficou com alguma dúvida?</h2>
+          <h2
+            className="text-xl font-semibold tracking-tight text-white mb-2"
+            style={{ textShadow: "0 0 20px #00ff88" }}
+          >
+            Ficou com alguma dúvida?
+          </h2>
           <p className="text-sm text-green-100 mb-6">Nossa equipe está pronta para te ajudar</p>
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <button className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium mx-auto bg-white text-[#166534] hover:bg-green-50 transition-colors">
+            <button
+              className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium mx-auto bg-[#0f3d1f] text-white border border-[#00ff88] hover:scale-105 transition-all"
+              style={{ boxShadow: "0 0 20px rgba(0,255,136,0.4)" }}
+            >
               💬 Falar no WhatsApp
             </button>
           </a>
