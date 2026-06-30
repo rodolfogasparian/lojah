@@ -11,6 +11,7 @@ import { CatalogSection } from "@/components/catalog/CatalogSection";
 import { SellerTabs } from "@/components/seller/SellerTabs";
 import { SellerCardBody } from "@/components/seller/SellerCardBody";
 import CatalogoInativo from "@/components/catalog/CatalogoInativo";
+import { CatalogSuspendedModal } from "@/components/catalog/CatalogSuspendedModal";
 
 const SUPABASE_CATALOG_URL =
   "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/catalog-pages";
@@ -131,7 +132,7 @@ export default async function SellerPublicPage({
   const isSuspended = seller.status === "SUSPENDED";
   const hasNoSubscription = !activeSubscription;
 
-  if (isSuspended || hasNoSubscription) {
+  if (!isSuspended && hasNoSubscription) {
     return (
       <CatalogoInativo
         vendedorNome={seller.name}
@@ -200,6 +201,26 @@ export default async function SellerPublicPage({
       sellerSlug={slug}
     />
   );
+
+  if (isSuspended) {
+    return (
+      <div className="relative">
+        <SellerTabs
+          sellerName={seller.name}
+          sellerPhotoUrl={seller.photo_url}
+          companyName={company.name}
+          vitrine={vitrine}
+          cartaoVirtual={cartaoVirtual}
+          compartilhar={compartilhar}
+        />
+        <CatalogSuspendedModal
+          sellerName={seller.name}
+          sellerWhatsapp={seller.whatsapp}
+          sellerSlug={slug}
+        />
+      </div>
+    );
+  }
 
   return (
     <SellerTabs
