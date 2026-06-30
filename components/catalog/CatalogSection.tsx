@@ -152,6 +152,17 @@ export function CatalogSection({
       </div>
 
       <div className="flex gap-2 flex-wrap mb-4">
+        <button
+          type="button"
+          onClick={() => setActiveCategory("all")}
+          className={`px-3 py-1 rounded-full border border-primary text-xs font-medium transition-colors cursor-pointer ${
+            activeCategory === "all"
+              ? "bg-primary text-white"
+              : "bg-white text-primary hover:bg-primary hover:text-white"
+          }`}
+        >
+          Todos
+        </button>
         {QUICK_CATEGORIES.map((label) => {
           if (label === "SERVICOS_AGRUPADOS") {
             const hasServices = products.some((p) => SERVICE_CATEGORIES.includes(p.category?.name ?? ""));
