@@ -18,12 +18,70 @@ interface Props {
   initialMateriais: Material[];
 }
 
+type FormData = {
+  title: string;
+  content: string;
+  url: string;
+  type: string;
+  sort_order: number;
+};
+
+function TypeIcon({ type }: { type: string }) {
+  return type === "VIDEO"
+    ? <PlayCircle className="size-4 text-blue-500 shrink-0" />
+    : <BookOpen className="size-4 text-green-500 shrink-0" />;
+}
+
+function FormFields({ data, onChange }: { data: FormData; onChange: (d: FormData) => void }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-2">
+        <input
+          type="number"
+          value={data.sort_order}
+          onChange={e => onChange({ ...data, sort_order: Number(e.target.value) })}
+          className="w-16 border border-border rounded-lg px-2 py-1.5 text-sm bg-gray-50 text-center"
+          placeholder="Ordem"
+        />
+        <select
+          value={data.type}
+          onChange={e => onChange({ ...data, type: e.target.value })}
+          className="border border-border rounded-lg px-3 py-1.5 text-sm bg-gray-50"
+        >
+          <option value="TUTORIAL">Tutorial</option>
+          <option value="VIDEO">Vídeo</option>
+          <option value="TUTORIAL">Documento</option>
+        </select>
+        <input
+          value={data.title}
+          onChange={e => onChange({ ...data, title: e.target.value })}
+          className="flex-1 border border-border rounded-lg px-3 py-1.5 text-sm bg-gray-50"
+          placeholder="Título"
+        />
+      </div>
+      <input
+        value={data.url}
+        onChange={e => onChange({ ...data, url: e.target.value })}
+        className="w-full border border-border rounded-lg px-3 py-1.5 text-sm bg-gray-50"
+        placeholder="Link (YouTube, Google Drive, PDF, PowerPoint...)"
+      />
+      <textarea
+        value={data.content}
+        onChange={e => onChange({ ...data, content: e.target.value })}
+        className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-gray-50 resize-none"
+        rows={2}
+        placeholder="Descrição curta (opcional)"
+      />
+    </div>
+  );
+}
+
 export function MaterialForm({ initialMateriais }: Props) {
   const [materiais, setMateriais] = useState<Material[]>(initialMateriais);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState({ title: "", content: "", url: "", type: "TUTORIAL", sort_order: 0 });
+  const [editData, setEditData] = useState<FormData>({ title: "", content: "", url: "", type: "TUTORIAL", sort_order: 0 });
   const [showNew, setShowNew] = useState(false);
-  const [newData, setNewData] = useState({ title: "", content: "", url: "", type: "TUTORIAL", sort_order: 0 });
+  const [newData, setNewData] = useState<FormData>({ title: "", content: "", url: "", type: "TUTORIAL", sort_order: 0 });
   const [loading, setLoading] = useState(false);
 
   async function handleCreate() {
@@ -75,52 +133,6 @@ export function MaterialForm({ initialMateriais }: Props) {
     await fetch(`/api/admin/materiais/${id}`, { method: "DELETE" });
     setMateriais(prev => prev.filter(m => m.id !== id));
   }
-
-  const TypeIcon = ({ type }: { type: string }) => type === "VIDEO"
-    ? <PlayCircle className="size-4 text-blue-500 shrink-0" />
-    : <BookOpen className="size-4 text-green-500 shrink-0" />;
-
-  const FormFields = ({ data, onChange }: { data: typeof newData, onChange: (d: typeof newData) => void }) => (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-2">
-        <input
-          type="number"
-          value={data.sort_order}
-          onChange={e => onChange({ ...data, sort_order: Number(e.target.value) })}
-          className="w-16 border border-border rounded-lg px-2 py-1.5 text-sm bg-gray-50 text-center"
-          placeholder="Ordem"
-        />
-        <select
-          value={data.type}
-          onChange={e => onChange({ ...data, type: e.target.value })}
-          className="border border-border rounded-lg px-3 py-1.5 text-sm bg-gray-50"
-        >
-          <option value="TUTORIAL">Tutorial</option>
-          <option value="VIDEO">Vídeo</option>
-          <option value="TUTORIAL">Documento</option>
-        </select>
-        <input
-          value={data.title}
-          onChange={e => onChange({ ...data, title: e.target.value })}
-          className="flex-1 border border-border rounded-lg px-3 py-1.5 text-sm bg-gray-50"
-          placeholder="Título"
-        />
-      </div>
-      <input
-        value={data.url}
-        onChange={e => onChange({ ...data, url: e.target.value })}
-        className="w-full border border-border rounded-lg px-3 py-1.5 text-sm bg-gray-50"
-        placeholder="Link (YouTube, Google Drive, PDF, PowerPoint...)"
-      />
-      <textarea
-        value={data.content}
-        onChange={e => onChange({ ...data, content: e.target.value })}
-        className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-gray-50 resize-none"
-        rows={2}
-        placeholder="Descrição curta (opcional)"
-      />
-    </div>
-  );
 
   return (
     <div className="flex flex-col gap-3">
