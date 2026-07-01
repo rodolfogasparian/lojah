@@ -15,6 +15,7 @@ const SERVICE_CATEGORIES = [
 ];
 
 const QUICK_CATEGORIES = [
+  "PERFUMES_AGRUPADOS",
   "Perfumes Bortoletto 15ml",
   "Perfumes Bortoletto 100ml",
   "Linha Ozonizada",
@@ -25,6 +26,7 @@ const QUICK_CATEGORIES = [
 ];
 
 const categoryLabels: Record<string, string> = {
+  "PERFUMES_AGRUPADOS": "Perfumes",
   "Perfumes Bortoletto 15ml": "Perfumes 15ml",
   "Perfumes Bortoletto 100ml": "Perfumes 100ml",
   "Telemedicina": "Telemedicina",
@@ -76,6 +78,8 @@ export function CatalogSection({
 
   const [activeCategory, setActiveCategory] = useState(() => {
     if (!initialCategoryName) return "all";
+    if (initialCategoryName === "SERVICOS_AGRUPADOS") return "SERVICOS_AGRUPADOS";
+    if (initialCategoryName === "PERFUMES_AGRUPADOS") return "PERFUMES_AGRUPADOS";
     const found = products.find((p) => p.category?.name === initialCategoryName);
     return found?.category?.id ?? "all";
   });
@@ -88,6 +92,10 @@ export function CatalogSection({
       result = products;
     } else if (activeCategory === "SERVICOS_AGRUPADOS") {
       result = products.filter((p) => SERVICE_CATEGORIES.includes(p.category?.name ?? ""));
+    } else if (activeCategory === "PERFUMES_AGRUPADOS") {
+      result = products.filter((p) =>
+        ["Perfumes Bortoletto 15ml", "Perfumes Bortoletto 100ml"].includes(p.category?.name ?? "")
+      );
     } else {
       result = products.filter((p) => p.category?.id === activeCategory);
     }
@@ -148,6 +156,22 @@ export function CatalogSection({
           Todos
         </button>
         {QUICK_CATEGORIES.map((label) => {
+          if (label === "PERFUMES_AGRUPADOS") {
+            const hasPerfumes = products.some((p) =>
+              ["Perfumes Bortoletto 15ml", "Perfumes Bortoletto 100ml"].includes(p.category?.name ?? "")
+            );
+            if (!hasPerfumes) return null;
+            return (
+              <button
+                key="PERFUMES_AGRUPADOS"
+                type="button"
+                onClick={() => setActiveCategory("PERFUMES_AGRUPADOS")}
+                className="px-3 py-1 rounded-full border border-primary text-primary bg-white text-xs font-medium transition-colors hover:bg-primary hover:text-white cursor-pointer"
+              >
+                Perfumes
+              </button>
+            );
+          }
           if (label === "SERVICOS_AGRUPADOS") {
             const hasServices = products.some((p) => SERVICE_CATEGORIES.includes(p.category?.name ?? ""));
             if (!hasServices) return null;

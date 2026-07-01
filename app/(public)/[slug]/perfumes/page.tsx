@@ -6,5 +6,5 @@ export default async function PerfumesPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  redirect(`/${slug}?categoria=Perfumes+Bortoletto+15ml`);
+  redirect(`/${slug}?categoria=PERFUMES_AGRUPADOS`);
 }

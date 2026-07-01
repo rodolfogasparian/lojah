@@ -6,5 +6,5 @@ export default async function ServicosPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  redirect(`/${slug}?categoria=ATL+Services`);
+  redirect(`/${slug}?categoria=SERVICOS_AGRUPADOS`);
 }
