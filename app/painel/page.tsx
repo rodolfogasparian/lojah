@@ -69,6 +69,14 @@ export default async function PainelPage() {
       bg: "bg-orange-50",
       border: "border-orange-200",
     },
+    {
+      label: "Página de Indicação do Catálogo",
+      description: "Indique o catálogo e ganhe clientes",
+      url: `https://atlantica.lojah.app/atlantica/${profile.slug}`,
+      color: "text-yellow-700",
+      bg: "bg-yellow-50",
+      border: "border-yellow-200",
+    },
   ];
 
   const categoryLinks = [
