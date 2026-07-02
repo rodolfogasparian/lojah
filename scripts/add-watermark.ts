@@ -61,7 +61,7 @@ async function applyWatermark(imageBuffer: Buffer, filename: string): Promise<Bu
   const wWidth = watermarkMeta.width ?? 100;
   const wHeight = watermarkMeta.height ?? 30;
 
-  const left = Math.max(0, width - wWidth - MARGIN);
+  const left = MARGIN;
   const top = Math.max(0, height - wHeight - MARGIN);
 
   const composited = image.composite([
