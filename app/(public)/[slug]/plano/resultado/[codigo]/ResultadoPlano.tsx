@@ -288,7 +288,7 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
         <p className="text-sm text-neutral-600 text-center mb-8">Entenda como o ecossistema completo de produtos e serviços funciona na prática.</p>
         <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-black/10">
           <iframe
-            src="https://www.youtube.com/embed/aJln_qoRMos"
+            src="https://www.youtube.com/embed/zaAh_i1EIUI"
             title="Ecossistema Atlântica Natural"
             className="absolute inset-0 w-full h-full"
             frameBorder="0"

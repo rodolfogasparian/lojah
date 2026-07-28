@@ -245,26 +245,32 @@ const QUESTIONS: Question[] = [
 
 const VIDEOS: Record<
   1 | 2 | 3 | 4 | 5,
-  { title: string; text: string; videoId?: string }
+  { title: string; text: string; youtubeId?: string }
 > = {
   1: {
     title: "Uma informação importante",
+    youtubeId: "AscS9K4H5BM",
     text: "A maioria das pessoas começa buscando uma renda extra. Mas o que muda o jogo é entender que você pode vender produtos que as pessoas já consomem e também serviços que geram recorrência. Ou seja: você não depende de uma única venda. Você pode começar simples, pelo WhatsApp, e crescer criando uma base de clientes.",
   },
   2: {
     title: "Sobre os Produtos",
+    youtubeId: "m3Sb2VBJtxI",
     text: "No ecossistema de produtos, você pode trabalhar com itens de consumo recorrente: suplementação, vitaminas, perfumaria, linha capilar, cuidados diários e outros produtos que as pessoas compram mais de uma vez. Isso facilita a revenda, porque você não precisa convencer alguém sobre algo distante. Você apresenta soluções que entram na rotina.",
   },
   3: {
-    title: "E os Serviços Recorrentes",
+    title: "Sobre os Serviços",
+    // sem vídeo gravado ainda
     text: "Além dos produtos, existe uma parte muito forte: os serviços recorrentes. Saúde acessível, telefonia, energia e soluções digitais. A diferença é simples: quando o cliente continua usando, você pode continuar recebendo. É aqui que muita gente começa a enxergar o negócio como renda recorrente, não só venda pontual.",
   },
   4: {
     title: "Sobre as objeções",
+    // TODO: substituir por vídeo de objeções quando gravado
+    youtubeId: "J9iAGPMLUSg",
     text: "Talvez você pense: eu não sei vender, não tenho loja, não tenho equipe ou tenho medo de investir errado. Mas o início não precisa ser complicado. Você pode começar com orientação, catálogo, WhatsApp e um caminho claro. O importante é não começar no improviso. É isso que o diagnóstico vai te mostrar.",
   },
   5: {
     title: "Quase pronto…",
+    // sem vídeo gravado ainda
     text: "Com base nas suas respostas, o sistema vai indicar o melhor caminho para você começar. Pode ser como consumidor, consultor de produtos, vendedor de serviços ou com acesso completo ao ecossistema. A ideia é simples: não empurrar qualquer plano. É entender seu perfil e mostrar o próximo passo mais coerente.",
   },
 };
@@ -522,7 +528,10 @@ export function PlanoQuiz({
     return (
       <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col">
         <div className="w-full h-1 bg-gray-200">
-          <div className="h-1 bg-green-600" style={{ width: `${progress}%` }} />
+          <div
+            className="h-1 bg-green-600 transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          />
         </div>
 
         <div className="flex items-center px-4 py-3">
@@ -541,10 +550,10 @@ export function PlanoQuiz({
           </p>
           <h2 className="text-xl font-bold text-gray-800 mb-5">{vid.title}</h2>
 
-          {vid.videoId ? (
+          {vid.youtubeId ? (
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-5">
               <iframe
-                src={`https://www.youtube.com/embed/${vid.videoId}`}
+                src={`https://www.youtube.com/embed/${vid.youtubeId}`}
                 title={vid.title}
                 className="absolute inset-0 w-full h-full"
                 frameBorder="0"
