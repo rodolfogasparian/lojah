@@ -20,26 +20,29 @@ const COLUMNS: { key: LeadKanban; label: string; color: string; dot: string }[] 
 ];
 
 const PERFIL_LABELS: Record<string, string> = {
-  iniciante_urgente:    "Iniciante c/ Urgência",
-  sonhador_cauteloso:   "Sonhador(a) Cauteloso(a)",
-  investidor_pronto:    "Investidor(a) Pronto(a)",
-  vendedor_em_evolucao: "Vendedor(a) em Evolução",
-  tempo_limitado:       "Tempo Limitado",
+  consumidor_curioso:    "Consumidor Curioso",
+  renda_extra_inicial:   "Renda Extra Inicial",
+  vendedor_em_evolucao:  "Vendedor(a) em Evolução",
+  construtor_equipe:     "Construtor(a) de Equipe",
+  empreendedor_servicos: "Empreendedor(a) de Serviços",
+  perfil_premium:        "Perfil Premium",
 };
 
 const PERFIL_COLORS: Record<string, string> = {
-  iniciante_urgente:    "bg-red-100 text-red-700",
-  sonhador_cauteloso:   "bg-blue-100 text-blue-700",
-  investidor_pronto:    "bg-emerald-100 text-emerald-700",
-  vendedor_em_evolucao: "bg-indigo-100 text-indigo-700",
-  tempo_limitado:       "bg-amber-100 text-amber-700",
+  consumidor_curioso:    "bg-gray-100 text-gray-700",
+  renda_extra_inicial:   "bg-blue-100 text-blue-700",
+  vendedor_em_evolucao:  "bg-indigo-100 text-indigo-700",
+  construtor_equipe:     "bg-emerald-100 text-emerald-700",
+  empreendedor_servicos: "bg-teal-100 text-teal-700",
+  perfil_premium:        "bg-amber-100 text-amber-700",
 };
 
 const CAMINHO_LABELS: Record<string, string> = {
-  produto:  "Produtos",
-  servico:  "Serviços",
-  ambos:    "Produtos e Serviços",
-  indeciso: "Indefinido",
+  produto:          "Produtos",
+  servico:          "Serviços",
+  ambos:            "Produtos e Serviços",
+  apenas_consumir:  "Só Consumir",
+  indeciso:         "Indefinido",
 };
 
 const MODALIDADE_LABELS: Record<string, string> = {

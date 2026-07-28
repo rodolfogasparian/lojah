@@ -24,7 +24,6 @@ import {
   Clock3,
   Clock9,
   ClockAlert,
-  TrendingUp,
   Sprout,
   Store,
   Rocket,
@@ -32,16 +31,23 @@ import {
   DoorOpen,
   Building,
   FileText,
-  Video,
   Radio,
   MessageCircle,
+  Users,
+  Tag,
+  Heart,
+  Phone,
+  Megaphone,
+  Calendar,
 } from "lucide-react";
 import { criarLead } from "./actions";
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 
 type QuizAnswers = {
+  motivacao_dominante?: string;
   caminho?: string;
+  interesse_principal?: string;
   modalidade?: string;
   area_atual?: string;
   gap_renda?: string;
@@ -50,7 +56,7 @@ type QuizAnswers = {
   renda_familiar?: string;
   capacidade_investimento?: string;
   experiencia_vendas?: string;
-  motivacao_dominante?: string;
+  maior_trava?: string;
   canal_preferido?: string;
 };
 
@@ -66,20 +72,50 @@ type Question = {
   iconColor: string;
 };
 
-// ── Perguntas ─────────────────────────────────────────────────────────────────
+// ── 13 Perguntas (nova ordem) ─────────────────────────────────────────────────
 
 const QUESTIONS: Question[] = [
+  // P1 — motivação
+  {
+    id: "motivacao_dominante",
+    text: "O que você mais busca hoje?",
+    iconColor: "bg-rose-100 text-rose-700",
+    options: [
+      { label: "Preciso de dinheiro rápido",                     icon: Zap      },
+      { label: "Quero sair do CLT",                              icon: DoorOpen },
+      { label: "Quero renda extra sem largar o que faço",        icon: Layers   },
+      { label: "Quero construir algo meu",                       icon: Building },
+      { label: "Quero liderar uma equipe e construir uma rede",  icon: Users    },
+    ],
+  },
+  // P2 — caminho
   {
     id: "caminho",
     text: "Qual caminho combina mais com você?",
     iconColor: "bg-emerald-100 text-emerald-700",
     options: [
-      { label: "Vender Produtos",                        icon: Package    },
-      { label: "Vender Serviços",                        icon: Briefcase  },
-      { label: "Produtos e Serviços",                    icon: Layers     },
-      { label: "Ainda não sei (me ajude a decidir)",     icon: HelpCircle },
+      { label: "Vender Produtos",                                         icon: Package   },
+      { label: "Vender Serviços",                                         icon: Briefcase },
+      { label: "Produtos e Serviços",                                     icon: Layers    },
+      { label: "Só quero consumir com desconto, não quero revender",      icon: Tag       },
+      { label: "Ainda não sei (me ajude a decidir)",                      icon: HelpCircle},
     ],
   },
+  // P3 — interesse principal (nova)
+  {
+    id: "interesse_principal",
+    text: "O que mais chama sua atenção dentro desse ecossistema?",
+    iconColor: "bg-violet-100 text-violet-700",
+    options: [
+      { label: "Produtos físicos",              icon: Package    },
+      { label: "Saúde/assistência",             icon: Heart      },
+      { label: "Telefonia",                     icon: Phone      },
+      { label: "Energia",                       icon: Zap        },
+      { label: "Aplicativos/serviços digitais", icon: Smartphone },
+      { label: "Tudo junto",                    icon: Layers     },
+    ],
+  },
+  // P4 — modalidade
   {
     id: "modalidade",
     text: "Como você imagina atuar?",
@@ -90,18 +126,20 @@ const QUESTIONS: Question[] = [
       { label: "Misto (digital + presencial)", icon: Shuffle    },
     ],
   },
+  // P5 — área atual
   {
     id: "area_atual",
     text: "Qual sua área de trabalho atual?",
     iconColor: "bg-purple-100 text-purple-700",
     options: [
-      { label: "CLT tempo integral", icon: Building2    },
-      { label: "Autônomo(a)",        icon: Briefcase    },
-      { label: "Desempregado(a)",    icon: UserX        },
-      { label: "Aposentado(a)",      icon: Landmark     },
-      { label: "Outros",             icon: MoreHorizontal },
+      { label: "CLT tempo integral", icon: Building2     },
+      { label: "Autônomo(a)",        icon: Briefcase     },
+      { label: "Desempregado(a)",    icon: UserX         },
+      { label: "Aposentado(a)",      icon: Landmark      },
+      { label: "Outros",             icon: MoreHorizontal},
     ],
   },
+  // P6 — gap de renda
   {
     id: "gap_renda",
     text: "Hoje sua renda cobre o que você precisa?",
@@ -113,115 +151,165 @@ const QUESTIONS: Question[] = [
       { label: "Estou no vermelho", icon: AlertTriangle },
     ],
   },
+  // P7 — meta mensal
   {
     id: "meta_mensal",
     text: "Quanto pretende ganhar por mês com esse novo negócio?",
     iconColor: "bg-amber-100 text-amber-700",
     options: [
-      { label: "Até R$1.000",         icon: Wallet },
-      { label: "R$1.000 a R$3.000",   icon: Wallet },
-      { label: "R$3.000 a R$5.000",   icon: Wallet },
-      { label: "R$5.000 a R$10.000",  icon: Wallet },
-      { label: "Acima de R$10.000",   icon: Wallet },
+      { label: "Até R$1.000",        icon: Wallet },
+      { label: "R$1.000 a R$3.000",  icon: Wallet },
+      { label: "R$3.000 a R$5.000",  icon: Wallet },
+      { label: "R$5.000 a R$10.000", icon: Wallet },
+      { label: "Acima de R$10.000",  icon: Wallet },
     ],
   },
+  // P8 — horas disponíveis
   {
     id: "horas_disponiveis",
     text: "Quantas horas por dia você tem disponíveis?",
     iconColor: "bg-sky-100 text-sky-700",
     options: [
-      { label: "Até 1h",      icon: Clock      },
-      { label: "1h a 3h",     icon: Clock3     },
-      { label: "3h a 6h",     icon: Clock9     },
-      { label: "Mais de 6h",  icon: ClockAlert },
+      { label: "Até 1h",     icon: Clock      },
+      { label: "1h a 3h",    icon: Clock3     },
+      { label: "3h a 6h",    icon: Clock9     },
+      { label: "Mais de 6h", icon: ClockAlert },
     ],
   },
+  // P9 — renda familiar
   {
     id: "renda_familiar",
     text: "Qual a renda familiar atual?",
     iconColor: "bg-orange-100 text-orange-700",
     options: [
-      { label: "Até R$2.000",         icon: Wallet },
-      { label: "R$2.000 a R$5.000",   icon: Wallet },
-      { label: "R$5.000 a R$10.000",  icon: Wallet },
-      { label: "Acima de R$10.000",   icon: Wallet },
+      { label: "Até R$2.000",        icon: Wallet },
+      { label: "R$2.000 a R$5.000",  icon: Wallet },
+      { label: "R$5.000 a R$10.000", icon: Wallet },
+      { label: "Acima de R$10.000",  icon: Wallet },
     ],
   },
+  // P10 — capacidade de investimento
   {
     id: "capacidade_investimento",
     text: "Quanto pretende investir por mês em aprendizado, ferramentas e divulgação?",
     iconColor: "bg-indigo-100 text-indigo-700",
     options: [
-      { label: "Não posso investir agora",  icon: TrendingUp },
-      { label: "Até R$100",                 icon: TrendingUp },
-      { label: "R$100 a R$300",             icon: TrendingUp },
-      { label: "R$300 a R$1.000",           icon: TrendingUp },
-      { label: "R$1.000 a R$3.000",         icon: TrendingUp },
-      { label: "Acima de R$3.000",          icon: TrendingUp },
+      { label: "Não posso investir agora", icon: TrendingDown },
+      { label: "Até R$100",               icon: Wallet       },
+      { label: "R$100 a R$300",           icon: Wallet       },
+      { label: "R$300 a R$1.000",         icon: Wallet       },
+      { label: "R$1.000 a R$3.000",       icon: Wallet       },
+      { label: "Acima de R$3.000",        icon: Wallet       },
     ],
   },
+  // P11 — experiência de vendas
   {
     id: "experiencia_vendas",
     text: "Você já vendeu algo pela internet ou porta a porta?",
     iconColor: "bg-green-100 text-green-700",
     options: [
-      { label: "Nunca vendi",                    icon: Sprout },
-      { label: "Já vendi um pouco",              icon: Store  },
-      { label: "Já vendo hoje, quero crescer",   icon: Rocket },
+      { label: "Nunca vendi",                  icon: Sprout },
+      { label: "Já vendi um pouco",            icon: Store  },
+      { label: "Já vendo hoje, quero crescer", icon: Rocket },
     ],
   },
+  // P12 — maior trava (nova)
   {
-    id: "motivacao_dominante",
-    text: "O que mais pesa na sua decisão de começar agora?",
-    iconColor: "bg-rose-100 text-rose-700",
+    id: "maior_trava",
+    text: "O que mais te trava hoje?",
+    iconColor: "bg-yellow-100 text-yellow-700",
     options: [
-      { label: "Preciso de dinheiro rápido",              icon: Zap      },
-      { label: "Quero sair do CLT",                       icon: DoorOpen },
-      { label: "Quero renda extra sem largar o que faço", icon: Layers   },
-      { label: "Quero construir algo meu",                icon: Building },
+      { label: "Medo de não vender",          icon: AlertTriangle },
+      { label: "Falta de gente pra oferecer", icon: Users         },
+      { label: "Não sei divulgar",            icon: Megaphone     },
+      { label: "Falta de organização",        icon: Calendar      },
+      { label: "Medo de investir errado",     icon: TrendingDown  },
     ],
   },
+  // P13 — canal preferido
   {
     id: "canal_preferido",
     text: "Como prefere aprender e ser acompanhado?",
     iconColor: "bg-teal-100 text-teal-700",
     options: [
-      { label: "Passo a passo por texto",        icon: FileText      },
-      { label: "Vídeos curtos",                  icon: Video         },
-      { label: "Lives e treinamentos ao vivo",   icon: Radio         },
-      { label: "Conversa com uma pessoa",        icon: MessageCircle },
-      { label: "Misto",                          icon: Shuffle       },
+      { label: "Passo a passo por texto",      icon: FileText      },
+      { label: "Vídeos curtos",                icon: Rocket        },
+      { label: "Lives e treinamentos ao vivo", icon: Radio         },
+      { label: "Conversa com uma pessoa",      icon: MessageCircle },
+      { label: "Misto",                        icon: Shuffle       },
     ],
   },
 ];
+
+// ── 5 Pausas de vídeo ─────────────────────────────────────────────────────────
+
+const VIDEOS: Record<
+  1 | 2 | 3 | 4 | 5,
+  { title: string; text: string; videoId?: string }
+> = {
+  1: {
+    title: "Uma informação importante",
+    text: "A maioria das pessoas começa buscando uma renda extra. Mas o que muda o jogo é entender que você pode vender produtos que as pessoas já consomem e também serviços que geram recorrência. Ou seja: você não depende de uma única venda. Você pode começar simples, pelo WhatsApp, e crescer criando uma base de clientes.",
+  },
+  2: {
+    title: "Sobre os Produtos",
+    text: "No ecossistema de produtos, você pode trabalhar com itens de consumo recorrente: suplementação, vitaminas, perfumaria, linha capilar, cuidados diários e outros produtos que as pessoas compram mais de uma vez. Isso facilita a revenda, porque você não precisa convencer alguém sobre algo distante. Você apresenta soluções que entram na rotina.",
+  },
+  3: {
+    title: "E os Serviços Recorrentes",
+    text: "Além dos produtos, existe uma parte muito forte: os serviços recorrentes. Saúde acessível, telefonia, energia e soluções digitais. A diferença é simples: quando o cliente continua usando, você pode continuar recebendo. É aqui que muita gente começa a enxergar o negócio como renda recorrente, não só venda pontual.",
+  },
+  4: {
+    title: "Sobre as objeções",
+    text: "Talvez você pense: eu não sei vender, não tenho loja, não tenho equipe ou tenho medo de investir errado. Mas o início não precisa ser complicado. Você pode começar com orientação, catálogo, WhatsApp e um caminho claro. O importante é não começar no improviso. É isso que o diagnóstico vai te mostrar.",
+  },
+  5: {
+    title: "Quase pronto…",
+    text: "Com base nas suas respostas, o sistema vai indicar o melhor caminho para você começar. Pode ser como consumidor, consultor de produtos, vendedor de serviços ou com acesso completo ao ecossistema. A ideia é simples: não empurrar qualquer plano. É entender seu perfil e mostrar o próximo passo mais coerente.",
+  },
+};
 
 // ── Fluxo de etapas ───────────────────────────────────────────────────────────
 
 type StepDef =
   | { type: "hero" }
   | { type: "question"; questionIndex: number }
-  | { type: "video"; videoId: 1 | 2 }
+  | { type: "video"; videoId: 1 | 2 | 3 | 4 | 5 }
   | { type: "capture" };
 
 const STEPS: StepDef[] = [
-  { type: "hero" },                           // step 0  — tela de abertura
-  { type: "question", questionIndex: 0 },     // step 1  — caminho
-  { type: "question", questionIndex: 1 },     // step 2  — modalidade
-  { type: "question", questionIndex: 2 },     // step 3  — area_atual
-  { type: "question", questionIndex: 3 },     // step 4  — gap_renda
-  { type: "question", questionIndex: 4 },     // step 5  — meta_mensal
-  { type: "question", questionIndex: 5 },     // step 6  — horas_disponiveis
-  { type: "video", videoId: 1 },              // step 7  — pausa 1
-  { type: "question", questionIndex: 6 },     // step 8  — renda_familiar
-  { type: "question", questionIndex: 7 },     // step 9  — capacidade_investimento
-  { type: "question", questionIndex: 8 },     // step 10 — experiencia_vendas
-  { type: "question", questionIndex: 9 },     // step 11 — motivacao_dominante
-  { type: "question", questionIndex: 10 },    // step 12 — canal_preferido
-  { type: "video", videoId: 2 },              // step 13 — pausa 2
-  { type: "capture" },                         // step 14 — formulário
+  { type: "hero" },                           // step 0  — abertura
+
+  { type: "question", questionIndex: 0 },     // step 1  — motivacao_dominante
+  { type: "question", questionIndex: 1 },     // step 2  — caminho
+  { type: "question", questionIndex: 2 },     // step 3  — interesse_principal
+
+  { type: "video", videoId: 1 },              // step 4  — vídeo 1 (Oportunidade)
+
+  { type: "question", questionIndex: 3 },     // step 5  — modalidade
+
+  { type: "video", videoId: 2 },              // step 6  — vídeo 2 (Produtos)
+  { type: "video", videoId: 3 },              // step 7  — vídeo 3 (Serviços Recorrentes)
+
+  { type: "question", questionIndex: 4 },     // step 8  — area_atual
+  { type: "question", questionIndex: 5 },     // step 9  — gap_renda
+  { type: "question", questionIndex: 6 },     // step 10 — meta_mensal
+  { type: "question", questionIndex: 7 },     // step 11 — horas_disponiveis
+  { type: "question", questionIndex: 8 },     // step 12 — renda_familiar
+  { type: "question", questionIndex: 9 },     // step 13 — capacidade_investimento
+  { type: "question", questionIndex: 10 },    // step 14 — experiencia_vendas
+  { type: "question", questionIndex: 11 },    // step 15 — maior_trava
+
+  { type: "video", videoId: 4 },              // step 16 — vídeo 4 (Medo e Objeções)
+
+  { type: "question", questionIndex: 12 },    // step 17 — canal_preferido
+
+  { type: "video", videoId: 5 },              // step 18 — vídeo 5 (Caminho Recomendado)
+
+  { type: "capture" },                        // step 19 — formulário final
 ];
 
-const TOTAL_QUESTIONS = 11;
+const TOTAL_QUESTIONS = 13;
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -289,6 +377,8 @@ export function PlanoQuiz({
           experiencia_vendas: answers.experiencia_vendas,
           motivacao_dominante: answers.motivacao_dominante,
           canal_preferido: answers.canal_preferido,
+          interesse_principal: answers.interesse_principal,
+          maior_trava: answers.maior_trava,
           source: "quiz",
           user_agent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
           page_url: typeof window !== "undefined" ? window.location.href : undefined,
@@ -428,7 +518,7 @@ export function PlanoQuiz({
   // ── Pausa de vídeo ────────────────────────────────────────────────────────
 
   if (currentStep.type === "video") {
-    const isFirst = currentStep.videoId === 1;
+    const vid = VIDEOS[currentStep.videoId];
     return (
       <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col">
         <div className="w-full h-1 bg-gray-200">
@@ -449,27 +539,28 @@ export function PlanoQuiz({
           <p className="text-[11px] font-bold text-green-700 uppercase tracking-wider mb-3">
             Plano Renda Inteligente
           </p>
-          <h2 className="text-xl font-bold text-gray-800 mb-2">
-            {isFirst ? "Veja o que outros já conquistaram" : "Uma mensagem importante para você"}
-          </h2>
-          <p className="text-sm text-gray-500 mb-5">
-            {isFirst
-              ? "Assista ao depoimento antes de continuar."
-              : "Assista ao vídeo antes de receber seu diagnóstico."}
-          </p>
+          <h2 className="text-xl font-bold text-gray-800 mb-5">{vid.title}</h2>
 
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-6">
-            <iframe
-              src={isFirst
-                ? "https://www.youtube.com/embed/J9iAGPMLUSg"
-                : "https://www.youtube.com/embed/2066Z15Qsnk"}
-              title={isFirst ? "Depoimento Renata" : "Depoimento Patrícia"}
-              className="absolute inset-0 w-full h-full"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
+          {vid.videoId ? (
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-5">
+              <iframe
+                src={`https://www.youtube.com/embed/${vid.videoId}`}
+                title={vid.title}
+                className="absolute inset-0 w-full h-full"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ) : (
+            <div className="w-full aspect-video rounded-2xl bg-[#0f3d1f]/10 border-2 border-dashed border-green-300 flex items-center justify-center mb-5">
+              <span className="text-green-700 text-sm font-medium">Vídeo em breve</span>
+            </div>
+          )}
+
+          <blockquote className="bg-green-50 border-l-4 border-green-500 px-4 py-4 rounded-r-xl mb-6">
+            <p className="text-sm text-gray-700 leading-relaxed italic">{vid.text}</p>
+          </blockquote>
 
           <button
             type="button"

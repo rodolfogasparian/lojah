@@ -65,31 +65,55 @@ const FAQ = [
 ];
 
 const PERFIL_LABELS: Record<string, string> = {
-  iniciante_urgente: "Iniciante com Urgência",
-  sonhador_cauteloso: "Sonhador(a) Cauteloso(a)",
-  investidor_pronto: "Investidor(a) Pronto(a)",
-  vendedor_em_evolucao: "Vendedor(a) em Evolução",
-  tempo_limitado: "Tempo Limitado",
+  consumidor_curioso:    "Consumidor(a) Curioso(a)",
+  renda_extra_inicial:   "Renda Extra Inicial",
+  vendedor_em_evolucao:  "Vendedor(a) em Evolução",
+  construtor_equipe:     "Construtor(a) de Equipe",
+  empreendedor_servicos: "Empreendedor(a) de Serviços",
+  perfil_premium:        "Perfil Premium",
 };
 
 const PERFIL_ICONS: Record<string, string> = {
-  iniciante_urgente: "⚡",
-  sonhador_cauteloso: "🌱",
-  investidor_pronto: "💼",
-  vendedor_em_evolucao: "📈",
-  tempo_limitado: "⏱️",
+  consumidor_curioso:    "🛍️",
+  renda_extra_inicial:   "🌱",
+  vendedor_em_evolucao:  "📈",
+  construtor_equipe:     "🤝",
+  empreendedor_servicos: "🔄",
+  perfil_premium:        "💎",
 };
 
 const PERFIL_ARGS: Record<string, string> = {
-  iniciante_urgente: "Caminho mais rápido e barato até o primeiro dinheiro entrando.",
-  sonhador_cauteloso: "Comece pequeno e sem risco — dá pra migrar para a Licença depois quando sentir segurança.",
-  investidor_pronto: "Ecossistema completo (produtos + serviços), comissão recorrente e plano de carreira estruturado.",
-  vendedor_em_evolucao: "Estrutura para escalar o que já vende, construir equipe e profissionalizar o processo.",
-  tempo_limitado: "Baixo tempo de dedicação, sem compromisso de meta. Começa no seu próprio ritmo.",
+  consumidor_curioso:    "Você prefere comprar com desconto sem compromisso de revenda. Acesse mais de 300 produtos com preço de consultor(a) — sem pressão, sem meta.",
+  renda_extra_inicial:   "Você está dando o primeiro passo e quer resultados sem complicação. O kit de entrada tem o menor custo e já inclui tudo para suas primeiras vendas.",
+  vendedor_em_evolucao:  "Você já vende, mas falta estrutura para crescer. A Licença ATL Services te dá o ecossistema completo e as ferramentas que profissionalizam o processo.",
+  construtor_equipe:     "Você quer liderar uma equipe e construir uma rede. A Licença ATL Services abre o acesso ao plano de carreira e às ferramentas de equipe.",
+  empreendedor_servicos: "Você quer renda recorrente. A Licença abre o acesso a serviços que continuam gerando comissão todo mês: ATL NEX, ON MED, Energia e ATL APPs.",
+  perfil_premium:        "Você tem capital e perfil para começar sem etapas menores. O acesso completo com atendimento prioritário é o caminho mais direto.",
 };
 
 function getKitIndex(perfil: string): number {
-  return perfil === "investidor_pronto" || perfil === "vendedor_em_evolucao" ? 1 : 0;
+  if (perfil === "consumidor_curioso") return 2;
+  if (perfil === "renda_extra_inicial") return 0;
+  return 1; // vendedor_em_evolucao, construtor_equipe, empreendedor_servicos, perfil_premium
+}
+
+function getFechoText(perfil: string, firstName: string): string {
+  switch (perfil) {
+    case "consumidor_curioso":
+      return `${firstName}, você indicou que prefere comprar com desconto sem compromisso de revenda. Por isso, a opção mais alinhada com o seu momento é começar como consumidor — acesso a mais de 300 produtos com preço de consultor(a), sem pressão. Se um dia quiser ganhar com isso, o caminho já vai estar aberto.`;
+    case "renda_extra_inicial":
+      return `${firstName}, você está dando o primeiro passo e quer resultados sem complicação. Por isso, a indicação é começar como Consultor(a) de Produtos — menor investimento, sem meta obrigatória, e já com tudo para suas primeiras vendas pelo WhatsApp.`;
+    case "vendedor_em_evolucao":
+      return `${firstName}, você já vende, mas sabe que falta estrutura para crescer. Por isso, o caminho indicado é a Licença ATL Services — ela te dá acesso ao ecossistema completo (produtos + serviços recorrentes) e às ferramentas que profissionalizam o processo.`;
+    case "construtor_equipe":
+      return `${firstName}, você quer liderar uma equipe e construir uma rede de renda. Por isso, o caminho indicado é a Licença ATL Services — ela abre o acesso ao plano de carreira, às ferramentas de equipe e ao suporte para você crescer liderando, não só vendendo.`;
+    case "empreendedor_servicos":
+      return `${firstName}, você tem interesse em renda recorrente, não apenas em vendas pontuais. Por isso, a Licença ATL Services é o caminho certo — com acesso a ATL NEX, ON MED, Energia por Assinatura e ATL APPs, você ganha enquanto o cliente continua usando.`;
+    case "perfil_premium":
+      return `${firstName}, você demonstrou capital disponível e perfil para começar completo. Pelo seu diagnóstico, começar apenas como consultor limitaria seu potencial. O caminho mais indicado é a Licença ATL Services com atendimento prioritário — sem perder tempo em planos de entrada que não correspondem ao que você pode alcançar.`;
+    default:
+      return `${firstName}, fale com seu consultor para conhecer o próximo passo ideal para o seu perfil.`;
+  }
 }
 
 function getEarningsHighlight(horas: string | null): number {
@@ -139,7 +163,7 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
     `Olá! Sou ${lead.nome}, acabei de fazer o Plano Renda Inteligente (${lead.codigo}) e meu perfil foi ${perfilLabel}. Quero saber mais sobre ${kitName}.`;
 
   const visibleBenefits =
-    lead.caminho === "produto"
+    lead.caminho === "produto" || lead.caminho === "apenas_consumir"
       ? [BENEFITS[0], BENEFITS[1], BENEFITS[5]]
       : lead.caminho === "servico"
       ? [BENEFITS[1], BENEFITS[2], BENEFITS[3], BENEFITS[4], BENEFITS[5], BENEFITS[0]]
@@ -150,6 +174,8 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
       ? "Seu caminho: Ecossistema de Produtos"
       : lead.caminho === "servico"
       ? "Seu caminho: Ecossistema de Serviços"
+      : lead.caminho === "apenas_consumir"
+      ? "Seu caminho: Consumo com Desconto"
       : "Você escolhe onde lucrar!";
 
   const caminhoSub =
@@ -157,7 +183,11 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
       ? "Revenda mais de 300 produtos com até 100% de lucro."
       : lead.caminho === "servico"
       ? "Comissão recorrente em serviços digitais que renovam todo mês."
+      : lead.caminho === "apenas_consumir"
+      ? "Acesse mais de 300 produtos com preço de consultor(a), sem compromisso de revenda."
       : "Dois ecossistemas completos. Você decide por qual começar.";
+
+  const fechoText = getFechoText(lead.perfil_resultante, firstName);
 
   return (
     <div className="min-h-screen w-full bg-[#fafaf7] text-[#1a1f1a] antialiased" style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}>
@@ -396,6 +426,26 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Frase de fechamento dinâmica */}
+      <section className="bg-[#f4f8ec] px-4 py-12 sm:px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#0f3d1f] mb-4">
+            Por que essa é a indicação certa para você
+          </p>
+          <blockquote className="text-base font-semibold text-[#0f1f12] leading-relaxed sm:text-lg">
+            "{fechoText}"
+          </blockquote>
+          <a
+            href={wa(mainMsg)}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0f3d1f] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#1a5c30]"
+          >
+            💬 Quero dar o próximo passo
+          </a>
         </div>
       </section>
 

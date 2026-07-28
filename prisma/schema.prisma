@@ -304,6 +304,7 @@ enum LeadCaminho {
   produto
   servico
   ambos
+  apenas_consumir
   indeciso
 }
 
@@ -314,11 +315,12 @@ enum LeadModalidade {
 }
 
 enum LeadPerfil {
-  iniciante_urgente
-  sonhador_cauteloso
-  investidor_pronto
+  consumidor_curioso
+  renda_extra_inicial
   vendedor_em_evolucao
-  tempo_limitado
+  construtor_equipe
+  empreendedor_servicos
+  perfil_premium
 }
 
 enum LeadKanban {
@@ -355,6 +357,8 @@ model RendaInteligenteLeads {
   experiencia_vendas      String?
   motivacao_dominante     String?
   canal_preferido         String?
+  interesse_principal     String?
+  maior_trava             String?
 
   perfil_resultante LeadPerfil
   dor_principal     String?
