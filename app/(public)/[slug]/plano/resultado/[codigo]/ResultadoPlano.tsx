@@ -47,12 +47,10 @@ const EARNINGS = [
   { icon: "👑", title: "Profissional", description: "Full-time, com equipe e estratégia de tráfego.", value: "R$ 10.000+/mês" },
 ];
 
-const CAREER = [
-  { label: "Bronze", stars: 1, desc: "Primeiros cadastros e primeiras vendas" },
-  { label: "Prata", stars: 2, desc: "Equipe crescendo, renda recorrente" },
-  { label: "Ouro", stars: 3, desc: "Liderança ativa, bônus maiores" },
-  { label: "Diamante", stars: 4, desc: "Gestão de múltiplas equipes" },
-  { label: "Royal", stars: 5, desc: "Ecossistema completo, máxima comissão" },
+const DEPOIMENTOS = [
+  { url: "https://www.youtube.com/embed/J9iAGPMLUSg", title: "Depoimento Renata" },
+  { url: "https://www.youtube.com/embed/2066Z15Qsnk", title: "Depoimento Patrícia" },
+  { url: "https://www.youtube.com/embed/I-qjdEvjbc8", title: "Depoimento Ligia" },
 ];
 
 const FAQ = [
@@ -128,7 +126,6 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
   const perfilArg = PERFIL_ARGS[lead.perfil_resultante] ?? "";
   const kitIndex = getKitIndex(lead.perfil_resultante);
   const earningsHighlight = getEarningsHighlight(lead.horas_disponiveis);
-  const showCareer = lead.perfil_resultante === "investidor_pronto" || lead.perfil_resultante === "vendedor_em_evolucao";
   const waPhone = seller.whatsapp.replace(/\D/g, "");
   const recommendedKit = KITS[kitIndex];
   const firstName = lead.nome.split(" ")[0];
@@ -255,7 +252,23 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
         </div>
       </section>
 
-      {/* 3. Onde você está hoje — Quadrante E/A/D/I */}
+      {/* 3. Conheça o Ecossistema Atlântica */}
+      <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+        <h2 className="text-2xl font-black text-[#0f1f12] text-center sm:text-3xl mb-2">Conheça o Ecossistema Atlântica</h2>
+        <p className="text-sm text-neutral-600 text-center mb-8">Entenda como o ecossistema completo de produtos e serviços funciona na prática.</p>
+        <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-black/10">
+          <iframe
+            src="https://www.youtube.com/embed/aJln_qoRMos"
+            title="Ecossistema Atlântica Natural"
+            className="absolute inset-0 w-full h-full"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </section>
+
+      {/* 4. Onde você está hoje — Quadrante E/A/D/I */}
       <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <h2 className="text-2xl font-black text-[#0f1f12] text-center sm:text-3xl mb-2">Onde você está hoje?</h2>
         <p className="text-sm text-neutral-600 text-center mb-8">A maioria das pessoas começa no lado esquerdo. A Atlântica Natural é o caminho para o lado direito.</p>
@@ -386,52 +399,29 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
         </div>
       </section>
 
-      {/* 7. Prova social */}
+      {/* 10. Prova social */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <h2 className="text-2xl font-black text-[#0f1f12] text-center sm:text-3xl mb-2">Histórias reais de quem já começou</h2>
         <p className="text-sm text-neutral-600 text-center mb-8">Veja o que nossos consultores(as) estão conquistando.</p>
-        <div className="grid gap-5 sm:grid-cols-2">
-          {["https://player.vimeo.com/video/687733508", "https://player.vimeo.com/video/687733046"].map((url, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-[#00ff88]/30 bg-[#0d1f0d]">
-              <iframe src={url} title={`Depoimento ${i + 1}`} width="100%" height="250" frameBorder="0" allow="autoplay; fullscreen" allowFullScreen />
+        <div className="grid gap-5 md:grid-cols-3">
+          {DEPOIMENTOS.map((d) => (
+            <div key={d.url} className="overflow-hidden rounded-2xl border border-[#00ff88]/30 bg-[#0d1f0d]">
+              <div className="relative w-full aspect-video">
+                <iframe
+                  src={d.url}
+                  title={d.title}
+                  className="absolute inset-0 w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 8. Plano de carreira — só para investidor_pronto e vendedor_em_evolucao */}
-      {showCareer && (
-        <section className="bg-[#0a1a0a] px-4 py-14 sm:px-6">
-          <div className="mx-auto max-w-2xl">
-            <h2 className="text-2xl font-black text-[#00ff88] text-center sm:text-3xl mb-2" style={neonGreen}>Seu plano de carreira</h2>
-            <p className="text-sm text-neutral-400 text-center mb-8">Na Atlântica Natural, você cresce conforme sua equipe e resultados crescem.</p>
-            <div className="relative pl-10">
-              <div className="absolute left-4 top-3 bottom-3 w-0.5 bg-gradient-to-b from-[#00ff88] to-[#00ff88]/10" />
-              <div className="flex flex-col gap-4">
-                {CAREER.map((level, i) => (
-                  <div key={level.label} className="relative">
-                    <div className="absolute -left-6 top-3 grid h-5 w-5 place-items-center rounded-full border-2 bg-[#0a1a0a] text-[10px] font-black"
-                      style={{ borderColor: i === 0 ? "#00ff88" : "rgba(0,255,136,0.25)", color: i === 0 ? "#00ff88" : "rgba(0,255,136,0.4)" }}>
-                      {i + 1}
-                    </div>
-                    <div className={`rounded-xl border p-4 ${i === 0 ? "border-[#00ff88] bg-[#0d2b0d]" : "border-[#00ff88]/15 bg-[#0d1f0d]"}`}>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-extrabold text-white">{level.label}</span>
-                        <span className="text-[#00ff88] text-xs">{"★".repeat(level.stars)}</span>
-                        {i === 0 && <span className="text-[10px] font-bold bg-[#00ff88] text-[#0a1a0a] px-1.5 py-0.5 rounded-full">INÍCIO</span>}
-                      </div>
-                      <p className="text-xs text-neutral-400 mt-0.5">{level.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <p className="mt-6 text-center text-xs text-neutral-500">Detalhes completos sobre bônus e comissões por nível serão compartilhados pelo seu consultor(a).</p>
-          </div>
-        </section>
-      )}
-
-      {/* 9. FAQ */}
+      {/* 11. FAQ */}
       <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <h2 className="text-2xl font-black text-[#0f1f12] text-center sm:text-3xl mb-2">Perguntas frequentes</h2>
         <p className="text-sm text-neutral-600 text-center mb-8">Tudo que você precisa saber antes de começar.</p>

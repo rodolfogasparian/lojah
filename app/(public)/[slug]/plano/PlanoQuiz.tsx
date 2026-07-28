@@ -458,15 +458,17 @@ export function PlanoQuiz({
               : "Assista ao vídeo antes de receber seu diagnóstico."}
           </p>
 
-          <div className="relative w-full aspect-video rounded-2xl bg-gray-900 flex items-center justify-center mb-6 overflow-hidden">
-            <div className="text-center">
-              <div className="size-16 rounded-full bg-white/10 border-2 border-white/30 flex items-center justify-center mx-auto mb-3">
-                <svg className="size-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <p className="text-white/50 text-xs">Vídeo em breve</p>
-            </div>
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-6">
+            <iframe
+              src={isFirst
+                ? "https://www.youtube.com/embed/J9iAGPMLUSg"
+                : "https://www.youtube.com/embed/2066Z15Qsnk"}
+              title={isFirst ? "Depoimento Renata" : "Depoimento Patrícia"}
+              className="absolute inset-0 w-full h-full"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
 
           <button
