@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { getCompanyFromHost } from "@/lib/tenant";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CatalogSection } from "@/components/catalog/CatalogSection";
+import { SERVICE_CATEGORIES } from "@/lib/service-categories";
 
 const FALLBACK_IMAGE = "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/products/logo-atlantica-fundo-branco.png";
 const DESCRIPTION = "Compre com 50% de desconto mais de 300 produtos Atlântica Natural!";
@@ -70,7 +71,7 @@ export default async function ConsultorDescontoPage({
     name: product.name,
     description: product.description,
     price_client: product.price_client !== null
-      ? product.category?.name === "ATL Services"
+      ? SERVICE_CATEGORIES.includes(product.category?.name ?? "")
         ? Number(product.price_client)
         : Number(product.price_client) * 0.5
       : null,

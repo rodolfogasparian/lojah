@@ -2,7 +2,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { User, CreditCard, Ticket, HeadphonesIcon, HelpCircle, BookOpen, ExternalLink, Link2 } from "lucide-react";
+import { User, CreditCard, Ticket, HeadphonesIcon, HelpCircle, BookOpen, ExternalLink, Link2, Users } from "lucide-react";
 
 type Props = {
   sellerName: string;
@@ -13,12 +13,13 @@ type Props = {
 };
 
 const NAV = [
-  { href: "/painel",         label: "Seus Links",      icon: Link2 },
-  { href: "/painel/perfil",  label: "Meu Perfil",      icon: User },
-  { href: "/painel/cartao",  label: "Cartão Virtual",  icon: CreditCard },
-  { href: "/painel/cupons",  label: "Cupons",          icon: Ticket },
-  { href: "/painel/suporte", label: "Suporte",         icon: HeadphonesIcon },
-  { href: "/painel/faq",     label: "FAQ",             icon: HelpCircle },
+  { href: "/painel",          label: "Seus Links",     icon: Link2 },
+  { href: "/painel/perfil",   label: "Meu Perfil",     icon: User },
+  { href: "/painel/cartao",   label: "Cartão Virtual", icon: CreditCard },
+  { href: "/painel/cupons",   label: "Cupons",         icon: Ticket },
+  { href: "/painel/leads",    label: "Leads",          icon: Users },
+  { href: "/painel/suporte",  label: "Suporte",        icon: HeadphonesIcon },
+  { href: "/painel/faq",      label: "FAQ",            icon: HelpCircle },
   { href: "/painel/materiais", label: "Materiais",     icon: BookOpen },
 ];
 

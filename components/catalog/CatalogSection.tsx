@@ -4,15 +4,7 @@ import { Search } from "lucide-react";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { CartBar } from "@/components/catalog/CartBar";
 import { useCart } from "@/hooks/useCart";
-
-const SERVICE_CATEGORIES = [
-  "Telefonia",
-  "Telemedicina",
-  "TV",
-  "Inteligência Artificial",
-  "Energia",
-  "ATL Services",
-];
+import { SERVICE_CATEGORIES } from "@/lib/service-categories";
 
 const QUICK_CATEGORIES = [
   "PERFUMES_AGRUPADOS",

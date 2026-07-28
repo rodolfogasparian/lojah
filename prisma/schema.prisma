@@ -23,6 +23,8 @@ model Company {
   coupon_packs    CouponPack[]
   support_tickets SupportTicket[]
   coupon_requests CouponRequest[]
+  ri_leads          RendaInteligenteLeads[]
+  kanban_templates  KanbanMessageTemplate[]
 
   @@map("companies")
 }
@@ -84,6 +86,7 @@ model SellerProfile {
   impersonation_tokens ImpersonationToken[]
   coupon_packs_received CouponPack[] @relation("CouponPackSeller")
   coupon_requests CouponRequest[]
+  ri_leads      RendaInteligenteLeads[]
 
   @@unique([company_id, slug])
   @@map("seller_profiles")
@@ -282,4 +285,104 @@ model CouponRequest {
   company Company       @relation(fields: [company_id], references: [id])
 
   @@map("coupon_requests")
+}
+
+model KanbanMessageTemplate {
+  id         String   @id @default(uuid())
+  company_id String
+  kanban     String
+  mensagem   String
+  updated_at DateTime @updatedAt
+
+  company Company @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@unique([company_id, kanban])
+  @@map("kanban_message_templates")
+}
+
+enum LeadCaminho {
+  produto
+  servico
+  ambos
+  indeciso
+}
+
+enum LeadModalidade {
+  digital
+  presencial
+  misto
+}
+
+enum LeadPerfil {
+  iniciante_urgente
+  sonhador_cauteloso
+  investidor_pronto
+  vendedor_em_evolucao
+  tempo_limitado
+}
+
+enum LeadKanban {
+  novo_contato
+  diagnostico_interesse
+  qualificado
+  oferta_decisao
+  agendamento
+  compra_fechamento
+  cliente_ativo
+  suporte
+  resolvido_arquivado
+}
+
+model RendaInteligenteLeads {
+  id         String @id @default(uuid())
+  company_id String
+  seller_id  String
+
+  codigo   String @unique
+  nome     String
+  whatsapp String
+  email    String?
+
+  caminho    LeadCaminho
+  modalidade LeadModalidade
+
+  area_atual              String?
+  gap_renda               String?
+  meta_mensal             String?
+  horas_disponiveis       String?
+  renda_familiar          String?
+  capacidade_investimento String?
+  experiencia_vendas      String?
+  motivacao_dominante     String?
+  canal_preferido         String?
+
+  perfil_resultante LeadPerfil
+  dor_principal     String?
+  desejo_dominante  String?
+  medo_principal    String?
+  objecao_provavel  String?
+  prova_necessaria  String?
+  pitch_sugerido    String?
+  material_indicado String?
+  evitar            String?
+
+  kanban    LeadKanban @default(novo_contato)
+  score     Int?
+  respostas Json       @default("{}")
+
+  source     String?
+  user_agent String?
+  page_url   String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  company Company       @relation(fields: [company_id], references: [id])
+  seller  SellerProfile @relation(fields: [seller_id], references: [id])
+
+  @@index([company_id])
+  @@index([seller_id])
+  @@index([kanban])
+  @@index([created_at(sort: Desc)])
+  @@map("renda_inteligente_leads")
 }

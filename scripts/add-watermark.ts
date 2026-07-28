@@ -15,35 +15,9 @@ const supabase = createClient(supabaseUrl, serviceRoleKey);
 
 const BUCKET = "products";
 const WATERMARK_TEXT = "lojah.app";
-const FONT_SIZE = 20;
-const PADDING = 6;
-const MARGIN = 12;
-
-async function buildWatermarkSvg(text: string): Promise<Buffer> {
-  const charWidth = FONT_SIZE * 0.55;
-  const textWidth = Math.ceil(text.length * charWidth);
-  const textHeight = FONT_SIZE;
-  const bgWidth = textWidth + PADDING * 2;
-  const bgHeight = textHeight + PADDING * 2;
-
-  const svg = `
-    <svg width="${bgWidth}" height="${bgHeight}" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="${bgWidth}" height="${bgHeight}" rx="3" ry="3"
-        fill="rgba(0,0,0,0.5)" />
-      <text
-        x="${bgWidth / 2}"
-        y="${textHeight + PADDING - 2}"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="${FONT_SIZE}"
-        font-weight="bold"
-        fill="white"
-        text-anchor="middle"
-      >${text}</text>
-    </svg>
-  `.trim();
-
-  return Buffer.from(svg);
-}
+const BAR_HEIGHT = 60;
+const TEXT_COLOR = "#166534";
+const FONT_SIZE = 32;
 
 function getMimeType(filename: string): string {
   const ext = filename.split(".").pop()?.toLowerCase() ?? "";
@@ -52,24 +26,31 @@ function getMimeType(filename: string): string {
   return "image/jpeg";
 }
 
-async function applyWatermark(imageBuffer: Buffer, filename: string): Promise<Buffer> {
-  const image = sharp(imageBuffer);
-  const { width = 0, height = 0 } = await image.metadata();
+async function applyWatermark(inputBuffer: Buffer, filename: string): Promise<Buffer> {
+  const meta = await sharp(inputBuffer).metadata();
+  const width = meta.width ?? 800;
+  const height = meta.height ?? 600;
 
-  const watermarkSvg = await buildWatermarkSvg(WATERMARK_TEXT);
-  const watermarkMeta = await sharp(watermarkSvg).metadata();
-  const wWidth = watermarkMeta.width ?? 100;
-  const wHeight = watermarkMeta.height ?? 30;
+  const extended = await sharp(inputBuffer)
+    .extend({ bottom: BAR_HEIGHT, background: { r: 255, g: 255, b: 255, alpha: 1 } })
+    .toBuffer();
 
-  const left = MARGIN;
-  const top = Math.max(0, height - wHeight - MARGIN);
+  const svg = Buffer.from(
+    `<svg width="${width}" height="${BAR_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+      <text
+        x="${width / 2}"
+        y="${BAR_HEIGHT - 8}"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="${FONT_SIZE}"
+        font-weight="bold"
+        fill="${TEXT_COLOR}"
+        text-anchor="middle"
+      >${WATERMARK_TEXT}</text>
+    </svg>`
+  );
 
-  const composited = image.composite([
-    {
-      input: watermarkSvg,
-      left,
-      top,
-    },
+  const composited = sharp(extended).composite([
+    { input: svg, left: 0, top: height },
   ]);
 
   const ext = filename.split(".").pop()?.toLowerCase() ?? "";
@@ -145,7 +126,7 @@ async function main() {
     processados++;
   }
 
-  console.log(`\n✅ ${processados} arquivo(s) processado(s) com marca d'água`);
+  console.log(`\n✅ ${processados} arquivo(s) processado(s)`);
 }
 
 main().catch((e) => {
