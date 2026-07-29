@@ -7,6 +7,7 @@ import { Plus } from "lucide-react";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { AssignCouponModal } from "@/components/admin/AssignCouponModal";
 import { AprovarSolicitacaoButton } from "@/components/admin/AprovarSolicitacaoButton";
+import { LiveModeToggle } from "@/components/admin/LiveModeToggle";
 
 export default async function CuponsPage() {
   const session = await auth();
@@ -76,8 +77,8 @@ export default async function CuponsPage() {
               >
                 <div className="flex flex-col gap-0.5">
                   <p className="font-semibold text-sm text-[#1a1a1a]">
-                    {req.seller.name}{" "}
-                    <span className="font-normal text-[#888]">
+                    <span className="admin-sensitive">{req.seller.name}</span>{" "}
+                    <span className="font-normal text-[#888] admin-sensitive">
                       @{req.seller.slug}
                     </span>
                   </p>
@@ -116,11 +117,14 @@ export default async function CuponsPage() {
             {packs.length} pack(s) criado(s)
           </p>
         </div>
-        <Link href="/admin/cupons/novo">
-          <Button>
-            <Plus className="size-4 mr-1" /> Novo pack
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <LiveModeToggle />
+          <Link href="/admin/cupons/novo">
+            <Button>
+              <Plus className="size-4 mr-1" /> Novo pack
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -146,7 +150,8 @@ export default async function CuponsPage() {
                   </span>
                   {atribuido ? (
                     <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                      👤 {pack.seller?.name} (@{pack.seller?.slug})
+                      👤{" "}
+                      <span className="admin-sensitive">{pack.seller?.name} (@{pack.seller?.slug})</span>
                       {pack.assigned_at && ` · ${new Date(pack.assigned_at).toLocaleDateString("pt-BR")}`}
                     </span>
                   ) : (
@@ -173,7 +178,7 @@ export default async function CuponsPage() {
                 {pack.coupons.map((coupon) => (
                   <div key={coupon.id} className="px-4 py-2.5 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <span className="font-mono font-bold text-sm tracking-widest">
+                      <span className="font-mono font-bold text-sm tracking-widest admin-sensitive">
                         {coupon.code}
                       </span>
                       <CopyButton text={coupon.code} />
@@ -181,7 +186,10 @@ export default async function CuponsPage() {
                     <div className="flex items-center gap-2">
                       {coupon.used_by ? (
                         <span className="text-xs text-muted-foreground">
-                          Usado por: <span className="font-medium text-foreground">{coupon.seller?.name ?? "—"}</span>
+                          Usado por:{" "}
+                          <span className="font-medium text-foreground admin-sensitive">
+                            {coupon.seller?.name ?? "—"}
+                          </span>
                           {coupon.used_at && ` em ${new Date(coupon.used_at).toLocaleDateString("pt-BR")}`}
                         </span>
                       ) : (
