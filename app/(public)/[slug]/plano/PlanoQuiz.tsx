@@ -243,18 +243,20 @@ const QUESTIONS: Question[] = [
 
 // ── 5 Pausas de vídeo ─────────────────────────────────────────────────────────
 
+const SUPABASE_VIDEOS = "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/videos-plano";
+
 const VIDEOS: Record<
   1 | 2 | 3 | 4 | 5,
-  { title: string; text: string; youtubeId?: string }
+  { title: string; text: string; mp4Url?: string }
 > = {
   1: {
     title: "Uma informação importante",
-    youtubeId: "AscS9K4H5BM",
+    mp4Url: `${SUPABASE_VIDEOS}/introducao-atlantica.mp4`,
     text: "A maioria das pessoas começa buscando uma renda extra. Mas o que muda o jogo é entender que você pode vender produtos que as pessoas já consomem e também serviços que geram recorrência. Ou seja: você não depende de uma única venda. Você pode começar simples, pelo WhatsApp, e crescer criando uma base de clientes.",
   },
   2: {
     title: "Sobre os Produtos",
-    youtubeId: "m3Sb2VBJtxI",
+    mp4Url: `${SUPABASE_VIDEOS}/introducao-produtos-imagens.mp4`,
     text: "No ecossistema de produtos, você pode trabalhar com itens de consumo recorrente: suplementação, vitaminas, perfumaria, linha capilar, cuidados diários e outros produtos que as pessoas compram mais de uma vez. Isso facilita a revenda, porque você não precisa convencer alguém sobre algo distante. Você apresenta soluções que entram na rotina.",
   },
   3: {
@@ -264,13 +266,13 @@ const VIDEOS: Record<
   },
   4: {
     title: "Sobre as objeções",
-    // TODO: substituir por vídeo de objeções quando gravado
-    youtubeId: "J9iAGPMLUSg",
+    // TODO: substituir por vídeo próprio de objeções quando gravado
+    mp4Url: `${SUPABASE_VIDEOS}/depoimento-renata-atl.mp4`,
     text: "Talvez você pense: eu não sei vender, não tenho loja, não tenho equipe ou tenho medo de investir errado. Mas o início não precisa ser complicado. Você pode começar com orientação, catálogo, WhatsApp e um caminho claro. O importante é não começar no improviso. É isso que o diagnóstico vai te mostrar.",
   },
   5: {
     title: "Quase pronto…",
-    // sem vídeo gravado ainda
+    mp4Url: `${SUPABASE_VIDEOS}/depoimento-renata-prosperidade.mp4`,
     text: "Com base nas suas respostas, o sistema vai indicar o melhor caminho para você começar. Pode ser como consumidor, consultor de produtos, vendedor de serviços ou com acesso completo ao ecossistema. A ideia é simples: não empurrar qualquer plano. É entender seu perfil e mostrar o próximo passo mais coerente.",
   },
 };
@@ -550,17 +552,14 @@ export function PlanoQuiz({
           </p>
           <h2 className="text-xl font-bold text-gray-800 mb-5">{vid.title}</h2>
 
-          {vid.youtubeId ? (
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-5">
-              <iframe
-                src={`https://www.youtube.com/embed/${vid.youtubeId}`}
-                title={vid.title}
-                className="absolute inset-0 w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+          {vid.mp4Url ? (
+            <video
+              src={vid.mp4Url}
+              controls
+              playsInline
+              className="w-full rounded-2xl mb-5 bg-black"
+              style={{ maxHeight: "56vw" }}
+            />
           ) : (
             <div className="w-full aspect-video rounded-2xl bg-[#0f3d1f]/10 border-2 border-dashed border-green-300 flex items-center justify-center mb-5">
               <span className="text-green-700 text-sm font-medium">Vídeo em breve</span>
