@@ -261,14 +261,14 @@ const VIDEOS: Record<
   },
   3: {
     title: "Sobre os Serviços",
-    // sem vídeo gravado ainda
+    mp4Url: `${SUPABASE_VIDEOS}/servicos-atlantica.mp4`,
     text: "Além dos produtos, existe uma parte muito forte: os serviços recorrentes. Saúde acessível, telefonia, energia e soluções digitais. A diferença é simples: quando o cliente continua usando, você pode continuar recebendo. É aqui que muita gente começa a enxergar o negócio como renda recorrente, não só venda pontual.",
   },
   4: {
-    title: "Sobre as objeções",
+    title: "Histórias reais de transformação",
     // TODO: substituir por vídeo próprio de objeções quando gravado
     mp4Url: `${SUPABASE_VIDEOS}/depoimento-renata-atl.mp4`,
-    text: "Talvez você pense: eu não sei vender, não tenho loja, não tenho equipe ou tenho medo de investir errado. Mas o início não precisa ser complicado. Você pode começar com orientação, catálogo, WhatsApp e um caminho claro. O importante é não começar no improviso. É isso que o diagnóstico vai te mostrar.",
+    text: "Antes de continuar, veja a história de alguém que já esteve exatamente onde você está agora — e decidiu dar o primeiro passo.",
   },
   5: {
     title: "Quase pronto…",
