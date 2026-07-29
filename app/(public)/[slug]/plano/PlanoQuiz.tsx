@@ -421,7 +421,7 @@ export function PlanoQuiz({
             <strong className="text-green-700 font-mono">{success.codigo}</strong>
           </p>
           <p className="text-gray-500 text-sm mb-6">
-            O WhatsApp foi aberto com sua mensagem. Envie para falar com {sellerName}.
+            O WhatsApp foi aberto com sua mensagem. Envie agora para tirar suas dúvidas.
           </p>
           <a
             href={resultUrl}

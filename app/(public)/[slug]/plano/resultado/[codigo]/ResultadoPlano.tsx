@@ -216,7 +216,7 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
           </div>
           <a href={wa(mainMsg)} target="_blank" rel="noreferrer"
             className="neon-pulse shrink-0 rounded-full bg-[#00ff88] px-4 py-2 text-xs font-bold text-[#0a1a0a] transition hover:scale-105 sm:text-sm">
-            💬 Falar com {seller.name}
+            💬 Tirar dúvidas no WhatsApp
           </a>
         </div>
       </header>
@@ -500,12 +500,12 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
             <span className="text-[#00ff88]" style={neonGreen}>{firstName}?</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-white/80">
-            Fale com {seller.name} agora pelo WhatsApp. Seu código{" "}
-            <span className="font-mono font-bold text-[#cfee9a]">{lead.codigo}</span> já identifica seu diagnóstico — ela(e) já sabe o que você precisa.
+            Seu código{" "}
+            <span className="font-mono font-bold text-[#cfee9a]">{lead.codigo}</span> já identifica seu diagnóstico. Clique abaixo e tire suas dúvidas diretamente no WhatsApp.
           </p>
           <a href={wa(mainMsg)} target="_blank" rel="noreferrer"
             className="neon-pulse mt-6 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#00ff88] px-6 py-4 text-base font-bold text-[#0a1a0a] transition hover:scale-105">
-            💬 Falar com {seller.name} no WhatsApp
+            💬 Tirar dúvidas no WhatsApp no WhatsApp
           </a>
           <p className="mt-3 text-xs text-white/50">
             Kit recomendado: {recommendedKit.name} — {recommendedKit.price}
@@ -526,7 +526,7 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-black/5 bg-white/95 p-3 backdrop-blur sm:hidden">
         <a href={wa(mainMsg)} target="_blank" rel="noreferrer"
           className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#00ff88] px-5 py-3 text-sm font-bold text-[#0a1a0a] shadow-lg" style={neonBox}>
-          💬 Falar com {seller.name}
+          💬 Tirar dúvidas no WhatsApp
         </a>
       </div>
 
