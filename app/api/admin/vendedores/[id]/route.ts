@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
@@ -54,5 +55,6 @@ export async function PATCH(
     data: userUpdate,
   });
 
+  revalidatePath("/admin/vendedores");
   return NextResponse.json({ success: true });
 }

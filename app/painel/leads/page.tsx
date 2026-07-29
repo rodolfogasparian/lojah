@@ -5,12 +5,16 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { KanbanLeads } from "./KanbanLeads";
-import type { LeadRow } from "./KanbanLeads";
+import { LeadsView } from "./LeadsView";
+import type { LeadRow } from "./LeadsView";
 
 export const metadata = { title: "Meus Leads | Painel" };
 
-export default async function LeadsPage() {
+export default async function LeadsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string }>;
+}) {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
@@ -66,6 +70,9 @@ export default async function LeadsPage() {
     rawTemplates.map((t) => [t.kanban, t.mensagem])
   );
 
+  const params = await searchParams;
+  const initialView = params.view === "lista" ? "lista" : "kanban";
+
   return (
     <div>
       <div className="mb-4">
@@ -77,11 +84,12 @@ export default async function LeadsPage() {
         </p>
       </div>
 
-      <KanbanLeads
+      <LeadsView
         leads={leads}
         templates={templates}
         companySlug={profile.company.slug}
         sellerSlug={profile.slug}
+        initialView={initialView}
       />
     </div>
   );

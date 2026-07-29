@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getPainelProfile } from "@/lib/painel-auth";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { ModalSolicitarPack } from "@/components/seller/ModalSolicitarPack";
+import { AtivarCupomForm } from "@/components/seller/AtivarCupomForm";
 
 const PACK_LABEL: Record<string, string> = {
   ANNUAL: "Anual",
@@ -14,9 +15,7 @@ export default async function PainelCuponsPage() {
   const profile = await getPainelProfile();
   if (!profile) redirect("/login");
 
-  const now = new Date();
-
-  const [packs, pendingRequests, activeSubscription] = await Promise.all([
+  const [packs, pendingRequests] = await Promise.all([
     db.couponPack.findMany({
       where: { assigned_to: profile.id },
       include: {
@@ -29,13 +28,6 @@ export default async function PainelCuponsPage() {
     }),
     db.couponRequest.findMany({
       where: { seller_id: profile.id, status: "PENDING" },
-    }),
-    db.subscription.findFirst({
-      where: {
-        seller_id: profile.id,
-        status: "ACTIVE",
-        expires_at: { gt: now },
-      },
     }),
   ]);
 
@@ -64,25 +56,39 @@ export default async function PainelCuponsPage() {
           </p>
         </div>
 
-        {/* ── Cards de resumo ── */}
-        <div className="grid grid-cols-3 gap-3">
-          {[
-            { label: "Total recebidos", value: totalCupons, color: "#1a1a1a" },
-            { label: "Disponíveis", value: disponiveis, color: "#3a7d1e" },
-            { label: "Utilizados", value: usados, color: "#666" },
-          ].map(({ label, value, color }) => (
-            <div
-              key={label}
-              className="bg-white rounded-xl p-4 text-center"
-              style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
-            >
-              <p className="text-2xl font-bold" style={{ color }}>
-                {value}
-              </p>
-              <p className="text-xs text-[#888] mt-1">{label}</p>
-            </div>
-          ))}
-        </div>
+        {/* ── Ativar com código de terceiro ── */}
+        <section
+          className="bg-white rounded-xl p-5 flex flex-col gap-3"
+          style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
+        >
+          <div>
+            <p className="font-semibold text-[#1a1a1a]">Tenho um código de ativação</p>
+            <p className="text-sm text-[#666] mt-0.5">
+              Recebeu um cupom de outro consultor? Digite o código abaixo para ativar sua conta.
+            </p>
+          </div>
+          <AtivarCupomForm />
+        </section>
+
+        {/* ── Cards de resumo (só mostra se tem packs) ── */}
+        {totalCupons > 0 && (
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: "Total recebidos", value: totalCupons, color: "#1a1a1a" },
+              { label: "Disponíveis",     value: disponiveis, color: "#3a7d1e" },
+              { label: "Utilizados",      value: usados,      color: "#666"    },
+            ].map(({ label, value, color }) => (
+              <div
+                key={label}
+                className="bg-white rounded-xl p-4 text-center"
+                style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
+              >
+                <p className="text-2xl font-bold" style={{ color }}>{value}</p>
+                <p className="text-xs text-[#888] mt-1">{label}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* ── Lista de packs ── */}
         <section className="flex flex-col gap-4">
@@ -98,8 +104,8 @@ export default async function PainelCuponsPage() {
                 className="bg-white rounded-xl overflow-hidden"
                 style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
               >
-                {/* Header do pack */}
-                <div className="px-4 py-3 border-b flex flex-wrap items-center gap-3"
+                <div
+                  className="px-4 py-3 border-b flex flex-wrap items-center gap-3"
                   style={{ backgroundColor: "#fafafa" }}
                 >
                   <span
@@ -123,7 +129,6 @@ export default async function PainelCuponsPage() {
                   )}
                 </div>
 
-                {/* Cupons disponíveis */}
                 {packDisponiveis.length > 0 && (
                   <div className="divide-y">
                     {packDisponiveis.map((coupon) => (
@@ -148,7 +153,6 @@ export default async function PainelCuponsPage() {
                   </div>
                 )}
 
-                {/* Cupons usados */}
                 {packUsados.length > 0 && (
                   <div className="divide-y border-t">
                     {packUsados.map((coupon) => (
@@ -188,95 +192,82 @@ export default async function PainelCuponsPage() {
 
           {packs.length === 0 && (
             <div
-              className="py-12 text-center bg-white rounded-xl"
+              className="py-8 text-center bg-white rounded-xl"
               style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
             >
-              <p className="text-[#666] text-sm">Você ainda não possui cupons.</p>
+              <p className="text-[#666] text-sm">Você ainda não possui packs de cupons.</p>
               <p className="text-[#999] text-xs mt-1">
-                Compre um pack ou aguarde o administrador atribuir cupons à sua conta.
+                Adquira um pack abaixo ou aguarde o administrador atribuir cupons à sua conta.
               </p>
             </div>
           )}
         </section>
 
-        {/* ── Seções de aquisição (só para quem tem assinatura ativa) ── */}
-        {activeSubscription && (
-          <>
-            {/* Solicitar Cupons Promocionais */}
-            <section className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg font-bold text-[#1a1a1a]">
-                  Solicitar Cupons Promocionais
-                </h2>
-                {hasPendingPromo && (
-                  <span
-                    className="px-2.5 py-0.5 rounded-full text-xs font-semibold"
-                    style={{ backgroundColor: "#fff3cd", color: "#856404" }}
-                  >
-                    Solicitação em análise
-                  </span>
-                )}
-              </div>
-
-              <div
-                className="bg-white rounded-xl p-5 flex flex-col gap-4"
-                style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
+        {/* ── Solicitar Cupons Promocionais ── */}
+        <section className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <h2 className="text-lg font-bold text-[#1a1a1a]">
+              Solicitar Cupons Promocionais
+            </h2>
+            {hasPendingPromo && (
+              <span
+                className="px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                style={{ backgroundColor: "#fff3cd", color: "#856404" }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="font-semibold text-[#1a1a1a]">
-                      Pack 10 cupons × 7 dias
-                    </p>
-                    <p className="text-sm text-[#666] mt-0.5">
-                      Cupons válidos por 7 dias — ideal para promoções e eventos.
-                    </p>
-                  </div>
-                  <p className="text-xl font-bold text-[#1a1a1a] whitespace-nowrap">
-                    R$ 10,00
-                  </p>
-                </div>
-                <ModalSolicitarPack tipo="PROMOTIONAL" preco="10,00" sellerSlug={profile.slug} />
-              </div>
-            </section>
+                Solicitação em análise
+              </span>
+            )}
+          </div>
 
-            {/* Comprar Catálogo Anual */}
-            <section className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg font-bold text-[#1a1a1a]">
-                  Comprar Catálogo Anual
-                </h2>
-                {hasPendingAnual && (
-                  <span
-                    className="px-2.5 py-0.5 rounded-full text-xs font-semibold"
-                    style={{ backgroundColor: "#d4edda", color: "#155724" }}
-                  >
-                    Solicitação em análise
-                  </span>
-                )}
+          <div
+            className="bg-white rounded-xl p-5 flex flex-col gap-4"
+            style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-semibold text-[#1a1a1a]">Pack 10 cupons × 7 dias</p>
+                <p className="text-sm text-[#666] mt-0.5">
+                  Cupons válidos por 7 dias — ideal para promoções e eventos.
+                </p>
               </div>
+              <p className="text-xl font-bold text-[#1a1a1a] whitespace-nowrap">R$ 10,00</p>
+            </div>
+            <ModalSolicitarPack tipo="PROMOTIONAL" preco="10,00" sellerSlug={profile.slug} />
+          </div>
+        </section>
 
-              <div
-                className="bg-white rounded-xl p-5 flex flex-col gap-4"
-                style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
+        {/* ── Comprar Catálogo Anual ── */}
+        <section className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <h2 className="text-lg font-bold text-[#1a1a1a]">
+              Comprar Catálogo Anual
+            </h2>
+            {hasPendingAnual && (
+              <span
+                className="px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                style={{ backgroundColor: "#d4edda", color: "#155724" }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="font-semibold text-[#1a1a1a]">
-                      Pack 10 catálogos anuais
-                    </p>
-                    <p className="text-sm text-[#666] mt-0.5">
-                      Cada cupom dá acesso ao catálogo por 1 ano completo.
-                    </p>
-                  </div>
-                  <p className="text-xl font-bold text-[#1a1a1a] whitespace-nowrap">
-                    R$ 370,00
-                  </p>
-                </div>
-                <ModalSolicitarPack tipo="ANNUAL" preco="370,00" sellerSlug={profile.slug} />
+                Solicitação em análise
+              </span>
+            )}
+          </div>
+
+          <div
+            className="bg-white rounded-xl p-5 flex flex-col gap-4"
+            style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-semibold text-[#1a1a1a]">Pack 10 catálogos anuais</p>
+                <p className="text-sm text-[#666] mt-0.5">
+                  Cada cupom dá acesso ao catálogo por 1 ano completo.
+                </p>
               </div>
-            </section>
-          </>
-        )}
+              <p className="text-xl font-bold text-[#1a1a1a] whitespace-nowrap">R$ 370,00</p>
+            </div>
+            <ModalSolicitarPack tipo="ANNUAL" preco="370,00" sellerSlug={profile.slug} />
+          </div>
+        </section>
 
       </div>
     </div>
