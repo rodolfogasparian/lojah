@@ -319,6 +319,19 @@ const STEPS: StepDef[] = [
 
 const TOTAL_QUESTIONS = 13;
 
+// ── Barra de progresso (reutilizada em hero, perguntas e vídeos) ─────────────
+
+function ProgressBar({ pct }: { pct: number }) {
+  return (
+    <div className="w-full h-1 bg-gray-200">
+      <div
+        className="h-1 bg-green-600 transition-all duration-500"
+        style={{ width: `${pct}%` }}
+      />
+    </div>
+  );
+}
+
 // ── Props ─────────────────────────────────────────────────────────────────────
 
 type Props = {
@@ -440,24 +453,30 @@ export function PlanoQuiz({
 
   if (currentStep.type === "hero") {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#0f3d1f] to-green-900 flex flex-col items-center justify-center px-6">
-        <div className="max-w-sm w-full text-center">
-          <span className="inline-block text-[10px] font-bold tracking-widest uppercase bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88] rounded-full px-3 py-1 mb-6">
-            PLANO RENDA INTELIGENTE
-          </span>
-          <h1 className="text-[1.65rem] font-extrabold text-white leading-tight mb-4">
-            Receba seu Plano Renda Inteligente para abrir um Ecossistema de Vendas Home Office
-          </h1>
-          <p className="text-sm text-green-200/90 mb-8 leading-relaxed">
-            Descubra seu perfil ideal para vender produtos ou serviços de casa. Responda algumas perguntas rápidas e receba uma recomendação personalizada.
-          </p>
-          <button
-            type="button"
-            onClick={() => setStep(1)}
-            className="w-full py-4 rounded-xl bg-[#00ff88] text-[#0f3d1f] font-bold text-base hover:brightness-90 transition-all active:scale-[0.98] shadow-lg"
-          >
-            Começar agora
-          </button>
+      <div className="min-h-screen bg-gradient-to-b from-[#0f3d1f] to-green-900 flex flex-col">
+        <ProgressBar pct={5} />
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-10">
+          <div className="max-w-sm w-full text-center">
+            <span className="inline-block text-[10px] font-bold tracking-widest uppercase bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88] rounded-full px-3 py-1 mb-6">
+              PLANO RENDA INTELIGENTE
+            </span>
+            <h1 className="text-[1.65rem] font-extrabold text-white leading-tight mb-4">
+              Produtos ou Serviços? Descubra qual caminho te dá mais resultado
+            </h1>
+            <p className="text-sm text-green-200/90 mb-8 leading-relaxed">
+              Responda algumas perguntas e receba, na hora, o perfil e a recomendação certa pra você — leva menos de 3 minutos.
+            </p>
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="w-full py-4 rounded-xl bg-[#00ff88] text-[#0f3d1f] font-bold text-base hover:brightness-90 transition-all active:scale-[0.98] shadow-lg"
+            >
+              Receber meu Diagnóstico
+            </button>
+            <p className="mt-6 text-xs text-green-300/70">
+              Essa é uma recomendação de: <span className="font-semibold text-green-200">{sellerName}</span>
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -471,12 +490,7 @@ export function PlanoQuiz({
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col">
-        <div className="w-full h-1 bg-gray-200">
-          <div
-            className="h-1 bg-green-600 transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+        <ProgressBar pct={progress} />
 
         <div className="flex items-center px-4 py-3">
           <button
@@ -529,12 +543,7 @@ export function PlanoQuiz({
     const vid = VIDEOS[currentStep.videoId];
     return (
       <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col">
-        <div className="w-full h-1 bg-gray-200">
-          <div
-            className="h-1 bg-green-600 transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+        <ProgressBar pct={progress} />
 
         <div className="flex items-center px-4 py-3">
           <button
