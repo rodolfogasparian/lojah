@@ -272,7 +272,7 @@ const VIDEOS: Record<
   },
   5: {
     title: "Quase pronto…",
-    mp4Url: `${SUPABASE_VIDEOS}/depoimento-renata-prosperidade.mp4`,
+    mp4Url: `${SUPABASE_VIDEOS}/formulario-final-web.mp4`,
     text: "Com base nas suas respostas, o sistema vai indicar o melhor caminho para você começar. Pode ser como consumidor, consultor de produtos, vendedor de serviços ou com acesso completo ao ecossistema. A ideia é simples: não empurrar qualquer plano. É entender seu perfil e mostrar o próximo passo mais coerente.",
   },
 };
@@ -557,6 +557,7 @@ export function PlanoQuiz({
               src={vid.mp4Url}
               controls
               playsInline
+              preload="metadata"
               className="w-full rounded-2xl mb-5 bg-black"
               style={{ maxHeight: "56vw" }}
             />
