@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import ResultadoPlano from "./ResultadoPlano";
 
+const OG_IMAGE =
+  "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/imagens/share-plano-renda-inteligente.png";
+
 export async function generateMetadata({
   params,
 }: {
@@ -13,9 +16,28 @@ export async function generateMetadata({
     where: { codigo },
     select: { nome: true },
   });
+  const title = lead
+    ? `Plano Renda Inteligente de ${lead.nome}`
+    : "Plano Renda Inteligente";
+  const description = lead
+    ? `${lead.nome} recebeu uma recomendação personalizada de caminho de renda. Veja o diagnóstico completo.`
+    : "Veja sua recomendação personalizada de caminho de renda.";
   return {
-    title: lead ? `Plano Renda Inteligente de ${lead.nome} | ${codigo}` : "Plano Renda Inteligente",
+    title,
+    description,
     robots: { index: false, follow: false },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Plano Renda Inteligente" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [OG_IMAGE],
+    },
   };
 }
 

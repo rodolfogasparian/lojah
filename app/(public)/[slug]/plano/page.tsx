@@ -4,6 +4,9 @@ import { db } from "@/lib/db";
 import { getCompanyFromHost } from "@/lib/tenant";
 import { PlanoQuiz } from "./PlanoQuiz";
 
+const OG_IMAGE =
+  "https://kpgbusvofvdonfpicjwt.supabase.co/storage/v1/object/public/imagens/share-plano-renda-inteligente.png";
+
 export async function generateMetadata({
   params,
 }: {
@@ -15,10 +18,24 @@ export async function generateMetadata({
     select: { name: true },
   });
   const name = profile?.name ?? "Consultor(a)";
+  const title = `Plano Renda Inteligente | Indicação de ${name}`;
+  const description =
+    "Responda algumas perguntas e receba, na hora, o perfil e a recomendação certa pra você — leva menos de 3 minutos.";
   return {
-    title: `Plano Renda Inteligente | Indicação de ${name}`,
-    description:
-      "Responda 11 perguntas e receba um diagnóstico personalizado do caminho ideal para você gerar renda.",
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Plano Renda Inteligente" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [OG_IMAGE],
+    },
   };
 }
 
