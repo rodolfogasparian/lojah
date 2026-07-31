@@ -505,7 +505,7 @@ export default function ResultadoPlano({ lead, seller }: { lead: LeadData; selle
           </p>
           <a href={wa(mainMsg)} target="_blank" rel="noreferrer"
             className="neon-pulse mt-6 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#00ff88] px-6 py-4 text-base font-bold text-[#0a1a0a] transition hover:scale-105">
-            💬 Tirar dúvidas no WhatsApp no WhatsApp
+            💬 Tirar dúvidas no WhatsApp
           </a>
           <p className="mt-3 text-xs text-white/50">
             Kit recomendado: {recommendedKit.name} — {recommendedKit.price}
