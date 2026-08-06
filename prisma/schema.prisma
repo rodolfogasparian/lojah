@@ -25,6 +25,8 @@ model Company {
   coupon_requests CouponRequest[]
   ri_leads          RendaInteligenteLeads[]
   kanban_templates  KanbanMessageTemplate[]
+  action_plans      ActionPlan[]
+  mentorships       Mentorship[]
 
   @@map("companies")
 }
@@ -87,6 +89,9 @@ model SellerProfile {
   coupon_packs_received CouponPack[] @relation("CouponPackSeller")
   coupon_requests CouponRequest[]
   ri_leads      RendaInteligenteLeads[]
+  action_plans  ActionPlan[]
+  mentor_of     Mentorship[]  @relation("MentorOf")
+  mentee_of     Mentorship[]  @relation("MenteeOf")
 
   @@unique([company_id, slug])
   @@map("seller_profiles")
@@ -389,4 +394,130 @@ model RendaInteligenteLeads {
   @@index([kanban])
   @@index([created_at(sort: Desc)])
   @@map("renda_inteligente_leads")
+}
+
+// ─────────────────────────────────────────
+// PLANO DE AÇÃO
+// ─────────────────────────────────────────
+
+enum ActionPlanStatus {
+  DRAFT
+  SUBMITTED
+}
+
+enum ActionItemCategory {
+  VENDA
+  CONTATO
+  APRESENTACAO
+  ACOMPANHAMENTO
+  POS_VENDA
+  TREINAMENTO
+  ESTUDO
+  POSTAGEM_REDES
+  RECRUTAMENTO
+  REUNIAO
+  ORGANIZACAO
+  OUTRO
+}
+
+enum ActionItemStatus {
+  PENDENTE
+  REALIZADO
+  PARCIAL
+  NAO_REALIZADO
+}
+
+enum MentorshipStatus {
+  ACTIVE
+  REMOVED
+}
+
+model ActionPlan {
+  id              String           @id @default(uuid())
+  seller_id       String
+  company_id      String
+  week_start      DateTime         @db.Date
+  week_end        DateTime         @db.Date
+  month_reference String
+  status          ActionPlanStatus @default(DRAFT)
+  submitted_at    DateTime?
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+
+  seller      SellerProfile    @relation(fields: [seller_id], references: [id])
+  company     Company          @relation(fields: [company_id], references: [id])
+  items       ActionPlanItem[]
+  goals       ActionPlanGoal[]
+  share_links ShareLink[]
+
+  @@unique([seller_id, week_start])
+  @@map("action_plans")
+}
+
+model ActionPlanItem {
+  id             String             @id @default(uuid())
+  plan_id        String
+  category       ActionItemCategory @default(OUTRO)
+  action_text    String
+  desired_result String?
+  actual_result  String?
+  status         ActionItemStatus   @default(PENDENTE)
+  sort_order     Int                @default(0)
+  created_at     DateTime           @default(now())
+  updated_at     DateTime           @updatedAt
+
+  plan ActionPlan @relation(fields: [plan_id], references: [id], onDelete: Cascade)
+
+  @@map("action_plan_items")
+}
+
+model ActionPlanGoal {
+  id           String   @id @default(uuid())
+  plan_id      String
+  label        String
+  target_value String
+  actual_value String?
+  sort_order   Int      @default(0)
+  created_at   DateTime @default(now())
+
+  plan ActionPlan @relation(fields: [plan_id], references: [id], onDelete: Cascade)
+
+  @@map("action_plan_goals")
+}
+
+// ─────────────────────────────────────────
+// MENTORIA
+// ─────────────────────────────────────────
+
+model Mentorship {
+  id         String           @id @default(uuid())
+  mentor_id  String
+  mentee_id  String
+  company_id String
+  status     MentorshipStatus @default(ACTIVE)
+  created_at DateTime         @default(now())
+
+  mentor  SellerProfile @relation("MentorOf", fields: [mentor_id], references: [id])
+  mentee  SellerProfile @relation("MenteeOf", fields: [mentee_id], references: [id])
+  company Company       @relation(fields: [company_id], references: [id])
+
+  @@unique([mentor_id, mentee_id])
+  @@map("mentorships")
+}
+
+// ─────────────────────────────────────────
+// LINK COMPARTILHÁVEL
+// ─────────────────────────────────────────
+
+model ShareLink {
+  id         String    @id @default(uuid())
+  plan_id    String
+  token      String    @unique
+  revoked    Boolean   @default(false)
+  expires_at DateTime?
+  created_at DateTime  @default(now())
+
+  plan ActionPlan @relation(fields: [plan_id], references: [id], onDelete: Cascade)
+
+  @@map("action_plan_share_links")
 }

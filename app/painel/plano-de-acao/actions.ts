@@ -1,0 +1,185 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import type { ActionItemCategory, ActionItemStatus } from "@prisma/client";
+
+async function getSellerProfile() {
+  const session = await auth();
+  if (!session?.user) throw new Error("Não autenticado");
+  const profile = await db.sellerProfile.findUnique({
+    where: { user_id: session.user.id },
+    select: { id: true, company_id: true },
+  });
+  if (!profile) throw new Error("Perfil não encontrado");
+  return profile;
+}
+
+// Parse YYYY-MM-DD to UTC midnight Date to avoid timezone off-by-one
+function parseDate(iso: string): Date {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d));
+}
+
+async function ensurePlan(sellerId: string, companyId: string, weekStartIso: string) {
+  const weekStart = parseDate(weekStartIso);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setUTCDate(weekEnd.getUTCDate() + 6);
+  const monthRef = `${weekStart.getUTCFullYear()}-${String(weekStart.getUTCMonth() + 1).padStart(2, "0")}`;
+
+  return db.actionPlan.upsert({
+    where: { seller_id_week_start: { seller_id: sellerId, week_start: weekStart } },
+    create: {
+      seller_id: sellerId,
+      company_id: companyId,
+      week_start: weekStart,
+      week_end: weekEnd,
+      month_reference: monthRef,
+    },
+    update: {},
+    select: { id: true, seller_id: true },
+  });
+}
+
+export async function saveItem(data: {
+  id?: string;
+  weekStart: string;
+  category: ActionItemCategory;
+  action_text: string;
+  desired_result?: string;
+  actual_result?: string;
+  status: ActionItemStatus;
+}): Promise<{ id: string }> {
+  const profile = await getSellerProfile();
+
+  if (data.id) {
+    const existing = await db.actionPlanItem.findUnique({
+      where: { id: data.id },
+      include: { plan: { select: { seller_id: true } } },
+    });
+    if (!existing || existing.plan.seller_id !== profile.id) throw new Error("Acesso negado");
+
+    await db.actionPlanItem.update({
+      where: { id: data.id },
+      data: {
+        category: data.category,
+        action_text: data.action_text,
+        desired_result: data.desired_result ?? null,
+        actual_result: data.actual_result ?? null,
+        status: data.status,
+      },
+    });
+    revalidatePath("/painel/plano-de-acao/meu");
+    return { id: data.id };
+  }
+
+  const plan = await ensurePlan(profile.id, profile.company_id, data.weekStart);
+  const count = await db.actionPlanItem.count({ where: { plan_id: plan.id } });
+
+  const item = await db.actionPlanItem.create({
+    data: {
+      plan_id: plan.id,
+      category: data.category,
+      action_text: data.action_text,
+      desired_result: data.desired_result ?? null,
+      actual_result: data.actual_result ?? null,
+      status: data.status,
+      sort_order: count,
+    },
+    select: { id: true },
+  });
+
+  revalidatePath("/painel/plano-de-acao/meu");
+  return { id: item.id };
+}
+
+export async function deleteItem(itemId: string): Promise<void> {
+  const profile = await getSellerProfile();
+
+  const item = await db.actionPlanItem.findUnique({
+    where: { id: itemId },
+    include: { plan: { select: { seller_id: true } } },
+  });
+  if (!item || item.plan.seller_id !== profile.id) throw new Error("Acesso negado");
+
+  await db.actionPlanItem.delete({ where: { id: itemId } });
+  revalidatePath("/painel/plano-de-acao/meu");
+}
+
+export async function saveGoal(data: {
+  id?: string;
+  weekStart: string;
+  label: string;
+  target_value: string;
+  actual_value?: string;
+}): Promise<{ id: string }> {
+  const profile = await getSellerProfile();
+
+  if (data.id) {
+    const existing = await db.actionPlanGoal.findUnique({
+      where: { id: data.id },
+      include: { plan: { select: { seller_id: true } } },
+    });
+    if (!existing || existing.plan.seller_id !== profile.id) throw new Error("Acesso negado");
+
+    await db.actionPlanGoal.update({
+      where: { id: data.id },
+      data: {
+        label: data.label,
+        target_value: data.target_value,
+        actual_value: data.actual_value ?? null,
+      },
+    });
+    revalidatePath("/painel/plano-de-acao/meu");
+    return { id: data.id };
+  }
+
+  const plan = await ensurePlan(profile.id, profile.company_id, data.weekStart);
+  const count = await db.actionPlanGoal.count({ where: { plan_id: plan.id } });
+
+  const goal = await db.actionPlanGoal.create({
+    data: {
+      plan_id: plan.id,
+      label: data.label,
+      target_value: data.target_value,
+      actual_value: data.actual_value ?? null,
+      sort_order: count,
+    },
+    select: { id: true },
+  });
+
+  revalidatePath("/painel/plano-de-acao/meu");
+  return { id: goal.id };
+}
+
+export async function deleteGoal(goalId: string): Promise<void> {
+  const profile = await getSellerProfile();
+
+  const goal = await db.actionPlanGoal.findUnique({
+    where: { id: goalId },
+    include: { plan: { select: { seller_id: true } } },
+  });
+  if (!goal || goal.plan.seller_id !== profile.id) throw new Error("Acesso negado");
+
+  await db.actionPlanGoal.delete({ where: { id: goalId } });
+  revalidatePath("/painel/plano-de-acao/meu");
+}
+
+export async function submitPlan(planId: string): Promise<void> {
+  const profile = await getSellerProfile();
+
+  const plan = await db.actionPlan.findUnique({
+    where: { id: planId },
+    select: { seller_id: true, status: true },
+  });
+  if (!plan || plan.seller_id !== profile.id) throw new Error("Acesso negado");
+  if (plan.status === "SUBMITTED") return;
+
+  await db.actionPlan.update({
+    where: { id: planId },
+    data: { status: "SUBMITTED", submitted_at: new Date() },
+  });
+
+  revalidatePath("/painel/plano-de-acao/meu");
+}
