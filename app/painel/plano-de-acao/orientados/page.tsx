@@ -22,7 +22,6 @@ export default async function OrientadosPage() {
   });
   if (!profile) redirect("/painel");
 
-  // Todos os meus orientados ativos
   const mentorships = await db.mentorship.findMany({
     where: { mentor_id: profile.id, status: "ACTIVE" },
     include: {
@@ -46,68 +45,70 @@ export default async function OrientadosPage() {
     <div className="space-y-4">
       <div>
         <h1 className="text-lg font-bold text-gray-800">Orientados</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <p className="text-sm text-slate-500 mt-0.5">
           {mentorships.length === 0
             ? "Nenhum orientado ainda — compartilhe seu link de convite."
             : `${mentorships.length} orientado${mentorships.length !== 1 ? "s" : ""} vinculado${mentorships.length !== 1 ? "s" : ""}`}
         </p>
       </div>
 
-      {mentorships.length === 0 ? (
-        <div className="text-center py-10 space-y-2">
-          <p className="text-sm text-gray-400">
-            Compartilhe seu link de convite para começar a acompanhar orientados.
-          </p>
-          <Link
-            href="/painel/plano-de-acao/convite"
-            className="inline-block text-sm text-primary font-semibold hover:underline"
-          >
-            Ir para Convite →
-          </Link>
-        </div>
-      ) : (
-        <div className="space-y-2">
-          {mentorships.map((ms) => {
-            const lastPlan = ms.mentee.action_plans[0];
-            const weekStr = lastPlan
-              ? `${fmtDate(lastPlan.week_start.toISOString().split("T")[0])} – ${fmtDate(lastPlan.week_end.toISOString().split("T")[0])}`
-              : null;
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+        {mentorships.length === 0 ? (
+          <div className="text-center py-6 space-y-2">
+            <p className="text-sm text-slate-500">
+              Compartilhe seu link de convite para começar a acompanhar orientados.
+            </p>
+            <Link
+              href="/painel/plano-de-acao/convite"
+              className="inline-block text-sm text-primary font-semibold hover:underline"
+            >
+              Ir para Convite →
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {mentorships.map((ms) => {
+              const lastPlan = ms.mentee.action_plans[0];
+              const weekStr = lastPlan
+                ? `${fmtDate(lastPlan.week_start.toISOString().split("T")[0])} – ${fmtDate(lastPlan.week_end.toISOString().split("T")[0])}`
+                : null;
 
-            return (
-              <div
-                key={ms.id}
-                className="border border-gray-200 rounded-xl bg-white p-4"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-800">{ms.mentee.name}</p>
-                    <p className="text-xs text-gray-400">@{ms.mentee.slug}</p>
-                    {lastPlan ? (
-                      <div className="flex items-center gap-2 mt-1.5">
-                        <PlanStatusBadge status={lastPlan.status} />
-                        {weekStr && (
-                          <span className="text-[10px] text-gray-400">{weekStr}</span>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-xs text-gray-400 mt-1">Sem plano registrado ainda</p>
-                    )}
-                  </div>
-                  <div className="flex flex-col items-end gap-2 shrink-0">
-                    <Link
-                      href={`/painel/plano-de-acao/orientados/${ms.mentee.id}`}
-                      className="text-xs bg-primary text-primary-foreground font-semibold px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors"
-                    >
-                      Ver plano
-                    </Link>
-                    <RemoveMentorshipButton mentorshipId={ms.id} label="Encerrar" />
+              return (
+                <div
+                  key={ms.id}
+                  className="border border-slate-200 rounded-xl bg-white p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-800">{ms.mentee.name}</p>
+                      <p className="text-xs text-slate-500">@{ms.mentee.slug}</p>
+                      {lastPlan ? (
+                        <div className="flex items-center gap-2 mt-1.5">
+                          <PlanStatusBadge status={lastPlan.status} />
+                          {weekStr && (
+                            <span className="text-[10px] text-slate-500">{weekStr}</span>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-slate-500 mt-1">Sem plano registrado ainda</p>
+                      )}
+                    </div>
+                    <div className="flex flex-col items-end gap-2 shrink-0">
+                      <Link
+                        href={`/painel/plano-de-acao/orientados/${ms.mentee.id}`}
+                        className="text-xs bg-primary text-primary-foreground font-semibold px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors"
+                      >
+                        Ver plano
+                      </Link>
+                      <RemoveMentorshipButton mentorshipId={ms.id} label="Encerrar" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

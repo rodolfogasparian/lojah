@@ -3,6 +3,7 @@
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import type { ActionItemCategory, ActionItemStatus } from "@prisma/client";
@@ -189,6 +190,7 @@ export async function submitPlan(planId: string): Promise<void> {
 // ─── Mentoria ───────────────────────────────────────────────────────────────
 
 export async function acceptInvite(mentorSlug: string): Promise<void> {
+  const session = await auth();
   const profile = await getSellerProfile();
 
   const mentor = await db.sellerProfile.findFirst({
@@ -217,6 +219,19 @@ export async function acceptInvite(mentorSlug: string): Promise<void> {
 
   revalidatePath("/painel/plano-de-acao/orientados");
   revalidatePath("/painel/plano-de-acao/convite");
+
+  // COMPANY_ADMIN/SUPERADMIN precisam do cookie view_mode=seller para acessar /painel
+  const role = session?.user?.role;
+  if (role === "COMPANY_ADMIN" || role === "SUPERADMIN") {
+    const store = await cookies();
+    store.set("view_mode", "seller", {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+  }
+
   redirect("/painel/plano-de-acao/meu");
 }
 

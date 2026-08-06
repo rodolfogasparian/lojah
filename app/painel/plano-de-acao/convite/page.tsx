@@ -16,7 +16,6 @@ export default async function ConvitePage() {
   });
   if (!profile) redirect("/painel");
 
-  // Mentores que me acompanham (eu sou o orientado)
   const myMentors = await db.mentorship.findMany({
     where: { mentee_id: profile.id, status: "ACTIVE" },
     include: { mentor: { select: { id: true, name: true, slug: true } } },
@@ -27,7 +26,7 @@ export default async function ConvitePage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-lg font-bold text-gray-800">Convite de Orientação</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <p className="text-sm text-slate-500 mt-0.5">
           Compartilhe este link com quem você quer acompanhar como orientador(a).
         </p>
       </div>
@@ -35,10 +34,10 @@ export default async function ConvitePage() {
       <MentorInviteCard slug={profile.slug} />
 
       {/* Meus orientadores */}
-      <section>
-        <h2 className="text-sm font-bold text-gray-700 mb-3">Meus orientadores</h2>
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 space-y-3">
+        <h2 className="text-sm font-bold text-gray-700">Meus orientadores</h2>
         {myMentors.length === 0 ? (
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-slate-500">
             Você ainda não tem nenhum orientador vinculado. Peça o link de convite para quem vai te acompanhar.
           </p>
         ) : (
@@ -46,18 +45,18 @@ export default async function ConvitePage() {
             {myMentors.map((ms) => (
               <div
                 key={ms.id}
-                className="flex items-center justify-between gap-3 border border-gray-200 rounded-lg bg-white px-4 py-3"
+                className="flex items-center justify-between gap-3 border border-slate-200 rounded-lg bg-white px-4 py-3"
               >
                 <div>
                   <p className="text-sm font-semibold text-gray-800">{ms.mentor.name}</p>
-                  <p className="text-xs text-gray-400">@{ms.mentor.slug}</p>
+                  <p className="text-xs text-slate-500">@{ms.mentor.slug}</p>
                 </div>
                 <RemoveMentorshipButton mentorshipId={ms.id} label="Encerrar" />
               </div>
             ))}
           </div>
         )}
-      </section>
+      </div>
     </div>
   );
 }

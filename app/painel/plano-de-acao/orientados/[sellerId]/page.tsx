@@ -54,7 +54,6 @@ export default async function OrientadoDetailPage({
 
   const { sellerId } = await params;
 
-  // Valida vínculo ACTIVE
   const mentorship = await db.mentorship.findUnique({
     where: { mentor_id_mentee_id: { mentor_id: mentor.id, mentee_id: sellerId } },
     include: { mentee: { select: { id: true, name: true, slug: true } } },
@@ -100,7 +99,7 @@ export default async function OrientadoDetailPage({
         <div className="flex items-center gap-2 mb-1">
           <Link
             href="/painel/plano-de-acao/orientados"
-            className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-xs text-slate-500 hover:text-gray-700 transition-colors"
           >
             ← Orientados
           </Link>
@@ -108,7 +107,7 @@ export default async function OrientadoDetailPage({
         <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-lg font-bold text-gray-800">{mentorship.mentee.name}</h1>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               {fmtMonth(weekStart)} · somente leitura
             </p>
           </div>
@@ -131,7 +130,7 @@ export default async function OrientadoDetailPage({
         <WeeklyActionTable items={items} weekStart={weekStart} readOnly />
       </section>
 
-      <div className="border-t border-gray-100" />
+      <div className="border-t border-slate-200" />
 
       {/* Metas (readOnly) */}
       <section>

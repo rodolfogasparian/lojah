@@ -22,10 +22,23 @@ export function MentorInviteCard({ slug }: Props) {
   const waLink = `https://wa.me/?text=${waText}`;
 
   function handleCopy() {
-    navigator.clipboard.writeText(inviteUrl).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    navigator.clipboard.writeText(inviteUrl).then(
+      () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      },
+      () => {
+        // Fallback: selecionar o texto manualmente se clipboard API falhar
+        const el = document.createElement("textarea");
+        el.value = inviteUrl;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    );
   }
 
   return (

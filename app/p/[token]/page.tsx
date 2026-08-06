@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { PlanStatusBadge } from "@/components/action-plan/PlanStatusBadge";
@@ -34,7 +35,12 @@ export default async function SharePlanPage({
         include: {
           items: { orderBy: { sort_order: "asc" } },
           goals: { orderBy: { sort_order: "asc" } },
-          seller: { select: { name: true } },
+          seller: {
+            select: {
+              name: true,
+              company: { select: { name: true, logo_url: true } },
+            },
+          },
         },
       },
     },
@@ -52,6 +58,7 @@ export default async function SharePlanPage({
   const { plan } = shareLink;
   const weekStartIso = plan.week_start.toISOString().split("T")[0];
   const weekEndIso = plan.week_end.toISOString().split("T")[0];
+  const company = plan.seller.company;
 
   const items: SerializedItem[] = plan.items.map((i) => ({
     id: i.id,
@@ -72,19 +79,37 @@ export default async function SharePlanPage({
   }));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: "#cfee9a" }}>
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
-        {/* Cabeçalho */}
-        <div className="bg-white rounded-2xl border border-gray-100 px-5 py-4 shadow-sm">
+
+        {/* Logo / identidade da empresa */}
+        <div className="flex justify-center pt-2 pb-1">
+          {company?.logo_url ? (
+            <Image
+              src={company.logo_url}
+              alt={company.name ?? "Logo"}
+              width={120}
+              height={48}
+              className="object-contain"
+            />
+          ) : (
+            <span className="text-lg font-bold text-[#0f3d1f]">
+              {company?.name ?? "lojah.app"}
+            </span>
+          )}
+        </div>
+
+        {/* Cabeçalho do plano */}
+        <div className="bg-white rounded-2xl border border-white/60 px-5 py-4 shadow-sm">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-0.5">
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-0.5">
                 Plano de Ação
               </p>
               <h1 className="text-base font-bold text-gray-800">
                 {plan.seller.name}
               </h1>
-              <p className="text-sm text-gray-500 mt-0.5">
+              <p className="text-sm text-slate-500 mt-0.5">
                 {fmtBR(weekStartIso)} – {fmtBR(weekEndIso)} · {fmtMonth(weekStartIso)}
               </p>
             </div>
@@ -94,17 +119,17 @@ export default async function SharePlanPage({
 
         {/* Itens de ação */}
         <section className="space-y-3">
-          <h2 className="text-sm font-bold text-gray-700 px-1">Itens de Ação</h2>
+          <h2 className="text-sm font-bold text-[#0f3d1f] px-1">Itens de Ação</h2>
           <WeeklyActionTable items={items} weekStart={weekStartIso} readOnly />
         </section>
 
         {/* Metas */}
         <section className="space-y-3">
-          <h2 className="text-sm font-bold text-gray-700 px-1">Metas da Semana</h2>
+          <h2 className="text-sm font-bold text-[#0f3d1f] px-1">Metas da Semana</h2>
           <GoalsPanel goals={goals} weekStart={weekStartIso} readOnly />
         </section>
 
-        <p className="text-center text-xs text-gray-300 pt-4">lojah.app</p>
+        <p className="text-center text-xs text-[#0f3d1f]/50 pt-4">lojah.app</p>
       </div>
     </div>
   );

@@ -100,7 +100,7 @@ export default async function AdminSellerPlanoPage({
         <div className="flex items-center gap-2 mb-1">
           <Link
             href="/admin/plano-de-acao"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="text-xs text-slate-500 hover:text-gray-700 transition-colors"
           >
             ← Planos de Ação
           </Link>
@@ -108,7 +108,7 @@ export default async function AdminSellerPlanoPage({
         <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-xl font-bold text-gray-800">{seller.name}</h1>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               @{seller.slug} · {fmtMonth(weekStart)} · somente leitura
             </p>
           </div>
@@ -125,7 +125,7 @@ export default async function AdminSellerPlanoPage({
         <WeeklyActionTable items={items} weekStart={weekStart} readOnly />
       </section>
 
-      <div className="border-t border-gray-100" />
+      <div className="border-t border-slate-200" />
 
       {/* Metas */}
       <section>
