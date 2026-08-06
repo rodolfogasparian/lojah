@@ -2,7 +2,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { Users, Ticket, LayoutDashboard, Tag, HelpCircle, BookOpen } from "lucide-react";
+import { Users, Ticket, LayoutDashboard, Tag, HelpCircle, BookOpen, ClipboardList } from "lucide-react";
 
 type Props = {
   adminEmail: string;
@@ -18,6 +18,7 @@ const NAV = [
   { href: "/admin/suporte", label: "Suporte", icon: Ticket, exact: false },
   { href: "/admin/faq", label: "FAQ", icon: HelpCircle, exact: false },
   { href: "/admin/materiais", label: "Materiais", icon: BookOpen, exact: false },
+  { href: "/admin/plano-de-acao", label: "Plano de Ação", icon: ClipboardList, exact: false },
 ];
 
 export function AdminNav({ adminEmail, companyName, logoutButton, userRole }: Props) {
