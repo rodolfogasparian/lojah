@@ -143,7 +143,7 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
       {rows.map((row, idx) => (
         <div
           key={`${row.id ?? "new"}-${idx}`}
-          className="border border-gray-200 rounded-lg bg-white p-3 space-y-2"
+          className="ap-card p-3 space-y-2"
         >
           {/* Linha 1: categoria + ação + status + botões */}
           <div className="flex items-start gap-2">

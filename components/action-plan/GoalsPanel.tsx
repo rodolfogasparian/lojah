@@ -110,7 +110,7 @@ export function GoalsPanel({ goals, weekStart, readOnly = false }: Props) {
       {rows.map((row, idx) => (
         <div
           key={`${row.id ?? "new"}-${idx}`}
-          className="border border-gray-200 rounded-lg bg-white p-3"
+          className="ap-card p-3"
         >
           <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 items-start">
             {/* O que atingir */}

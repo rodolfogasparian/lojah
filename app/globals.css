@@ -140,9 +140,27 @@
 
 /* ── Plano de Ação: tokens de estilo compartilhados ─────────────────────── */
 @layer components {
+  /* card de cada item/meta — borda verde suave + sombra para destacar do fundo #cfee9a */
+  .ap-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    border: 1.5px solid rgba(15, 61, 31, 0.22);
+    box-shadow: 0 1px 3px rgba(15, 61, 31, 0.10);
+  }
+
   /* inputs e selects do módulo */
   .ap-field {
     @apply border border-slate-300 rounded bg-white focus:outline-none focus:ring-1 focus:ring-primary;
+  }
+
+  /* select com chevron personalizado em #475569 */
+  select.ap-field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23475569' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.4rem center;
+    background-size: 0.7rem;
+    padding-right: 1.6rem;
   }
 
   /* labels em caixa alta ("RESULTADO DESEJADO" etc.) */
@@ -156,13 +174,14 @@
            flex items-center justify-center transition-colors;
   }
 
-  /* botão "Adicionar ação / meta" com verde escuro da marca */
+  /* botão "Adicionar ação / meta" — sólido verde escuro da marca */
   .ap-add-btn {
-    @apply flex items-center gap-1.5 text-sm font-semibold py-1 transition-opacity;
-    color: #0f3d1f;
+    @apply flex items-center gap-1.5 text-sm font-semibold px-4 py-1.5 rounded-lg transition-opacity;
+    background-color: #0f3d1f;
+    color: #fff;
 
     &:hover {
-      opacity: 0.75;
+      opacity: 0.85;
     }
   }
 }
