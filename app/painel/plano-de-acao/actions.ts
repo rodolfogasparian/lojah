@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import type { ActionItemCategory, ActionItemStatus } from "@prisma/client";
@@ -182,4 +183,56 @@ export async function submitPlan(planId: string): Promise<void> {
   });
 
   revalidatePath("/painel/plano-de-acao/meu");
+}
+
+// ─── Mentoria ───────────────────────────────────────────────────────────────
+
+export async function acceptInvite(mentorSlug: string): Promise<void> {
+  const profile = await getSellerProfile();
+
+  const mentor = await db.sellerProfile.findFirst({
+    where: { slug: mentorSlug, company_id: profile.company_id, active: true },
+    select: { id: true },
+  });
+  if (!mentor) throw new Error("Orientador não encontrado");
+  if (mentor.id === profile.id) throw new Error("Você não pode ser seu próprio orientado");
+
+  const existing = await db.mentorship.findUnique({
+    where: { mentor_id_mentee_id: { mentor_id: mentor.id, mentee_id: profile.id } },
+  });
+
+  if (existing?.status === "ACTIVE") {
+    // já vinculado — só redireciona
+  } else if (existing) {
+    await db.mentorship.update({
+      where: { id: existing.id },
+      data: { status: "ACTIVE" },
+    });
+  } else {
+    await db.mentorship.create({
+      data: { mentor_id: mentor.id, mentee_id: profile.id, company_id: profile.company_id },
+    });
+  }
+
+  revalidatePath("/painel/plano-de-acao/orientados");
+  revalidatePath("/painel/plano-de-acao/convite");
+  redirect("/painel/plano-de-acao/meu");
+}
+
+export async function removeMentorship(mentorshipId: string): Promise<void> {
+  const profile = await getSellerProfile();
+
+  const ms = await db.mentorship.findUnique({ where: { id: mentorshipId } });
+  if (!ms || ms.status === "REMOVED") return;
+  if (ms.mentor_id !== profile.id && ms.mentee_id !== profile.id) {
+    throw new Error("Acesso negado");
+  }
+
+  await db.mentorship.update({
+    where: { id: mentorshipId },
+    data: { status: "REMOVED" },
+  });
+
+  revalidatePath("/painel/plano-de-acao/orientados");
+  revalidatePath("/painel/plano-de-acao/convite");
 }
