@@ -1,5 +1,6 @@
 "use server";
 
+import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -217,6 +218,46 @@ export async function acceptInvite(mentorSlug: string): Promise<void> {
   revalidatePath("/painel/plano-de-acao/orientados");
   revalidatePath("/painel/plano-de-acao/convite");
   redirect("/painel/plano-de-acao/meu");
+}
+
+// ─── ShareLink ──────────────────────────────────────────────────────────────
+
+export async function createShareLink(
+  weekStart: string
+): Promise<{ id: string; token: string }> {
+  const profile = await getSellerProfile();
+  const plan = await ensurePlan(profile.id, profile.company_id, weekStart);
+
+  const now = new Date();
+  const existing = await db.shareLink.findFirst({
+    where: {
+      plan_id: plan.id,
+      revoked: false,
+      OR: [{ expires_at: null }, { expires_at: { gt: now } }],
+    },
+    select: { id: true, token: true },
+  });
+  if (existing) return existing;
+
+  const token = randomUUID().replace(/-/g, "");
+  const link = await db.shareLink.create({
+    data: { plan_id: plan.id, token },
+    select: { id: true, token: true },
+  });
+  return link;
+}
+
+export async function revokeShareLink(linkId: string): Promise<void> {
+  const profile = await getSellerProfile();
+
+  const link = await db.shareLink.findUnique({
+    where: { id: linkId },
+    include: { plan: { select: { seller_id: true } } },
+  });
+  if (!link || link.plan.seller_id !== profile.id) throw new Error("Acesso negado");
+
+  await db.shareLink.update({ where: { id: linkId }, data: { revoked: true } });
+  revalidatePath("/painel/plano-de-acao/meu");
 }
 
 export async function removeMentorship(mentorshipId: string): Promise<void> {

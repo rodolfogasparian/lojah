@@ -6,6 +6,7 @@ import { PlanStatusBadge } from "@/components/action-plan/PlanStatusBadge";
 import { WeeklyActionTable } from "@/components/action-plan/WeeklyActionTable";
 import { GoalsPanel } from "@/components/action-plan/GoalsPanel";
 import { SubmitPlanButton } from "@/components/action-plan/SubmitPlanButton";
+import { ShareButtons } from "@/components/action-plan/ShareButtons";
 import type { SerializedItem } from "@/components/action-plan/WeeklyActionTable";
 import type { SerializedGoal } from "@/components/action-plan/GoalsPanel";
 
@@ -66,6 +67,18 @@ export default async function MeuPlanoPage({
     },
   });
 
+  const now = new Date();
+  const activeLink = plan
+    ? await db.shareLink.findFirst({
+        where: {
+          plan_id: plan.id,
+          revoked: false,
+          OR: [{ expires_at: null }, { expires_at: { gt: now } }],
+        },
+        select: { id: true, token: true },
+      })
+    : null;
+
   const items: SerializedItem[] = (plan?.items ?? []).map((i) => ({
     id: i.id,
     category: i.category,
@@ -89,8 +102,11 @@ export default async function MeuPlanoPage({
       {/* Cabeçalho */}
       <div>
         <div className="flex items-center justify-between gap-2 flex-wrap">
-          <h1 className="text-lg font-bold text-gray-800">Plano de Ação</h1>
-          {plan && <PlanStatusBadge status={plan.status} />}
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-bold text-gray-800">Plano de Ação</h1>
+            {plan && <PlanStatusBadge status={plan.status} />}
+          </div>
+          <ShareButtons weekStart={weekStart} initialLink={activeLink} />
         </div>
         <p className="text-xs text-gray-400 mt-0.5">{fmtMonth(weekStart)}</p>
         <div className="mt-2">
