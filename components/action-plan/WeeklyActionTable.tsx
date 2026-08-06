@@ -151,7 +151,7 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
               <select
                 value={row.category}
                 onChange={(e) => update(idx, { category: e.target.value })}
-                className="text-xs border border-gray-200 rounded px-1.5 py-1 bg-white text-gray-600 focus:outline-none focus:ring-1 focus:ring-primary shrink-0"
+                className="ap-field text-xs px-1.5 py-1 text-gray-600 shrink-0"
               >
                 {Object.entries(CATEGORY_LABELS).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
@@ -169,7 +169,7 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
                 value={row.action_text}
                 onChange={(e) => update(idx, { action_text: e.target.value })}
                 placeholder="Descreva a ação..."
-                className="flex-1 min-w-0 text-sm border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary"
+                className="ap-field flex-1 min-w-0 text-sm px-2 py-1"
               />
             ) : (
               <span className="flex-1 text-sm text-gray-800">{row.action_text}</span>
@@ -179,7 +179,7 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
               <select
                 value={row.status}
                 onChange={(e) => update(idx, { status: e.target.value })}
-                className={`text-xs border border-gray-200 rounded px-1.5 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-primary shrink-0 ${STATUS_CONFIG[row.status]?.color ?? ""}`}
+                className={`ap-field text-xs px-1.5 py-1 shrink-0 ${STATUS_CONFIG[row.status]?.color ?? ""}`}
               >
                 {Object.entries(STATUS_CONFIG).map(([k, v]) => (
                   <option key={k} value={k}>{v.label}</option>
@@ -198,10 +198,10 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
                   onClick={() => handleSave(idx)}
                   disabled={row.saving || !row.action_text.trim()}
                   title="Salvar"
-                  className={`h-7 w-7 rounded border flex items-center justify-center transition-colors ${
+                  className={`ap-icon-btn ${
                     row.justSaved
                       ? "bg-green-50 border-green-200 text-green-600"
-                      : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40"
+                      : "hover:bg-gray-50 disabled:opacity-40"
                   }`}
                 >
                   {row.justSaved ? <Check className="size-3.5" /> : <Save className="size-3.5" />}
@@ -211,7 +211,7 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
                   onClick={() => handleDelete(idx)}
                   disabled={row.saving}
                   title="Remover"
-                  className="h-7 w-7 rounded border border-gray-200 bg-white text-gray-400 hover:text-red-500 hover:border-red-200 flex items-center justify-center transition-colors disabled:opacity-40"
+                  className="ap-icon-btn hover:text-red-500 hover:border-red-200 disabled:opacity-40"
                 >
                   <Trash2 className="size-3.5" />
                 </button>
@@ -224,27 +224,23 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
             {!readOnly ? (
               <>
                 <div>
-                  <label className="block text-[10px] text-gray-400 font-medium uppercase tracking-wide mb-0.5">
-                    Resultado desejado
-                  </label>
+                  <label className="ap-label mb-0.5">Resultado desejado</label>
                   <input
                     type="text"
                     value={row.desired_result}
                     onChange={(e) => update(idx, { desired_result: e.target.value })}
                     placeholder="Ex: fechar 2 pedidos"
-                    className="w-full text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="ap-field w-full text-xs px-2 py-1"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] text-gray-400 font-medium uppercase tracking-wide mb-0.5">
-                    Resultado real
-                  </label>
+                  <label className="ap-label mb-0.5">Resultado real</label>
                   <input
                     type="text"
                     value={row.actual_result}
                     onChange={(e) => update(idx, { actual_result: e.target.value })}
                     placeholder="Preencher após a ação"
-                    className="w-full text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="ap-field w-full text-xs px-2 py-1"
                   />
                 </div>
               </>
@@ -252,13 +248,13 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
               <>
                 {row.desired_result && (
                   <div>
-                    <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wide">Desejado</p>
+                    <p className="ap-label">Desejado</p>
                     <p className="text-xs text-gray-600 mt-0.5">{row.desired_result}</p>
                   </div>
                 )}
                 {row.actual_result && (
                   <div>
-                    <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wide">Real</p>
+                    <p className="ap-label">Real</p>
                     <p className="text-xs text-gray-600 mt-0.5">{row.actual_result}</p>
                   </div>
                 )}
@@ -269,11 +265,7 @@ export function WeeklyActionTable({ items, weekStart, readOnly = false }: Props)
       ))}
 
       {!readOnly && (
-        <button
-          type="button"
-          onClick={addRow}
-          className="flex items-center gap-1.5 text-sm text-primary font-semibold hover:text-primary/80 transition-colors py-1"
-        >
+        <button type="button" onClick={addRow} className="ap-add-btn">
           <Plus className="size-4" /> Adicionar ação
         </button>
       )}

@@ -113,18 +113,16 @@ export function GoalsPanel({ goals, weekStart, readOnly = false }: Props) {
           className="border border-gray-200 rounded-lg bg-white p-3"
         >
           <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 items-start">
-            {/* Label */}
+            {/* O que atingir */}
             <div className="space-y-1">
-              <label className="block text-[10px] text-gray-400 font-medium uppercase tracking-wide">
-                O que atingir
-              </label>
+              <label className="ap-label">O que atingir</label>
               {!readOnly ? (
                 <input
                   type="text"
                   value={row.label}
                   onChange={(e) => update(idx, { label: e.target.value })}
                   placeholder="Ex: Vender produtos, fazer contatos..."
-                  className="w-full text-sm border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="ap-field w-full text-sm px-2 py-1"
                 />
               ) : (
                 <p className="text-sm text-gray-800">{row.label}</p>
@@ -133,16 +131,14 @@ export function GoalsPanel({ goals, weekStart, readOnly = false }: Props) {
 
             {/* Meta */}
             <div className="space-y-1 w-32">
-              <label className="block text-[10px] text-gray-400 font-medium uppercase tracking-wide">
-                Meta
-              </label>
+              <label className="ap-label">Meta</label>
               {!readOnly ? (
                 <input
                   type="text"
                   value={row.target_value}
                   onChange={(e) => update(idx, { target_value: e.target.value })}
                   placeholder="Ex: R$2.000"
-                  className="w-full text-sm border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="ap-field w-full text-sm px-2 py-1"
                 />
               ) : (
                 <p className="text-sm text-gray-800 font-semibold">{row.target_value}</p>
@@ -151,16 +147,14 @@ export function GoalsPanel({ goals, weekStart, readOnly = false }: Props) {
 
             {/* Resultado real */}
             <div className="space-y-1 w-32">
-              <label className="block text-[10px] text-gray-400 font-medium uppercase tracking-wide">
-                Resultado real
-              </label>
+              <label className="ap-label">Resultado real</label>
               {!readOnly ? (
                 <input
                   type="text"
                   value={row.actual_value}
                   onChange={(e) => update(idx, { actual_value: e.target.value })}
                   placeholder="Preencher depois"
-                  className="w-full text-sm border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="ap-field w-full text-sm px-2 py-1"
                 />
               ) : (
                 <p className="text-sm text-gray-600">{row.actual_value || "—"}</p>
@@ -175,10 +169,10 @@ export function GoalsPanel({ goals, weekStart, readOnly = false }: Props) {
                   onClick={() => handleSave(idx)}
                   disabled={row.saving || !row.label.trim() || !row.target_value.trim()}
                   title="Salvar"
-                  className={`h-7 w-7 rounded border flex items-center justify-center transition-colors ${
+                  className={`ap-icon-btn ${
                     row.justSaved
                       ? "bg-green-50 border-green-200 text-green-600"
-                      : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40"
+                      : "hover:bg-gray-50 disabled:opacity-40"
                   }`}
                 >
                   {row.justSaved ? <Check className="size-3.5" /> : <Save className="size-3.5" />}
@@ -188,7 +182,7 @@ export function GoalsPanel({ goals, weekStart, readOnly = false }: Props) {
                   onClick={() => handleDelete(idx)}
                   disabled={row.saving}
                   title="Remover"
-                  className="h-7 w-7 rounded border border-gray-200 bg-white text-gray-400 hover:text-red-500 hover:border-red-200 flex items-center justify-center transition-colors disabled:opacity-40"
+                  className="ap-icon-btn hover:text-red-500 hover:border-red-200 disabled:opacity-40"
                 >
                   <Trash2 className="size-3.5" />
                 </button>
@@ -199,11 +193,7 @@ export function GoalsPanel({ goals, weekStart, readOnly = false }: Props) {
       ))}
 
       {!readOnly && (
-        <button
-          type="button"
-          onClick={addRow}
-          className="flex items-center gap-1.5 text-sm text-primary font-semibold hover:text-primary/80 transition-colors py-1"
-        >
+        <button type="button" onClick={addRow} className="ap-add-btn">
           <Plus className="size-4" /> Adicionar meta
         </button>
       )}

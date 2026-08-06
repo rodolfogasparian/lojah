@@ -137,3 +137,32 @@
     @apply font-sans;
   }
 }
+
+/* ── Plano de Ação: tokens de estilo compartilhados ─────────────────────── */
+@layer components {
+  /* inputs e selects do módulo */
+  .ap-field {
+    @apply border border-slate-300 rounded bg-white focus:outline-none focus:ring-1 focus:ring-primary;
+  }
+
+  /* labels em caixa alta ("RESULTADO DESEJADO" etc.) */
+  .ap-label {
+    @apply block text-[10px] font-medium uppercase tracking-wide text-slate-500;
+  }
+
+  /* botões quadrados de ícone (salvar / lixeira) — layout + cores padrão */
+  .ap-icon-btn {
+    @apply h-7 w-7 rounded border border-slate-300 bg-white text-slate-600
+           flex items-center justify-center transition-colors;
+  }
+
+  /* botão "Adicionar ação / meta" com verde escuro da marca */
+  .ap-add-btn {
+    @apply flex items-center gap-1.5 text-sm font-semibold py-1 transition-opacity;
+    color: #0f3d1f;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+}
