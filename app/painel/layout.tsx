@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { PainelNav } from "@/components/seller/PainelNav";
 import { LogoutButton } from "@/components/shared/logout-button";
 import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
+import { ModeSwitcher } from "@/components/shared/ModeSwitcher";
 
 export default async function PainelLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
@@ -41,10 +42,22 @@ export default async function PainelLayout({ children }: { children: React.React
   const session = await auth();
   if (!session?.user) redirect("/login");
 
+  const isAdminRole =
+    session.user.role === "COMPANY_ADMIN" || session.user.role === "SUPERADMIN";
+
+  // COMPANY_ADMIN/SUPERADMIN só entra no painel com cookie view_mode=seller
+  if (isAdminRole) {
+    const viewMode = cookieStore.get("view_mode")?.value;
+    if (viewMode !== "seller") redirect("/admin");
+  }
+
   const profile = await db.sellerProfile.findUnique({
     where: { user_id: session.user.id },
     include: { company: true },
   });
+
+  // Admin sem SellerProfile não tem o que fazer no painel
+  if (isAdminRole && !profile) redirect("/admin");
 
   if (profile?.status === "PENDING") {
     redirect("/aguardando");
@@ -84,6 +97,7 @@ export default async function PainelLayout({ children }: { children: React.React
         companySlug={profile?.company?.slug ?? ""}
         photoUrl={profile?.photo_url ?? null}
         logoutButton={<LogoutButton />}
+        modeSwitcher={isAdminRole ? <ModeSwitcher currentMode="seller" /> : undefined}
       />
       {semAssinatura && (
         <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 flex items-center justify-between gap-3">

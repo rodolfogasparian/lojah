@@ -9,6 +9,7 @@ type Props = {
   companyName: string;
   logoutButton: ReactNode;
   userRole: "SUPERADMIN" | "COMPANY_ADMIN";
+  modeSwitcher?: ReactNode;
 };
 
 const NAV = [
@@ -21,7 +22,7 @@ const NAV = [
   { href: "/admin/plano-de-acao", label: "Plano de Ação", icon: ClipboardList, exact: false },
 ];
 
-export function AdminNav({ adminEmail, companyName, logoutButton, userRole }: Props) {
+export function AdminNav({ adminEmail, companyName, logoutButton, userRole, modeSwitcher }: Props) {
   const pathname = usePathname();
 
   return (
@@ -42,6 +43,7 @@ export function AdminNav({ adminEmail, companyName, logoutButton, userRole }: Pr
           }`}>
             {userRole === "SUPERADMIN" ? "Super Admin" : "Admin"}
           </span>
+          {modeSwitcher}
           {logoutButton}
         </div>
       </div>

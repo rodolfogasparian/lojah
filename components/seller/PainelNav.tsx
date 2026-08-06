@@ -10,6 +10,7 @@ type Props = {
   companySlug: string;
   photoUrl: string | null;
   logoutButton: ReactNode;
+  modeSwitcher?: ReactNode;
 };
 
 const NAV = [
@@ -24,7 +25,7 @@ const NAV = [
   { href: "/painel/materiais", label: "Materiais",     icon: BookOpen },
 ];
 
-export function PainelNav({ sellerName, sellerSlug, companySlug, photoUrl, logoutButton }: Props) {
+export function PainelNav({ sellerName, sellerSlug, companySlug, photoUrl, logoutButton, modeSwitcher }: Props) {
   const pathname = usePathname();
   const catalogUrl = companySlug && sellerSlug
     ? `https://${companySlug}.lojah.app/${sellerSlug}`
@@ -50,6 +51,7 @@ export function PainelNav({ sellerName, sellerSlug, companySlug, photoUrl, logou
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {modeSwitcher}
           <a
             href={catalogUrl}
             target="_blank"

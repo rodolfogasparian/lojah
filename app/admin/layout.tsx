@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { LogoutButton } from "@/components/shared/logout-button";
+import { ModeSwitcher } from "@/components/shared/ModeSwitcher";
 
 export default async function AdminLayout({
   children,
@@ -20,12 +21,18 @@ export default async function AdminLayout({
     redirect("/painel");
   }
 
-  const company = session.user.companyId
-    ? await db.company.findUnique({
-        where: { id: session.user.companyId },
-        select: { name: true, slug: true },
-      })
-    : null;
+  const [company, sellerProfile] = await Promise.all([
+    session.user.companyId
+      ? db.company.findUnique({
+          where: { id: session.user.companyId },
+          select: { name: true, slug: true },
+        })
+      : null,
+    db.sellerProfile.findUnique({
+      where: { user_id: session.user.id },
+      select: { id: true },
+    }),
+  ]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -34,6 +41,7 @@ export default async function AdminLayout({
         companyName={company?.name ?? "Lojah Admin"}
         logoutButton={<LogoutButton />}
         userRole={session.user.role}
+        modeSwitcher={sellerProfile ? <ModeSwitcher currentMode="admin" /> : undefined}
       />
       <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
     </div>
