@@ -150,8 +150,9 @@ export const defaultPageData: LandingNaturaisData = {
     title: "Histórias reais de quem já começou",
     subtitle: "Veja o que nossos consultores(as) estão conquistando.",
     items: [
-      { videoUrl: "https://player.vimeo.com/video/687733508", name: "Depoimento 1" },
-      { videoUrl: "https://player.vimeo.com/video/687733046", name: "Depoimento 2" },
+      { videoUrl: "https://www.youtube.com/embed/I-qjdEvjbc8", name: "Depoimento 1" },
+      { videoUrl: "https://www.youtube.com/embed/2066Z15Qsnk", name: "Depoimento 2" },
+      { videoUrl: "https://www.youtube.com/embed/J9iAGPMLUSg", name: "Depoimento 3" },
     ],
   },
   gallery: {

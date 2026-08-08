@@ -237,7 +237,7 @@ export default function LandingNaturais({
           title={data.testimonials.title}
           subtitle={data.testimonials.subtitle}
         />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {(data.testimonials.items || []).map((t, i) => (
             <div
               key={i}
@@ -250,7 +250,7 @@ export default function LandingNaturais({
                   width="100%"
                   height="250"
                   frameBorder="0"
-                  allow="autoplay; fullscreen"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                   allowFullScreen
                 />
               ) : (
