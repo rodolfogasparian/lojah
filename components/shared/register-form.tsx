@@ -13,6 +13,13 @@ type RegisterResponse =
   | { result: { data: { id: string; email: string } } }
   | { error: { message: string } };
 
+function maskPhone(value: string): string {
+  const d = value.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 2) return d.length ? `(${d}` : "";
+  if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
 export function RegisterForm({
   companyId,
   companySlug,
@@ -22,6 +29,7 @@ export function RegisterForm({
 }) {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [slug, setSlug] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +51,7 @@ export function RegisterForm({
     const response = await fetch("/api/trpc/user.register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, slug, email, password, companyId }),
+      body: JSON.stringify({ name, whatsapp: whatsapp.replace(/\D/g, ""), slug, email, password, companyId }),
     });
     const data = (await response.json()) as RegisterResponse;
 
@@ -92,7 +100,20 @@ export function RegisterForm({
       </div>
 
       <div className="flex flex-col gap-2">
-        <Label htmlFor="slug">Seu link personalizado</Label>
+        <Label htmlFor="whatsapp">WhatsApp</Label>
+        <Input
+          id="whatsapp"
+          type="tel"
+          autoComplete="tel"
+          required
+          placeholder="(00) 00000-0000"
+          value={whatsapp}
+          onChange={(event) => setWhatsapp(maskPhone(event.target.value))}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="slug">Usuário</Label>
         <Input
           id="slug"
           placeholder="ex: maria-silva"
@@ -101,7 +122,7 @@ export function RegisterForm({
           onChange={(event) => setSlug(event.target.value)}
         />
         <p className="text-xs text-muted-foreground">
-          Sua loja: {companySlug}.lojah.app/{slug || "seu-link"}
+          Sua loja: {companySlug}.lojah.app/{slug || "usuario"}
         </p>
       </div>
 

@@ -9,6 +9,7 @@ export const userRouter = router({
     .input(
       z.object({
         name: z.string().trim().min(2, "Informe seu nome completo."),
+        whatsapp: z.string().optional(),
         slug: z.string().trim().min(2, "Informe um link personalizado."),
         email: z.email(),
         password: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
@@ -73,6 +74,7 @@ export const userRouter = router({
             company_id: company.id,
             slug,
             name: input.name,
+            whatsapp: input.whatsapp || undefined,
             active: false,
             signup_button_url: "https://cadastro.atlanticanatural.com.br/" + slug,
           },
