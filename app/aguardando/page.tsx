@@ -47,6 +47,19 @@ export default function AguardandoPage() {
           className="w-16 h-16 object-contain mx-auto rounded-xl"
         />
 
+        {/* Vídeo explicativo */}
+        <div className="overflow-hidden rounded-xl border border-border bg-black">
+          <iframe
+            src="https://www.youtube.com/embed/kCkbqfeU6zo"
+            title="Boas-vindas Atlântica Natural"
+            width="100%"
+            className="aspect-video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+        </div>
+
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
